@@ -1,6 +1,5 @@
 body {
   font-family: "Inter", sans-serif;
-  
 }
 
 .auth-container {
@@ -10,6 +9,32 @@ body {
 }
 
 .auth-area {
-  /* border-radius: 16px; */
   background: rgba(49, 89, 81, 0.9);
+}
+
+/* ======================================== */
+
+.form-control {
+  background-color: transparent !important;
+  border: 0;
+  border-bottom: 1px solid;
+  outline: none;
+  color: rgb(136, 136, 136);
+  border-radius: 0;
+}
+.form-control::placeholder {
+  color: #fff;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px; /* 137.5% */
+  letter-spacing: 0.16px;
+}
+.form-control:focus{
+  outline: none;
+ color: white;
+  box-shadow: none;
+
 }

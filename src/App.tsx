@@ -11,6 +11,10 @@ import MasterLayout from "./layouts/MasterLayout/MasterLayout.tsx";
 import Dashboard from "./Pages/Dashbaord/Dashboard.tsx";
 import AllProjects from "./Pages/Manager/Projects/allProjects/AllProjects.tsx";
 import AllTasks from "./Pages/Manager/Tasks/AllTasks/AllTasks.tsx";
+import MyProjects from "./Pages/Employee/MyProjects/MyProjects.tsx";
+import MyTasks from "./Pages/Employee/MyTasks/MyTasks.tsx";
+import Users from "./Pages/Manager/users/Users.tsx";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const routes = createBrowserRouter([
@@ -37,6 +41,9 @@ function App() {
         { path: "dashboard", element: <Dashboard /> },
         { path: "projects", element: <AllProjects /> },
         { path: "tasks", element: <AllTasks /> },
+        { path: "users", element: <Users /> },
+        { path: "my-projects", element: <MyProjects /> },
+        { path: "my-tasks", element: <MyTasks /> },
       ],
     },
   ]);
@@ -44,6 +51,7 @@ function App() {
   return (
     <>
       <RouterProvider router={routes}></RouterProvider>
+      <Toaster />
     </>
   );
 }
