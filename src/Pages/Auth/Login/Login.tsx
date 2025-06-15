@@ -1,15 +1,16 @@
-import { USERS_URL } from "../../../service/api.js"; // عدّل حسب المسار
+import { USERS_URL } from "../../../service/api.js";
 import { axiosInstance } from "../../../service/urls.js";
 
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../../store/AuthContext/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 export default function Login() {
   const navigate = useNavigate();
   const { saveLoginData }: any = useAuth();
-
+  const [isPassVisible, setIsPassVisible] = useState(false); // eye flash old password
   const {
     register,
     handleSubmit,
@@ -42,13 +43,18 @@ export default function Login() {
           <label htmlFor="email" className="form-label text-warning fw-normal">
             E-mail
           </label>
-          <input
-            id="email"
-            type="email"
-            placeholder="Enter your E-mail"
-            {...register("email", { required: "Email is required" })}
-            className="form-control custom-input"
-          />
+
+          <div className="border-bottom d-flex align-items-center pb-1">
+            <div className="input-group">
+              <input
+                id="email"
+                type="email"
+                placeholder="Enter your E-mail"
+                {...register("email", { required: "Email is required" })}
+                className="form-control custom-input"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Password */}
@@ -59,15 +65,34 @@ export default function Login() {
           >
             Password
           </label>
-          <input
-            id="password"
-            type="password"
-            placeholder="Password"
-            {...register("password", {
-              required: "Password is required",
-            })}
-            className="form-control custom-input "
-          />
+
+          <div className="border-bottom d-flex align-items-center pb-1">
+            <div className="input-group">
+              <input
+                id="password"
+                type={isPassVisible ? "text" : "password"}
+                placeholder="Password"
+                {...register("password", {
+                  required: "Password is required",
+                })}
+                className="form-control custom-input "
+              />
+              <button
+                type="button"
+                onClick={() => setIsPassVisible((prev) => !prev)}
+                onMouseDown={(e) => e.preventDefault()}
+                onMouseUp={(e) => e.preventDefault} // to prevent the feature of unfocus when i click on the icon
+                className="input-group-text btnSlash"
+                id="addon-wrapping"
+              >
+                <i
+                  className={`fa-regular ${
+                    isPassVisible ? "fa-eye " : "fa-eye-slash"
+                  }`}
+                ></i>
+              </button>
+            </div>
+          </div>
         </div>
         <div className="links d-flex justify-content-between my-4  ">
           <Link
