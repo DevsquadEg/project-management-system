@@ -14,30 +14,39 @@ body {
 }
 
 /* ======================================== */
-
-.form-control {
+.custom-input {
   background-color: transparent !important;
-  border: 0;
-  border-bottom: 1px solid;
-  outline: none;
-  color: rgb(136, 136, 136);
-  border-radius: 0;
+  border: none !important;
+  /* border-bottom: 1px solid #ccc !important; */
+  color: #fff !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
-.form-control::placeholder {
-  color: #fff;
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: Inter;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 22px; /* 137.5% */
-  letter-spacing: 0.16px;
+
+.custom-input:focus {
+  background-color: transparent !important;
+  /* border-bottom: 1px solid #ef9b28 !important; */
+  outline: none !important;
+  box-shadow: none !important;
+  color: #fff !important;
 }
-.form-control:focus {
-  outline: none;
-  color: white;
-  box-shadow: none;
+
+.custom-input::placeholder {
+  color: #aaa !important;
+  opacity: 1 !important;
 }
+
+/* التعامل مع autofill بتاع المتصفح */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0) inset !important;
+  -webkit-text-fill-color: #fff !important;
+  background-color: transparent !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
 
 /* ================================================ */
 .sidebar-container .ps-sidebar-container {
@@ -77,7 +86,6 @@ body {
   background-color: #ddd;
   padding: 2rem;
 }
-
 
 /* ================ dropdown ======================== */
 .dropdown-menu {
@@ -136,4 +144,55 @@ body {
   background-color: #2e3e38;
   position: relative;
   z-index: 1;
+}
+
+
+/* ================ section title in form ====================== */
+.section-title {
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+  color: #ef9b28;
+  font-size: 2rem;
+  margin-bottom: 0;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 25px; /* عرض الشرطة */
+  height: 4px; /* سُمك الشرطة */
+  background-color: #ef9b28;
+  border-radius: 2px;
+}
+
+
+/* ============================== */
+.custom-btn {
+  background-color: #e0a343; /* اللون البرتقالي الذهبي */
+  color: white;
+  border: none;
+  border-radius: 50px; /* كابسولة */
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.custom-btn:hover {
+  background-color: #d7952f; /* لون أغمق بسيط عند الهوف */
+  color: white;
+}
+
+.custom-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ============================================ */
+.btnSlash{
+  background-color: transparent;
+  border: none;
+  color: white;
 }
