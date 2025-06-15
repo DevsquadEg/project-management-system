@@ -15,10 +15,12 @@ body {
 
 /* ======================================== */
 
+
+
 .form-control {
   background-color: transparent !important;
   border: 0;
-  border-bottom: 1px solid;
+  /* border-bottom: 1px solid; */
   outline: none;
   color: rgb(136, 136, 136);
   border-radius: 0;
@@ -37,6 +39,12 @@ body {
   outline: none;
   color: white;
   box-shadow: none;
+}
+
+.btnSlash{
+  background-color: transparent;
+  border: none;
+  color: white;
 }
 
 /* ================================================ */
@@ -137,3 +145,32 @@ body {
   position: relative;
   z-index: 1;
 }
+/* ================================ */
+.hello{
+  position: relative;
+}
+
+.hello::after{
+  content: "";
+  width: 17px;
+  height: 5px;
+
+  background: #ef9b28;
+  position: absolute;
+  top: 90%;
+  left:3px;
+  
+}
+.btnAuth{
+  background-color: rgba(239, 155, 40, 1);
+  border-radius: 40px;
+  padding: 10px 0;
+  margin-top: 20px;
+
+}
+.btnAuth:hover{
+  background-color: #ef9b28 !important;
+}
+
+
+
