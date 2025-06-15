@@ -1,6 +1,10 @@
+import Header from "../../../../components/Header/Header";
 
 export default function AllTasks() {
   return (
-    <div>AllTasks</div>
+      <>
+          <Header />
+          <h1>all tasks </h1>
+        </>
   )
 }

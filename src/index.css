@@ -1,6 +1,6 @@
 body {
   font-family: "Inter", sans-serif;
-  
+  transition: all 0.3s ease-in-out;
 }
 
 .auth-container {
@@ -10,6 +10,130 @@ body {
 }
 
 .auth-area {
-  /* border-radius: 16px; */
   background: rgba(49, 89, 81, 0.9);
+}
+
+/* ======================================== */
+
+.form-control {
+  background-color: transparent !important;
+  border: 0;
+  border-bottom: 1px solid;
+  outline: none;
+  color: rgb(136, 136, 136);
+  border-radius: 0;
+}
+.form-control::placeholder {
+  color: #fff;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px; /* 137.5% */
+  letter-spacing: 0.16px;
+}
+.form-control:focus {
+  outline: none;
+  color: white;
+  box-shadow: none;
+}
+
+/* ================================================ */
+.sidebar-container .ps-sidebar-container {
+  background-color: #0e382f;
+  color: white;
+  height: 100vh;
+}
+
+.sidebar-container .ps-menuitem-root {
+  padding: 5px 0px;
+}
+.sidebar-container .ps-menuitem-root:hover {
+  padding: 5px 10px;
+}
+.sidebar-container .ps-menu-button {
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background-color: transparent !important;
+    /* border-left: 5px solid #009247; */
+    color: #ef9b28;
+    border-radius: 8px;
+    background: rgba(239, 155, 40, 0.3) !important;
+  }
+}
+.active-menu {
+  color: #ef9b28;
+  border-radius: 8px;
+  /* background: rgba(239, 155, 40, 0.3) !important; */
+}
+
+/* ============= no found compoent =========== */
+.notfound-bg {
+  background-image: url("/Not_Found.svg");
+  background-size: cover;
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-color: #ddd;
+  padding: 2rem;
+}
+
+
+/* ================ dropdown ======================== */
+.dropdown-menu {
+  border-radius: 10px;
+  position: relative;
+}
+
+.dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: 19px;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-left: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  transform: rotate(45deg);
+  z-index: 1;
+  scale: 1.3;
+}
+
+/* ============= header ============================= */
+
+.header-container {
+  background-image: url(/public/home-bg.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  border-radius: 10px;
+  transition: all 3s ease-in-out;
+}
+
+/* ================================ */
+.stat-card {
+  flex: 1;
+  min-width: 140px;
+  padding: 1rem;
+  border-radius: 1rem;
+  text-align: center;
+}
+
+.bg-light-purple {
+  background-color: #e5e7fa;
+}
+
+.bg-light-yellow {
+  background-color: #f5f6da;
+}
+
+.bg-light-pink {
+  background-color: #f9e5ee;
+}
+
+.welcome-card {
+  background-color: #2e3e38;
+  position: relative;
+  z-index: 1;
 }
