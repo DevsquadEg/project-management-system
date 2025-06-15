@@ -1,7 +1,10 @@
-import React from 'react'
+import Header from "../../../components/Header/Header";
 
 export default function MyTasks() {
   return (
-    <div>MyTasks</div>
-  )
+    <>
+      <Header />
+      <h1>all Tasks </h1>
+    </>
+  );
 }

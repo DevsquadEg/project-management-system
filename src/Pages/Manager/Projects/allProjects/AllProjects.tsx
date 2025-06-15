@@ -1,4 +1,10 @@
+import Header from "../../../../components/Header/Header";
 
 export default function AllProjects() {
-  return <div>AllProjects</div>;
+  return (
+    <>
+      <Header />
+      <h1>all prjects </h1>
+    </>
+  );
 }
