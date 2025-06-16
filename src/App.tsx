@@ -29,7 +29,7 @@ function App() {
         { path: "reset-password", element: <ResetPassword /> },
         { path: "forget-password", element: <ForgetPassword /> },
         { path: "change-password", element: <ChangePassword /> },
-        { path: "Verify", element: <VerifyEmail /> },
+        { path: "verify-account", element: <VerifyEmail /> },
       ],
     },
     {

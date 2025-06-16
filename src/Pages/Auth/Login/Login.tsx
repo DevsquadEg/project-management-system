@@ -1,33 +1,35 @@
-import { USERS_URL } from "../../../service/api.js";
+import { USERS_URL } from "../../../service/api.tsx";
 import { axiosInstance } from "../../../service/urls.js";
-
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../../store/AuthContext/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import type { FormLoginProps } from "../../../interfaces/interfaces.tsx";
+import { isAxiosError } from "axios";
+import { EMAIL_VALIDATION, PASSWORD_VALIDATION } from "../../../service/validators.tsx";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { saveLoginData }: any = useAuth();
+  const { saveLoginData } = useAuth()!;
   const [isPassVisible, setIsPassVisible] = useState(false); // eye flash old password
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<FormLoginProps>({"mode":"onChange"});
 
   // =========== submit login ========
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: FormLoginProps) => {
     try {
-      const response: any = await axiosInstance.post(USERS_URL.LOGIN, data);
+      const response = await axiosInstance.post(USERS_URL.LOGIN, data);
       localStorage.setItem("token", response.data.token);
       await saveLoginData();
       toast.success("Login success!");
       navigate("/dashboard", { replace: true });
     } catch (error) {
-      console.log(error);
-      toast.error(error?.response?.data?.message || "Something went wrong");
+      if(isAxiosError(error)) toast.error(error?.response?.data?.message || "Something went wrong");
+
     }
   };
   return (
@@ -50,11 +52,22 @@ export default function Login() {
                 id="email"
                 type="email"
                 placeholder="Enter your E-mail"
-                {...register("email", { required: "Email is required" })}
+                {...register("email", { required: "Email is required",pattern:{
+                  value:EMAIL_VALIDATION,
+                  message:"Email Must Be Valid"
+                } })}
                 className="form-control custom-input"
               />
             </div>
           </div>
+
+ {errors.email && (
+              <p className="text-white" role="alert" style={{ fontSize: 12 }}>
+                {errors.email.message}
+              </p>
+            )}
+
+
         </div>
 
         {/* Password */}
@@ -74,6 +87,11 @@ export default function Login() {
                 placeholder="Password"
                 {...register("password", {
                   required: "Password is required",
+                   pattern: {
+                   value: PASSWORD_VALIDATION,
+                   message:
+                            "Minimum 8 chars, with upper/lowercase, number, and special character",
+                 },
                 })}
                 className="form-control custom-input "
               />
@@ -93,7 +111,18 @@ export default function Login() {
               </button>
             </div>
           </div>
+
+
+            {errors.password && 
+              <p className="text-white" role="alert" style={{ fontSize: 12 }}>
+                {errors.password.message}
+              </p>}
+
         </div>
+
+
+
+
         <div className="links d-flex justify-content-between my-4  ">
           <Link
             className=" text-white text-decoration-none fw-light"
