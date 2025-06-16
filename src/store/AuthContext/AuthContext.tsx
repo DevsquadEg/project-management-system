@@ -1,18 +1,19 @@
+/* eslint-disable react-refresh/only-export-components */
 import { jwtDecode } from "jwt-decode";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import type { AuthContextType, DecodedTokenPayload } from "../../interfaces/interfaces";
 
-const AuthContext = createContext<any>(null);
+const AuthContext = createContext<AuthContextType| undefined>(undefined);
 
-export default function AuthProvider({ children }: any) {
-  const [loginData, setLoginData] = useState<any>(null);
+export default function AuthProvider({ children }:{children:ReactNode}) {
+  const [loginData, setLoginData] = useState<DecodedTokenPayload | null>(null);
 
-  const saveLoginData: any = async () => {
+  const saveLoginData = async () => {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        const decoded: any = jwtDecode(token);
-        setLoginData(decoded);        
-        console.log(decoded);
+        const decoded = jwtDecode<DecodedTokenPayload>(token);
+        setLoginData(decoded);
       }
     } catch (err) {
       console.error("Invalid token", err);

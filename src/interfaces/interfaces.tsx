@@ -1,0 +1,53 @@
+
+// login interface
+export interface FormLoginProps {
+  email:string;
+  password:string;
+}
+
+
+// Register interfaces 
+export interface  FormInfo {
+  userName:string;
+  email:string;
+  password:string;
+  country:string;
+  phoneNumber:string;
+  confirmPassword:string;
+
+}
+
+
+// Auth Context interfaces 
+
+
+export interface AuthContextType {
+  loginData: DecodedTokenPayload | null;
+  setLoginData: React.Dispatch<React.SetStateAction<DecodedTokenPayload | null>>;
+  saveLoginData: () => Promise<void>;
+}
+
+
+
+
+export interface DecodedTokenPayload {
+  exp: number;               // Expiration time (Unix timestamp)
+  iat: number;               // Issued at time (Unix timestamp)
+  roles: string[];           // Array of user roles/permissions
+  userEmail: string;         // User's email
+  userGroup: string;         // User group (e.g., "Employee")
+  userId: number;            // Unique user ID
+  userName: string;          // Username
+}
+
+
+
+
+
+// verify account 
+
+export interface FormInfoVerifyProps{
+  email:string;
+  code:string;
+}
+
