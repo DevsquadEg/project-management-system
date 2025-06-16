@@ -47,6 +47,12 @@ input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s !important;
 }
 
+.btnSlash{
+  background-color: transparent;
+  border: none;
+  color: white;
+}
+
 /* ================================================ */
 .sidebar-container .ps-sidebar-container {
     background-color: #0e382f;

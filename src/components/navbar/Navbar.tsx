@@ -1,4 +1,25 @@
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../store/AuthContext/AuthContext";
+
+
 export default function Navbar() {
+
+    const navigate =useNavigate();
+    const {saveLoginData,loginData}: any = useAuth();
+
+
+  // =========== LogOut ========
+    const logOut = () =>{
+
+      localStorage.removeItem("token");
+      saveLoginData("");
+      navigate('/login');
+      }
+
+
+   
+
+
   return (
     <>
       <div className="d-flex justify-content-between align-items-center py-3 mx-4 ">
@@ -35,8 +56,8 @@ export default function Navbar() {
               height="40"
             />
             <div className="d-flex flex-column">
-              <span>UserName</span>
-              <small className="text-muted">anas@anas.com</small>
+              <span>{loginData.userName}</span>
+              <small className="text-muted">{loginData.userEmail}</small>
             </div>
           </div>
 
@@ -52,12 +73,12 @@ export default function Navbar() {
             </button>
             <ul className="dropdown-menu dropdown-menu-end shadow-lg">
               <li>
-                <button className="dropdown-item d-flex align-items-center gap-2 text-secondary">
+                <button className="dropdown-item d-flex align-items-center gap-2 text-secondary" onClick={()=>{navigate('/change-password')}}>
                   <i className="bi bi-key "></i> Change Password
                 </button>
               </li>
               <li>
-                <button className="dropdown-item d-flex align-items-center gap-2 text-danger">
+                <button className="dropdown-item d-flex align-items-center gap-2 text-danger" onClick={logOut}>
                   <i className="fa-solid fa-right-from-bracket "></i> Logout
                 </button>
               </li>

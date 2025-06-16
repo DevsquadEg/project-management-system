@@ -8,7 +8,7 @@ export const USERS_URL = {
     CREATE: "/Users/Create", // Create a manager
     GET_USER: (id) => `/Users/${id}`, // Get user by ID
     TOGGLE_USER: (id) => `/Users/${id}`, // Toggle user active
-    GET_ALL_USERS: "/Users", // Get and filter users
+    GET_ALL_USERS: "/Users", // Get and filter users ..
     GET_COUNT: "/Users/count", // Get users count by manager
     GET_MANAGER_USERS: "/Users/Manager", // Get users by manager
     VERIFY_ACCOUNT: "/Users/verify", // Verify user account
