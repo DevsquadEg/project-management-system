@@ -15,7 +15,7 @@ export const USERS_URL = {
     GET_CURRENT_USER: "/Users/currentUser", // Get current user
     UPDATE_PROFILE: "/Users", // Update current user profile
     CHANGE_PASSWORD: "/Users/ChangePassword", // Update user password
-    RESET_REQUEST: "/Users/Reset/Request", // Request reset
+    RESET_REQUEST: "/Users/Reset/Request", // Request reset if forget
     RESET: "/Users/Reset", // Reset user password
 };
 
@@ -45,5 +45,3 @@ export const TASK_URLS = {
 
 // PING
 export const PING_URL = "/Misc/Ping"; // Check if service is working
-
-
