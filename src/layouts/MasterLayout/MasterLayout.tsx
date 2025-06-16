@@ -17,7 +17,7 @@ export default function MasterLayout() {
         <div className=" position-sticky top-0 vh-100 bg-info">
           <SideBar />
         </div>
-        <div className="w-100 bg-info-subtle p-4 ">
+        <div className="w-100 p-4 ">
           <div className="  ">
             <Outlet />
           </div>

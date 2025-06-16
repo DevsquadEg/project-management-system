@@ -56,8 +56,8 @@ export default function Navbar() {
               height="40"
             />
             <div className="d-flex flex-column">
-              <span>{loginData.userName}</span>
-              <small className="text-muted">{loginData.userEmail}</small>
+              <span>{loginData?.userName}</span>
+              <small className="text-muted">{loginData?.userEmail}</small>
             </div>
           </div>
 

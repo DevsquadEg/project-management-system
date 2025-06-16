@@ -22,9 +22,9 @@ export const USERS_URL = {
 // PROJECT URLS
 export const PROJECT_URLS = {
   CREATE_PROJECT: "/Project", // Create project by manager
-  GET_PROJECT: (id: number) => `/Project/${id}`, // Get project by id
-  UPDATE_PROJECT: (id: number) => `/Project/${id}`, // Update project by manager
-  DELETE_PROJECT: (id: number) => `/Project/${id}`, // Delete project by id
+  GET_PROJECT: (id: any) => `/Project/${id}`, // Get project by id
+  UPDATE_PROJECT: (id: any) => `/Project/${id}`, // Update project by manager
+  DELETE_PROJECT: (id: any) => `/Project/${id}`, // Delete project by id
   GET_PROJECTS_BY_MANAGER: "/Project/manager", // Get projects for manager
   GET_PROJECTS_BY_EMPLOYEE: "/Project/employee", // Get projects for employee
   GET_ALL_PROJECTS: "/Project", // Get all projects in system
