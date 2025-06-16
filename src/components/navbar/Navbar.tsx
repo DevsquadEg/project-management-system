@@ -14,9 +14,7 @@ export default function Navbar() {
       localStorage.removeItem("token");
       saveLoginData("");
       navigate('/login');
-      
-
-    }
+      }
 
 
    

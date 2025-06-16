@@ -171,6 +171,11 @@ body {
 .btnAuth:hover{
   background-color: #ef9b28 !important;
 }
+ 
+/* users  */
 
+.table-responsive {
+  overflow-x: visible !important;
+}
 
 
