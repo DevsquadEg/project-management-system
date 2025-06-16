@@ -1,9 +1,9 @@
-import { USERS_URL } from "@/service/api.js";
-import { axiosInstance } from "@/service/urls.js";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
+import { axiosInstance } from "@/service/urls";
+import { USERS_URL } from "@/service/api";
 
 export default function ChangePassword() {
   const [isFirstPassVisible, setIsFirstPassVisible] = useState(false); // eye flash old password

@@ -12,7 +12,7 @@ export default function AuthProvider({ children }: any) {
       if (token) {
         const decoded: any = jwtDecode(token);
         setLoginData(decoded);        
-        console.log(decoded);
+        // console.log(decoded);
       }
     } catch (err) {
       console.error("Invalid token", err);

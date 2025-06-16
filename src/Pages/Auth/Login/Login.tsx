@@ -1,11 +1,10 @@
-import { USERS_URL } from "../../../service/api.js";
-import { axiosInstance } from "../../../service/urls.js";
-
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../../store/AuthContext/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { axiosInstance } from "@/service/urls.js";
+import { USERS_URL } from "@/service/api.js";
 
 export default function Login() {
   const navigate = useNavigate();
