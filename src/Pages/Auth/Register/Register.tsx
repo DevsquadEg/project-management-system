@@ -1,4 +1,3 @@
-
 import { useForm } from "react-hook-form";
 import { useCallback, useEffect, useState } from "react";
 import { countries } from "countries-list";
@@ -6,13 +5,16 @@ import toast from "react-hot-toast";
 import { isAxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import type { FormInfo } from "../../../interfaces/interfaces";
-import {USERS_URL} from "../../../service/api"
+import { USERS_URL } from "../../../service/api";
 import { axiosInstance } from "../../../service/urls";
-import {EMAIL_VALIDATION, PASSWORD_VALIDATION}from "../../../service/validators"
-
+import validation from "@/service/validation";
+// import {EMAIL_VALIDATION, PASSWORD_VALIDATION}from "../../../service/validators"
 
 const countriesList = Object.values(countries)
-  .map((country) => ({ Countryname: country.name, countryPhone: country.phone[0] }))
+  .map((country) => ({
+    Countryname: country.name,
+    countryPhone: country.phone[0],
+  }))
   .sort((a, b) => a.Countryname.localeCompare(b.Countryname));
 
 export default function Register() {
@@ -33,7 +35,7 @@ export default function Register() {
     const toastId = toast.loading("Waiting....");
     try {
       const options = {
-        url:USERS_URL.REGISTER,
+        url: USERS_URL.REGISTER,
         method: "POST",
         data: info,
       };
@@ -51,7 +53,9 @@ export default function Register() {
     } catch (error) {
       if (isAxiosError(error)) {
         toast.error(error?.response?.data.message || "Something went wrong!");
-        setErrorMessage(error.response?.data.message || "Something went wrong!");
+        setErrorMessage(
+          error.response?.data.message || "Something went wrong!"
+        );
       }
     } finally {
       toast.dismiss(toastId);
@@ -68,39 +72,37 @@ export default function Register() {
   const selectedCountry = watch("country");
 
   const handleChangePrefix = useCallback(() => {
-    const phone = countriesList.find((pre) => pre.Countryname === selectedCountry);
+    const phone = countriesList.find(
+      (pre) => pre.Countryname === selectedCountry
+    );
     SetphonePrefix(phone ? phone.countryPhone : "");
   }, [selectedCountry]);
-
-
 
   useEffect(() => {
     handleChangePrefix();
   }, [selectedCountry, handleChangePrefix]);
 
-
-
-
-
-
   return (
-    <main className="rounded-2 py-2 px-4" aria-label="Register Page">
-      <section className="text mt-3" aria-labelledby="register-heading">
-        <p className="mb-0 text-white" style={{ fontSize: 10 }}>
-          Welcome to PMS
-        </p>
-        <h1 id="register-heading" className="h4 fw-bold" style={{ color: "#EF9B28" }}>
-          Create New Account
-        </h1>
-      </section>
-    
-      <form className="row mt-2 py-3" onSubmit={handleSubmit(registerEmploye)} noValidate>
+    <>
+      <form
+        className="row mt-2 py-3"
+        onSubmit={handleSubmit(registerEmploye)}
+        noValidate
+      >
+        <div className="d-flex flex-column gap-1 mb-5 ">
+          <small className="text-white">Welcome to PMS</small>
+          <h2 className="section-title"> Create New Account</h2>
+        </div>
         {/* Left Column */}
         <fieldset className="col-md-6">
           <legend className="visually-hidden">Personal Details</legend>
           {/* UserName */}
           <div className="mb-3">
-            <label htmlFor="userName" className="d-block" style={{ color: "#EF9B28" }}>
+            <label
+              htmlFor="userName"
+              className="d-block"
+              style={{ color: "#EF9B28" }}
+            >
               User Name
             </label>
             <input
@@ -116,24 +118,35 @@ export default function Register() {
               id="userName"
               type="text"
               placeholder="Enter Your Name"
-              className="border-0 border-1 border-bottom bg-transparent p-1 w-100"
+              className=" custom-input border-bottom border-0 border-1 border-bottom bg-transparent p-1 w-100"
               style={{ outline: 0 }}
               aria-invalid={!!errors.userName}
               aria-describedby="userName-error"
             />
             {errors.userName && (
-              <p id="userName-error" className="text-white" role="alert" style={{ fontSize: 12 }}>
+              <p
+                id="userName-error"
+                className="text-white"
+                role="alert"
+                style={{ fontSize: 12 }}
+              >
                 {errors.userName.message}
               </p>
             )}
           </div>
           {/* Country */}
           <div className="mb-3">
-            <label htmlFor="country" className="d-block" style={{ color: "#EF9B28" }}>
+            <label
+              htmlFor="country"
+              className="d-block"
+              style={{ color: "#EF9B28" }}
+            >
               Country
             </label>
             <select
-              {...register("country", { required: "You Must Choose Your Country" })}
+              {...register("country", {
+                required: "You Must Choose Your Country",
+              })}
               id="country"
               className="border-0 border-1 border-bottom bg-transparent p-1 w-100"
               style={{ outline: 0 }}
@@ -155,14 +168,18 @@ export default function Register() {
           </div>
           {/* Password */}
           <div className="position-relative">
-            <label htmlFor="password" className="d-block" style={{ color: "#EF9B28" }}>
+            <label
+              htmlFor="password"
+              className="d-block"
+              style={{ color: "#EF9B28" }}
+            >
               Password
             </label>
             <input
               {...register("password", {
                 required: "Password is required",
                 pattern: {
-                  value: PASSWORD_VALIDATION,
+                  value: validation.CONFIRM_PASSWORD_VALIDATION,
                   message:
                     "Minimum 8 chars, with upper/lowercase, number, and special character",
                 },
@@ -170,7 +187,7 @@ export default function Register() {
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Enter Your Password"
-              className="border-0 border-1 border-bottom bg-transparent p-1 w-100"
+              className="custom-input border-bottom border-0 border-1 border-bottom bg-transparent p-1 w-100"
               style={{ outline: 0 }}
             />
             <button
@@ -179,7 +196,11 @@ export default function Register() {
               className="btn btn-sm position-absolute end-0 top-50 translate-middle-y text-white"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              <i className={`fa-solid ${showPassword ? "fa-eye" : "fa-eye-slash"}`}></i>
+              <i
+                className={`fa-solid ${
+                  showPassword ? "fa-eye" : "fa-eye-slash"
+                }`}
+              ></i>
             </button>
             {errors.password && (
               <p className="text-white" role="alert" style={{ fontSize: 12 }}>
@@ -194,18 +215,25 @@ export default function Register() {
           <legend className="visually-hidden">Contact Info</legend>
           {/* Email */}
           <div className="mb-3">
-            <label htmlFor="email" className="d-block" style={{ color: "#EF9B28" }}>
+            <label
+              htmlFor="email"
+              className="d-block"
+              style={{ color: "#EF9B28" }}
+            >
               E-mail
             </label>
             <input
               {...register("email", {
                 required: "Email is required",
-                pattern: { value: EMAIL_VALIDATION, message: "Email must be valid" },
+                pattern: {
+                  value: validation.EMAIL_VALIDATION,
+                  message: "Email must be valid",
+                },
               })}
               id="email"
               type="email"
               placeholder="Enter Your Email"
-              className="border-0 border-1 border-bottom bg-transparent p-1 w-100"
+              className=" custom-input border-bottom border-0 border-1 border-bottom bg-transparent p-1 w-100"
               style={{ outline: 0 }}
             />
             {errors.email && (
@@ -216,7 +244,11 @@ export default function Register() {
           </div>
           {/* Phone */}
           <div className="mb-3">
-            <label htmlFor="phone" className="d-block" style={{ color: "#EF9B28" }}>
+            <label
+              htmlFor="phone"
+              className="d-block"
+              style={{ color: "#EF9B28" }}
+            >
               Phone
             </label>
             <div className="d-flex gap-1 align-items-center bg-transparent">
@@ -230,7 +262,7 @@ export default function Register() {
                 id="phone"
                 type="text"
                 placeholder="Enter Your Phone"
-                className="border-0 border-1 border-bottom bg-transparent p-1 w-100"
+                className=" custom-input border-bottom border-0 border-1 border-bottom bg-transparent p-1 w-100"
                 style={{ outline: 0 }}
               />
             </div>
@@ -242,27 +274,40 @@ export default function Register() {
           </div>
           {/* Confirm Password */}
           <div className="position-relative">
-            <label htmlFor="confirmedpassword" className="d-block" style={{ color: "#EF9B28" }}>
+            <label
+              htmlFor="confirmedpassword"
+              className="d-block"
+              style={{ color: "#EF9B28" }}
+            >
               Confirm Password
             </label>
             <input
               {...register("confirmPassword", {
                 required: "Confirmed Password is required",
-                validate: (value) => value === watch("password") || "Passwords do not match",
+                validate: (value) =>
+                  value === watch("password") || "Passwords do not match",
               })}
               id="confirmedpassword"
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm Your Password"
-              className="border-0 border-1 border-bottom bg-transparent p-1 w-100"
+              className="custom-input border-bottom border-0 border-1 border-bottom bg-transparent p-1 w-100"
               style={{ outline: 0 }}
             />
             <button
               type="button"
               onClick={() => setShowConfirmPassword((prev) => !prev)}
               className="btn btn-sm position-absolute end-0 top-50 translate-middle-y text-white"
-              aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
+              aria-label={
+                showConfirmPassword
+                  ? "Hide confirm password"
+                  : "Show confirm password"
+              }
             >
-              <i className={`fa-solid ${showConfirmPassword ? "fa-eye" : "fa-eye-slash"}`}></i>
+              <i
+                className={`fa-solid ${
+                  showConfirmPassword ? "fa-eye" : "fa-eye-slash"
+                }`}
+              ></i>
             </button>
             {errors.confirmPassword && (
               <p className="text-white" role="alert" style={{ fontSize: 12 }}>
@@ -278,22 +323,14 @@ export default function Register() {
           </p>
         )}
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="btn custom-btn btn-lg mt-3"
-          aria-busy={isSubmitting}
-        >
-          {isSubmitting ? <i className="fa-solid fa-spinner fa-spin"></i> : "Save"}
+        <button disabled={isSubmitting} className="btn custom-btn btn-lg mt-5">
+          {isSubmitting ? (
+            <i className="fa-solid fa-spinner fa-spin"></i>
+          ) : (
+            "Save"
+          )}
         </button>
       </form>
-    </main>
+    </>
   );
 }
-
-
-
-
-
-
-

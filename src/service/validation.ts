@@ -1,4 +1,4 @@
-const validation = {
+const validation:any = {
   EMAIL_VALIDATION: {
     required: "Email is required",
     pattern: {

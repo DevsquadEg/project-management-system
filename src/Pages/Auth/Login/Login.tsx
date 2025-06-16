@@ -1,5 +1,4 @@
-import { USERS_URL } from "../../../service/api.tsx";
-import { axiosInstance } from "../../../service/urls.js";
+
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../../store/AuthContext/AuthContext";
 import { Link, useNavigate } from "react-router-dom";

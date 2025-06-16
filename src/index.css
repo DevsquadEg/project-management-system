@@ -32,8 +32,11 @@ body {
 }
 
 .custom-input::placeholder {
-  color: #aaa !important;
+  color: #e6e6e6 !important;
   opacity: 1 !important;
+}
+.border-bottom {
+  border-bottom: 1px solid white !important;
 }
 
 /* التعامل مع autofill بتاع المتصفح */
