@@ -1,5 +1,5 @@
 
-export default function Header({ title, username, description, headerImg }) {
+export default function Header({ title, username, description, headerImg }:any) {
   return (
     <>
       <div className="header-container d-flex justify-content-between align-items-center p-md-5 mb-4 ">
