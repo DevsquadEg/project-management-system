@@ -7,22 +7,30 @@ import { isAxiosError } from "axios";
 export default function AllProjects() {
   const [allProjects, setAllProjects] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
+  const [pageSize, setPageSize] = useState(2);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   //=======  get all projects ==============
-  const getAllProjects = async (title = "") => {
+  const getAllProjects = async (
+    title = "",
+    pageSizeValue = pageSize,
+    page = pageNumber
+  ) => {
     try {
       const response = await axiosInstance.get(
         PROJECT_URLS.GET_PROJECTS_BY_MANAGER,
         {
           params: {
             title: title,
-            pageNumber: 1,
-            pageSize: 10,
+            pageSize: pageSizeValue,
+            pageNumber: page,
           },
         }
       );
-      console.log(response.data.data);
+      console.log(response.data);
       setAllProjects(response.data.data);
+      setTotalPages(response.data.totalNumberOfPages);
     } catch (error) {
       if (isAxiosError(error)) {
         toast.error(error?.response?.data.message || "Something went wrong!");
@@ -31,8 +39,8 @@ export default function AllProjects() {
   };
 
   useEffect(() => {
-    getAllProjects(searchTitle);
-  }, [searchTitle]);
+    getAllProjects(searchTitle, pageSize, pageNumber);
+  }, [searchTitle, pageSize, pageNumber]);
 
   return (
     <>
@@ -142,21 +150,35 @@ export default function AllProjects() {
             <select
               className="form-select border rounded-pill px-3 py-1"
               style={{ width: "80px" }}
+              value={pageSize}
+              onChange={(e) => setPageSize(Number(e.target.value))}
             >
-              <option value="10">5</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+              <option value="20">20</option>
             </select>
             <span>of {allProjects.length} Results</span>
           </div>
 
           <div className="d-flex align-items-center gap-3">
-            <span>Page 1 of 10</span>
+            <span>
+              Page {pageNumber} of {totalPages}
+            </span>
             <div className="d-flex gap-3">
-              <button className="btn btn-white border-0 p-1">
+              <button
+                className="btn btn-white border-0 p-1"
+                disabled={pageNumber === 1}
+                onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}
+              >
                 <i className="bi bi-chevron-left fs-5 text-secondary"></i>
               </button>
-              <button className="btn btn-white border-0 p-1">
+              <button
+                className="btn btn-white border-0 p-1"
+                disabled={pageNumber === totalPages}
+                onClick={() =>
+                  setPageNumber((prev) => Math.min(prev + 1, totalPages))
+                }
+              >
                 <i className="bi bi-chevron-right fs-5 text-secondary"></i>
               </button>
             </div>
