@@ -193,9 +193,64 @@ input:-webkit-autofill:active {
     cursor: not-allowed;
 }
 
-/* ============================================ */
+/* change password */
 .btnSlash {
     background-color: transparent;
     border: none;
     color: white;
+}
+
+
+ /* users list */
+.img-table {
+  width: 40px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.dotsCustomize{
+    color: rgba(14, 56, 47, 1); 
+    font-weight: bold;
+    font-size: 25px;
+    
+}
+.iconCustomize{
+    border-top-left-radius: 8rem !important;
+    border-bottom-right-radius: 8rem !important;
+    border: '1px solid #ced4da';
+    
+
+
+}
+
+table.custom-table thead th {
+  padding: 12px !important;
+  text-transform: uppercase;
+  background-color: rgba(49, 89, 81, 0.9) !important;
+
+}
+
+.activeCustomize{
+    background-color: rgba(0, 146, 71, 1) !important;
+    padding-inline: 15px !important;
+
+}
+
+.notActiveCustomize{
+    background-color: rgba(146, 46, 37, 0.7) !important;
+    padding-inline: 15px !important;
+
+}
+
+.viewText{
+    font-size: 18px;
+}
+
+tbody td {
+    color: rgba(79, 79, 79, 1) !important;
+    font-family: Montserrat !important;
+font-weight: 400;
+font-size: 18px;
+line-height: 100%;
+letter-spacing: 0%; 
 }
