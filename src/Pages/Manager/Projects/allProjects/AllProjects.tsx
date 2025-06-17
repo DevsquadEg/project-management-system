@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Header from "../../../../components/Header/Header";
 import toast from "react-hot-toast";
 import { PROJECT_URLS } from "@/service/api";
 import { axiosInstance } from "@/service/urls";
@@ -7,12 +6,20 @@ import { isAxiosError } from "axios";
 
 export default function AllProjects() {
   const [allProjects, setAllProjects] = useState([]);
+  const [searchTitle, setSearchTitle] = useState("");
 
   //=======  get all projects ==============
-  const getAllProjects = async () => {
+  const getAllProjects = async (title = "") => {
     try {
       const response = await axiosInstance.get(
-        PROJECT_URLS.GET_PROJECTS_BY_MANAGER
+        PROJECT_URLS.GET_PROJECTS_BY_MANAGER,
+        {
+          params: {
+            title: title,
+            pageNumber: 1,
+            pageSize: 10,
+          },
+        }
       );
       console.log(response.data.data);
       setAllProjects(response.data.data);
@@ -24,33 +31,41 @@ export default function AllProjects() {
   };
 
   useEffect(() => {
-    getAllProjects();
-  }, []);
+    getAllProjects(searchTitle);
+  }, [searchTitle]);
 
   return (
     <>
-      <Header title={"All Projects"} />
-      <div className="">
-        <div className="d-flex justify-content-between align-items-center py-3">
-          <div className="input-group mb-3 w-25 ">
-            <span className="input-group-text " id="basic-addon1">
-              <i className="fa-solid fa-magnifying-glass"></i>
+      <div className="d-flex justify-content-between align-items-center px-5 py-4 mb-4 bg-white border border-start-0">
+        <h2>Projects</h2>
+        <div>
+          <button className="btn btn-lg bg-orange rounded-pill text-white px-5">
+            add new project
+          </button>
+        </div>
+      </div>
+
+      <div className="m-5 mt-4 bg-white rounded-4 shadow-sm">
+        {/* =========== search =========== */}
+        <div className="d-flex justify-content-between align-items-center">
+          <div className="input-group m-4 w-25">
+            <span className="input-group-text border-end-0 bg-white rounded-start-pill">
+              <i className="fa-solid fa-magnifying-glass text-secondary"></i>
             </span>
             <input
               type="text"
-              className="form-control"
-              placeholder="Username"
-              aria-label="Username"
+              className="form-control border-start-0 rounded-end-pill"
+              placeholder="Search By Title"
+              aria-label="Search"
               aria-describedby="basic-addon1"
+              value={searchTitle}
+              onChange={(e) => setSearchTitle(e.target.value)}
             />
           </div>
-          <div>
-            <button className="btn btn-lg btn-warning rounded-pill text-white px-5">
-              add new project
-            </button>
-          </div>
         </div>
-        <table className="table table-striped table-hover table-bordered align-middle text-center ">
+
+        {/* ============== table ====================== */}
+        <table className="table table-striped table-hover table-bordered align-middle text-center mb-0 ">
           <thead
             className="table table-success table-custom"
             style={{ background: "rgba(49, 89, 81, 0.90)" }}
@@ -121,6 +136,32 @@ export default function AllProjects() {
             ))}
           </tbody>
         </table>
+        <div className="d-flex justify-content-end align-items-center p-3    gap-5">
+          <div className="d-flex align-items-center gap-2">
+            <span>Showing</span>
+            <select
+              className="form-select border rounded-pill px-3 py-1"
+              style={{ width: "80px" }}
+            >
+              <option value="10">5</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+            </select>
+            <span>of {allProjects.length} Results</span>
+          </div>
+
+          <div className="d-flex align-items-center gap-3">
+            <span>Page 1 of 10</span>
+            <div className="d-flex gap-3">
+              <button className="btn btn-white border-0 p-1">
+                <i className="bi bi-chevron-left fs-5 text-secondary"></i>
+              </button>
+              <button className="btn btn-white border-0 p-1">
+                <i className="bi bi-chevron-right fs-5 text-secondary"></i>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
