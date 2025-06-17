@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
 body {
   font-family: "Inter", sans-serif;
   transition: all 0.3s ease-in-out;
@@ -206,4 +208,20 @@ input:-webkit-autofill:active {
   --bs-table-color: white;
   /* --bs-table-border-color: #335b53 !important; */
   font-weight: 300 !important;
+}
+
+.table > thead {
+  height: 55px !important;
+  vertical-align: middle;
+}
+.table > thead span {
+  color: #fff;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.table > thead td {
+  font-family: montserrat;
 }

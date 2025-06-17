@@ -3,6 +3,7 @@ import Header from "../../../../components/Header/Header";
 import toast from "react-hot-toast";
 import { PROJECT_URLS } from "@/service/api";
 import { axiosInstance } from "@/service/urls";
+import { isAxiosError } from "axios";
 
 export default function AllProjects() {
   const [allProjects, setAllProjects] = useState([]);
@@ -16,9 +17,8 @@ export default function AllProjects() {
       console.log(response.data.data);
       setAllProjects(response.data.data);
     } catch (error) {
-      const status = error.response?.status;
-      if (status !== 403 || allProjects.length > 0) {
-        toast.error("Failed to load all Projects");
+      if (isAxiosError(error)) {
+        toast.error(error?.response?.data.message || "Something went wrong!");
       }
     }
   };
@@ -29,16 +29,35 @@ export default function AllProjects() {
 
   return (
     <>
-      <Header />
-      <div>
-        <table className="table table-striped table-hover table-bordered align-middle text-center">
+      <Header title={"All Projects"} />
+      <div className="">
+        <div className="d-flex justify-content-between align-items-center py-3">
+          <div className="input-group mb-3 w-25 ">
+            <span className="input-group-text " id="basic-addon1">
+              <i className="fa-solid fa-magnifying-glass"></i>
+            </span>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Username"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+          <div>
+            <button className="btn btn-lg btn-warning rounded-pill text-white px-5">
+              add new project
+            </button>
+          </div>
+        </div>
+        <table className="table table-striped table-hover table-bordered align-middle text-center ">
           <thead
             className="table table-success table-custom"
-            // style={{ background: "rgba(49, 89, 81, 0.90)" }}
+            style={{ background: "rgba(49, 89, 81, 0.90)" }}
           >
             <tr>
               <th className="">
-                <span className=" fw-lighter">Title</span>
+                <span>Title</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
               <th className="">
@@ -54,7 +73,9 @@ export default function AllProjects() {
                 <span>Date Created</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th className="">Actions</th>
+              <th className="">
+                <span>Actions</span>
+              </th>
             </tr>
           </thead>
 
@@ -66,9 +87,35 @@ export default function AllProjects() {
                 <td>{project.task.length}</td>
                 <td>{new Date(project.creationDate).toLocaleDateString()}</td>
                 <td>
-                  <button className="btn btn-sm btn-light">
-                    <i className="bi bi-three-dots-vertical"></i>
-                  </button>
+                  <div className="dropdown">
+                    <button
+                      className="btn  border-0"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <i className="fa-solid fa-ellipsis fa-lg"></i>
+                    </button>
+
+                    <ul className="dropdown-menu dropdown-menu-end shadow  border-0">
+                      <li>
+                        <button className="dropdown-item d-flex align-items-center gap-2 text-success">
+                          <i className="bi bi-eye"></i> View
+                        </button>
+                      </li>
+
+                      <li>
+                        <button className="dropdown-item d-flex align-items-center gap-2 text-success">
+                          <i className="bi bi-pencil-square"></i> Edit
+                        </button>
+                      </li>
+                      <li>
+                        <button className="dropdown-item d-flex align-items-center gap-2 text-danger">
+                          <i className="bi bi-trash"></i> Delete
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
                 </td>
               </tr>
             ))}
