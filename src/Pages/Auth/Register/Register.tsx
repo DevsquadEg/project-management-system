@@ -163,7 +163,7 @@ export default function Register() {
                             })}
                             id="country"
                             className="border-0 border-1 border-bottom bg-transparent p-1 w-100"
-                            style={{ outline: 0 }}
+                            style={{ outline: 0, color: "#ddd" }}
                         >
                             <option disabled value="">
                                 Select Your Country
@@ -172,6 +172,7 @@ export default function Register() {
                                 <option
                                     key={country.Countryname}
                                     value={country.Countryname}
+                                    style={{ color: "#000" }}
                                 >
                                     {country.Countryname}
                                 </option>
