@@ -25,6 +25,7 @@ export interface AuthContextType {
   loginData: DecodedTokenPayload | null;
   setLoginData: React.Dispatch<React.SetStateAction<DecodedTokenPayload | null>>;
   saveLoginData: () => Promise<void>;
+  isLoading: boolean;
 }
 
 
