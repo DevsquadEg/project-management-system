@@ -4,7 +4,14 @@ body {
     font-family: "Inter", sans-serif;
     transition: all 0.3s ease-in-out;
 }
-
+.bg-orange {
+  background-color: #ef9b28;
+  color: white;
+}
+.bg-green {
+  background-color: #2e3e38;
+  color: white;
+}
 .auth-container {
     background-image: url(/loginBg.svg);
     background-position: center center;
@@ -253,4 +260,20 @@ tbody td {
     font-size: 18px;
     line-height: 100%;
     letter-spacing: 0%;
+}
+
+.table > thead {
+  height: 55px !important;
+  vertical-align: middle;
+}
+.table > thead span {
+  color: #fff;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.table > thead td {
+  font-family: montserrat;
 }

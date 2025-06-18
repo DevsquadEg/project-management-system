@@ -13,7 +13,7 @@ export default function SideBar() {
           className="toggle-arrow"
           style={{
             position: "absolute",
-            top: "20px",
+            top: "30px",
             right: isCollapse ? "-13px" : "-13px",
             background: "#EF9B28",
             borderRadius: "50%",
