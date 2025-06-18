@@ -3,13 +3,18 @@ import toast from "react-hot-toast";
 import { PROJECT_URLS } from "@/service/api";
 import { axiosInstance } from "@/service/urls";
 import { isAxiosError } from "axios";
+import DeleteModal from "@/components/DeleteModal/DeleteModal";
 
 export default function AllProjects() {
   const [allProjects, setAllProjects] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
-  const [pageSize, setPageSize] = useState(2);
+  const [pageSize, setPageSize] = useState(3);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   //=======  get all projects ==============
   const getAllProjects = async (
@@ -38,6 +43,20 @@ export default function AllProjects() {
     }
   };
 
+  // --------------- delete project -------------
+  const onDeleteProject = async (id: number, onSuccess: any) => {
+    try {
+      setIsSubmitting(true);
+      await axiosInstance.delete(PROJECT_URLS.DELETE_PROJECT(id));
+      toast.success("Project Deleted Successfully");
+      onSuccess();
+      getAllProjects();
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Failed to delete project.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   useEffect(() => {
     getAllProjects(searchTitle, pageSize, pageNumber);
   }, [searchTitle, pageSize, pageNumber]);
@@ -123,17 +142,18 @@ export default function AllProjects() {
                     <ul className="dropdown-menu dropdown-menu-end shadow  border-0">
                       <li>
                         <button className="dropdown-item d-flex align-items-center gap-2 text-success">
-                          <i className="bi bi-eye"></i> View
-                        </button>
-                      </li>
-
-                      <li>
-                        <button className="dropdown-item d-flex align-items-center gap-2 text-success">
                           <i className="bi bi-pencil-square"></i> Edit
                         </button>
                       </li>
                       <li>
-                        <button className="dropdown-item d-flex align-items-center gap-2 text-danger">
+                        <button
+                          onClick={() => {
+                            setSelectedProject(project.id);
+                            // setModalType("delete");
+                            setShowDeleteModal(true);
+                          }}
+                          className="dropdown-item d-flex align-items-center gap-2 text-danger"
+                        >
                           <i className="bi bi-trash"></i> Delete
                         </button>
                       </li>
@@ -153,6 +173,7 @@ export default function AllProjects() {
               value={pageSize}
               onChange={(e) => setPageSize(Number(e.target.value))}
             >
+              <option disabled hidden value={pageSize}>{pageSize}</option>
               <option value="2">2</option>
               <option value="4">4</option>
               <option value="20">20</option>
@@ -185,6 +206,20 @@ export default function AllProjects() {
           </div>
         </div>
       </div>
+      {/* Modal delete Logic */}
+      <DeleteModal
+        show={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={() =>
+          onDeleteProject(selectedProject, () => setShowDeleteModal(false))
+        }
+        itemName={
+          allProjects.find((project: any) => project.id === selectedProject)
+            ?.title
+        }
+        title="Delete Project"
+        isSubmitting={isSubmitting}
+      />
     </>
   );
 }
