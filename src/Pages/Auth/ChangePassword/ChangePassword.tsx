@@ -4,9 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import { axiosInstance } from "@/service/urls";
-import { USERS_URL } from "@/service/api";
-
+import SubmitBtn from "@/components/auth/SubmitBtn";
 export default function ChangePassword() {
     const [isFirstPassVisible, setIsFirstPassVisible] = useState(false); // eye flash old password
     const [isSecondPassVisible, setIsSecondPassVisible] = useState(false); // eye flash new and confirm password
@@ -223,20 +221,10 @@ export default function ChangePassword() {
 
                 {/* Submit */}
                 <div className="d-grid ">
-                    <button
-                        type="submit"
-                        className="btn custom-btn btn-lg"
-                        disabled={isSubmitting}
-                    >
-                        {(isSubmitting && (
-                            <span
-                                className="spinner-border spinner-border-sm"
-                                role="status"
-                                aria-hidden="true"
-                            ></span>
-                        )) ||
-                            "Update Password"}
-                    </button>
+                    <SubmitBtn
+                        isSubmitting={isSubmitting}
+                        title="Update Password"
+                    />
                 </div>
             </form>
         </>

@@ -12,6 +12,7 @@ import { isAxiosError } from "axios";
 import { axiosInstance } from "@/service/urls.ts";
 import { USERS_URL } from "@/service/api.ts";
 import validation from "@/service/validation.ts";
+import SubmitBtn from "@/components/auth/SubmitBtn";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -109,24 +110,10 @@ export default function Login() {
                                 })}
                                 className="form-control custom-input "
                             />
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    setIsPassVisible((prev) => !prev)
-                                }
-                                onMouseDown={(e) => e.preventDefault()}
-                                onMouseUp={(e) => e.preventDefault} // to prevent the feature of unfocus when i click on the icon
-                                className="input-group-text btnSlash"
-                                id="addon-wrapping"
-                            >
-                                <i
-                                    className={`fa-regular ${
-                                        isPassVisible
-                                            ? "fa-eye "
-                                            : "fa-eye-slash"
-                                    }`}
-                                ></i>
-                            </button>
+                            <SubmitBtn
+                                isSubmitting={isSubmitting}
+                                title="Login"
+                            />
                         </div>
                     </div>
 
