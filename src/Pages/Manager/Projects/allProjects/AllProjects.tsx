@@ -64,6 +64,12 @@ export default function AllProjects() {
       setIsSubmitting(false);
     }
   };
+
+  //=======  useEffect ==============
+  useEffect(() => {
+    setPageNumber(1); // Reset to first page when search changes
+  }, [searchTitle, pageSize]);
+
   useEffect(() => {
     getAllProjects(searchTitle, pageSize, pageNumber);
     console.log(totalNumberOfRecords);
@@ -188,9 +194,7 @@ export default function AllProjects() {
               className="form-select border rounded-pill px-3 py-1"
               style={{ width: "80px" }}
               value={pageSize}
-              onChange={(e) => {
-                setPageSize(Number(e.target.value)), getAllProjects();
-              }}
+              onChange={(e) => setPageSize(Number(e.target.value))}
             >
               <option disabled hidden value={pageSize}>
                 {pageSize}
