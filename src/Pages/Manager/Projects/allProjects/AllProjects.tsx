@@ -4,8 +4,13 @@ import { PROJECT_URLS } from "@/service/api";
 import { axiosInstance } from "@/service/urls";
 import { isAxiosError } from "axios";
 import DeleteModal from "@/components/DeleteModal/DeleteModal";
+import { useNavigate } from "react-router-dom";
+import { set } from "react-hook-form";
 
 export default function AllProjects() {
+  //=======  hooks ==============
+  const navigate = useNavigate();
+  //=======  states ==============
   const [allProjects, setAllProjects] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
   const [pageSize, setPageSize] = useState(3);
@@ -15,6 +20,7 @@ export default function AllProjects() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [totalNumberOfRecords, setTotalNumberOfRecords] = useState();
 
   //=======  get all projects ==============
   const getAllProjects = async (
@@ -33,9 +39,10 @@ export default function AllProjects() {
           },
         }
       );
-      console.log(response.data);
+      console.log(response.data.totalNumberOfRecords);
       setAllProjects(response.data.data);
       setTotalPages(response.data.totalNumberOfPages);
+      setTotalNumberOfRecords(response.data.totalNumberOfRecords);
     } catch (error) {
       if (isAxiosError(error)) {
         toast.error(error?.response?.data.message || "Something went wrong!");
@@ -59,6 +66,7 @@ export default function AllProjects() {
   };
   useEffect(() => {
     getAllProjects(searchTitle, pageSize, pageNumber);
+    console.log(totalNumberOfRecords);
   }, [searchTitle, pageSize, pageNumber]);
 
   return (
@@ -66,7 +74,10 @@ export default function AllProjects() {
       <div className="d-flex justify-content-between align-items-center px-5 py-4 mb-4 bg-white border border-start-0">
         <h2>Projects</h2>
         <div>
-          <button className="btn btn-lg bg-orange rounded-pill text-white px-5">
+          <button
+            onClick={() => navigate("/projects/add")}
+            className="btn btn-lg bg-orange rounded-pill text-white px-5"
+          >
             add new project
           </button>
         </div>
@@ -98,24 +109,24 @@ export default function AllProjects() {
             style={{ background: "rgba(49, 89, 81, 0.90)" }}
           >
             <tr>
-              <th className="">
+              <th style={{ width: "25%" }}>
                 <span>Title</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th className="">
+              <th style={{ width: "40%" }}>
                 <span>Description</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
 
-              <th className="">
+              <th style={{ width: "15%" }}>
                 <span>Num Tasks</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th className="">
+              <th style={{ width: "20%" }}>
                 <span>Date Created</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th className="">
+              <th style={{ width: "25%" }}>
                 <span>Actions</span>
               </th>
             </tr>
@@ -141,7 +152,12 @@ export default function AllProjects() {
 
                     <ul className="dropdown-menu dropdown-menu-end shadow  border-0">
                       <li>
-                        <button className="dropdown-item d-flex align-items-center gap-2 text-success">
+                        <button
+                          className="dropdown-item d-flex align-items-center gap-2 text-success"
+                          onClick={() =>
+                            navigate(`/projects/edit/${project.id}`)
+                          }
+                        >
                           <i className="bi bi-pencil-square"></i> Edit
                         </button>
                       </li>
@@ -172,7 +188,9 @@ export default function AllProjects() {
               className="form-select border rounded-pill px-3 py-1"
               style={{ width: "80px" }}
               value={pageSize}
-              onChange={(e) => setPageSize(Number(e.target.value))}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value)), getAllProjects();
+              }}
             >
               <option disabled hidden value={pageSize}>
                 {pageSize}
@@ -181,7 +199,7 @@ export default function AllProjects() {
               <option value="4">4</option>
               <option value="20">20</option>
             </select>
-            <span>of {allProjects.length} Results</span>
+            <span>of {totalNumberOfRecords} Results</span>
           </div>
 
           <div className="d-flex align-items-center gap-3">

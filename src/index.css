@@ -1,52 +1,55 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 body {
-    font-family: "Inter", sans-serif;
-    transition: all 0.3s ease-in-out;
+  font-family: "Inter", sans-serif;
+  transition: all 0.3s ease-in-out;
 }
 .bg-orange {
   background-color: #ef9b28;
   color: white;
+  &:hover {
+    background-color: #d7952f;
+  }
 }
 .bg-green {
   background-color: #2e3e38;
   color: white;
 }
 .auth-container {
-    background-image: url(/loginBg.svg);
-    background-position: center center;
-    background-size: cover;
-    background-attachment: fixed;
+  background-image: url(/loginBg.svg);
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 .auth-area {
-    background: rgba(49, 89, 81, 0.9);
+  background: rgba(49, 89, 81, 0.9);
 }
 
 /* ======================================== */
 .custom-input {
-    background-color: transparent !important;
-    border: none !important;
-    /* border-bottom: 1px solid #ccc !important; */
-    color: #fff !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  /* border-bottom: 1px solid #ccc !important; */
+  color: #fff !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 .custom-input:focus {
-    background-color: transparent !important;
-    /* border-bottom: 1px solid #ef9b28 !important; */
-    outline: none !important;
-    box-shadow: none !important;
-    color: #fff !important;
+  background-color: transparent !important;
+  /* border-bottom: 1px solid #ef9b28 !important; */
+  outline: none !important;
+  box-shadow: none !important;
+  color: #fff !important;
 }
 
 .custom-input::placeholder {
-    color: #e6e6e6 !important;
-    opacity: 1 !important;
+  color: #e6e6e6 !important;
+  opacity: 1 !important;
 }
 .border-bottom {
-    border-bottom: 1px solid white !important;
+  border-bottom: 1px solid white !important;
 }
 
 /* التعامل مع autofill بتاع المتصفح */
@@ -54,212 +57,212 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0) inset !important;
-    -webkit-text-fill-color: #fff !important;
-    background-color: transparent !important;
-    transition: background-color 5000s ease-in-out 0s !important;
+  -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0) inset !important;
+  -webkit-text-fill-color: #fff !important;
+  background-color: transparent !important;
+  transition: background-color 5000s ease-in-out 0s !important;
 }
 
 /* ================================================ */
 .sidebar-container .ps-sidebar-container {
-    background-color: #0e382f;
-    color: white;
-    height: 100vh;
+  background-color: #0e382f;
+  color: white;
+  height: 100vh;
 }
 
 .sidebar-container .ps-menuitem-root {
-    padding: 5px 0px;
+  padding: 5px 0px;
 }
 .sidebar-container .ps-menuitem-root:hover {
-    padding: 5px 10px;
+  padding: 5px 10px;
 }
 .sidebar-container .ps-menu-button {
-    transition: all 0.3s ease-in-out;
-    &:hover {
-        background-color: transparent !important;
-        /* border-left: 5px solid #009247; */
-        color: #ef9b28;
-        border-radius: 8px;
-        background: rgba(239, 155, 40, 0.3) !important;
-    }
-}
-.active-menu {
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background-color: transparent !important;
+    /* border-left: 5px solid #009247; */
     color: #ef9b28;
     border-radius: 8px;
-    /* background: rgba(239, 155, 40, 0.3) !important; */
+    background: rgba(239, 155, 40, 0.3) !important;
+  }
+}
+.active-menu {
+  color: #ef9b28;
+  border-radius: 8px;
+  /* background: rgba(239, 155, 40, 0.3) !important; */
 }
 
 /* ============= no found compoent =========== */
 .notfound-bg {
-    background-image: url("/Not_Found.svg");
-    background-size: cover;
-    background-position: right bottom;
-    background-repeat: no-repeat;
-    background-color: #ddd;
-    padding: 2rem;
+  background-image: url("/Not_Found.svg");
+  background-size: cover;
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-color: #ddd;
+  padding: 2rem;
 }
 
 /* ================ dropdown ======================== */
 .dropdown-menu {
-    border-radius: 10px;
-    position: relative;
+  border-radius: 10px;
+  position: relative;
 }
 
 .dropdown-menu::before {
-    content: "";
-    position: absolute;
-    top: -5px;
-    right: 19px;
-    width: 10px;
-    height: 10px;
-    background: white;
-    border-left: 1px solid #ddd;
-    border-top: 1px solid #ddd;
-    transform: rotate(45deg);
-    z-index: 1;
-    scale: 1.3;
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: 19px;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-left: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  transform: rotate(45deg);
+  z-index: 1;
+  scale: 1.3;
 }
 
 /* ============= header ============================= */
 
 .header-container {
-    background-image: url(/home-bg.svg);
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    border-radius: 10px;
-    transition: all 3s ease-in-out;
+  background-image: url(/home-bg.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  border-radius: 10px;
+  transition: all 3s ease-in-out;
 }
 
 /* ================================ */
 .stat-card {
-    flex: 1;
-    min-width: 140px;
-    padding: 1rem;
-    border-radius: 1rem;
-    text-align: center;
+  flex: 1;
+  min-width: 140px;
+  padding: 1rem;
+  border-radius: 1rem;
+  text-align: center;
 }
 
 .bg-light-purple {
-    background-color: #e5e7fa;
+  background-color: #e5e7fa;
 }
 
 .bg-light-yellow {
-    background-color: #f5f6da;
+  background-color: #f5f6da;
 }
 
 .bg-light-pink {
-    background-color: #f9e5ee;
+  background-color: #f9e5ee;
 }
 
 .welcome-card {
-    background-color: #2e3e38;
-    position: relative;
-    z-index: 1;
+  background-color: #2e3e38;
+  position: relative;
+  z-index: 1;
 }
 
 /* ================ section title in form ====================== */
 .section-title {
-    position: relative;
-    display: inline-block;
-    font-weight: 700;
-    color: #ef9b28;
-    font-size: 2rem;
-    margin-bottom: 0;
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+  color: #ef9b28;
+  font-size: 2rem;
+  margin-bottom: 0;
 }
 
 .section-title::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -5px;
-    width: 25px; /* عرض الشرطة */
-    height: 4px; /* سُمك الشرطة */
-    background-color: #ef9b28;
-    border-radius: 2px;
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 25px; /* عرض الشرطة */
+  height: 4px; /* سُمك الشرطة */
+  background-color: #ef9b28;
+  border-radius: 2px;
 }
 
 /* ============================== */
 .custom-btn {
-    background-color: #e0a343; /* اللون البرتقالي الذهبي */
-    color: white;
-    border: none;
-    border-radius: 50px; /* كابسولة */
-    font-size: 1rem;
-    font-weight: 500;
-    transition: background-color 0.3s ease-in-out;
+  background-color: #e0a343; /* اللون البرتقالي الذهبي */
+  color: white;
+  border: none;
+  border-radius: 50px; /* كابسولة */
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .custom-btn:hover {
-    background-color: #d7952f; /* لون أغمق بسيط عند الهوف */
-    color: white;
+  background-color: #d7952f; /* لون أغمق بسيط عند الهوف */
+  color: white;
 }
 
 .custom-btn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 /* ================ eye ============================ */
 .btnSlash {
-    background-color: transparent;
-    border: none;
-    color: white;
+  background-color: transparent;
+  border: none;
+  color: white;
 }
 
 /* ==================== tabel head  ========================== */
 .table-custom {
-    --bs-table-bg: #315951e6;
-    --bs-table-color: white;
-    /* --bs-table-border-color: #335b53 !important; */
-    font-weight: 300 !important;
+  --bs-table-bg: #315951e6;
+  --bs-table-color: white;
+  /* --bs-table-border-color: #335b53 !important; */
+  font-weight: 300 !important;
 }
 
 /* users list */
 .img-table {
-    width: 40px;
-    height: 50px;
-    border-radius: 50%;
+  width: 40px;
+  height: 50px;
+  border-radius: 50%;
 }
 
 .dotsCustomize {
-    color: rgba(14, 56, 47, 1);
-    font-weight: bold;
-    font-size: 25px;
+  color: rgba(14, 56, 47, 1);
+  font-weight: bold;
+  font-size: 25px;
 }
 .iconCustomize {
-    border-top-left-radius: 8rem !important;
-    border-bottom-right-radius: 8rem !important;
-    border: "1px solid #ced4da";
+  border-top-left-radius: 8rem !important;
+  border-bottom-right-radius: 8rem !important;
+  border: "1px solid #ced4da";
 }
 
 table.custom-table thead th {
-    padding: 12px !important;
-    text-transform: uppercase;
-    background-color: rgba(49, 89, 81, 0.9) !important;
+  padding: 12px !important;
+  text-transform: uppercase;
+  background-color: rgba(49, 89, 81, 0.9) !important;
 }
 
 .activeCustomize {
-    background-color: rgba(0, 146, 71, 1) !important;
-    padding-inline: 15px !important;
+  background-color: rgba(0, 146, 71, 1) !important;
+  padding-inline: 15px !important;
 }
 
 .notActiveCustomize {
-    background-color: rgba(146, 46, 37, 0.7) !important;
-    padding-inline: 15px !important;
+  background-color: rgba(146, 46, 37, 0.7) !important;
+  padding-inline: 15px !important;
 }
 
 .viewText {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 tbody td {
-    color: rgba(79, 79, 79, 1) !important;
-    font-family: Montserrat !important;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 100%;
-    letter-spacing: 0%;
+  color: rgba(79, 79, 79, 1) !important;
+  font-family: Montserrat !important;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0%;
 }
 
 .table > thead {
