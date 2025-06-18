@@ -110,10 +110,24 @@ export default function Login() {
                                 })}
                                 className="form-control custom-input "
                             />
-                            <SubmitBtn
-                                isSubmitting={isSubmitting}
-                                title="Login"
-                            />
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    setIsPassVisible((prev) => !prev)
+                                }
+                                onMouseDown={(e) => e.preventDefault()}
+                                onMouseUp={(e) => e.preventDefault} // to prevent the feature of unfocus when i click on the icon
+                                className="input-group-text btnSlash"
+                                id="addon-wrapping"
+                            >
+                                <i
+                                    className={`fa-regular ${
+                                        isPassVisible
+                                            ? "fa-eye "
+                                            : "fa-eye-slash"
+                                    }`}
+                                ></i>
+                            </button>
                         </div>
                     </div>
 
@@ -144,20 +158,7 @@ export default function Login() {
                 </div>
                 {/* Submit */}
                 <div className="d-grid">
-                    <button
-                        type="submit"
-                        className="btn custom-btn btn-lg "
-                        disabled={isSubmitting}
-                    >
-                        {(isSubmitting && (
-                            <span
-                                className="spinner-border spinner-border-sm"
-                                role="status"
-                                aria-hidden="true"
-                            ></span>
-                        )) ||
-                            "Login"}
-                    </button>
+                    <SubmitBtn isSubmitting={isSubmitting} title="Login" />
                 </div>
             </form>
         </>
