@@ -1,5 +1,6 @@
 import { PROJECT_URLS } from "@/service/api";
 import { axiosInstance } from "@/service/urls";
+import { useEffect } from "react";
 
 import { useForm } from "react-hook-form";
 
@@ -19,8 +20,24 @@ export default function ProjectForm() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<ProjectFormInputs>({ mode: "onChange" });
+
+  // =========== fetch project data if id exists ==========
+  const fetchProject = async () => {
+    try {
+      const response = await axiosInstance.get(
+        PROJECT_URLS.GET_PROJECT(Number(id))
+      );
+      const { title, description } = response.data;
+      reset({ title, description }); // put data into form
+      console.log("Fetched project data:", response.data);
+    } catch (error) {
+      toast.error("Failed to load project data");
+      console.error("Error fetching project data:", error);
+    }
+  };
 
   // =========== submit project form ==========
   const onSubmitProject = async (data: ProjectFormInputs) => {
@@ -41,6 +58,28 @@ export default function ProjectForm() {
       toast.error("Something went wrong!");
     }
   };
+
+  useEffect(
+    () => {
+      if (id) {
+        fetchProject(); // Fetch project data if editing
+      } else {
+        reset(); // Reset form for new project
+      }
+    },
+    [id, reset] // Run effect when id changes or on initial render
+  );
+
+  // =========== Render form ==========
+  if (!id && !reset) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       <div className="d-flex  flex-column px-5 py-4 mb-5 bg-white border border-start-0">
