@@ -15,6 +15,7 @@ import MyProjects from "./Pages/Employee/MyProjects/MyProjects.tsx";
 import MyTasks from "./Pages/Employee/MyTasks/MyTasks.tsx";
 import Users from "./Pages/Manager/users/Users.tsx";
 import { Toaster } from "react-hot-toast";
+import ProtectedRoute from "./components/protectedRoute/ProtectedRoute.tsx";
 
 function App() {
   const routes = createBrowserRouter([
@@ -34,7 +35,11 @@ function App() {
     },
     {
       path: "",
-      element: <MasterLayout />,
+      element: (
+        <ProtectedRoute>
+          <MasterLayout />
+        </ProtectedRoute>
+      ),
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Dashboard /> },

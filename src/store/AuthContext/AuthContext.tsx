@@ -5,7 +5,8 @@ import type { AuthContextType, DecodedTokenPayload } from "../../interfaces/inte
 
 const AuthContext = createContext<AuthContextType| undefined>(undefined);
 
-export default function AuthProvider({ children }:{children:ReactNode}) {
+export default function AuthProvider({ children }: { children: ReactNode }) {
+  
   const [loginData, setLoginData] = useState<DecodedTokenPayload | null>(null);
 
   const saveLoginData = async () => {

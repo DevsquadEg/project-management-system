@@ -7,6 +7,13 @@ export default function DeleteModal({
   itemName = "this item",
   title = "Delete Item",
   isSubmitting,
+}: {
+  show: boolean;
+  onClose: any;
+  itemName: string;
+  onConfirm: any;
+  title: string;
+  isSubmitting: boolean;
 }) {
   return (
     <Modal show={show} onHide={onClose} size="lg" centered>

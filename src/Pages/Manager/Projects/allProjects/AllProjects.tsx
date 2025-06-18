@@ -164,6 +164,7 @@ export default function AllProjects() {
             ))}
           </tbody>
         </table>
+        {/* ============== pagination ====================== */}
         <div className="d-flex justify-content-end align-items-center p-3    gap-5">
           <div className="d-flex align-items-center gap-2">
             <span>Showing</span>
@@ -173,7 +174,9 @@ export default function AllProjects() {
               value={pageSize}
               onChange={(e) => setPageSize(Number(e.target.value))}
             >
-              <option disabled hidden value={pageSize}>{pageSize}</option>
+              <option disabled hidden value={pageSize}>
+                {pageSize}
+              </option>
               <option value="2">2</option>
               <option value="4">4</option>
               <option value="20">20</option>
