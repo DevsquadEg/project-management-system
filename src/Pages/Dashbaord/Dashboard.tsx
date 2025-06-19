@@ -4,7 +4,7 @@ export default function Dashboard() {
   return (
     <>
       <Header />
-      <div className="">
+      <div className="container mt-5 ">
         <div className="row gy-4">
           {/* Tasks Section */}
           <div className="col-md-6">
