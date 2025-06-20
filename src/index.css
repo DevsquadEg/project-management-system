@@ -26,6 +26,11 @@ body {
   background: rgba(49, 89, 81, 0.9);
 }
 
+
+.register-img img{
+  border: 4px solid yellow;
+  cursor: pointer;
+}
 /* ======================================== */
 .custom-input {
   background-color: transparent !important;
