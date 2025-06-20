@@ -6,46 +6,52 @@ import NoDataImg from "../../../assets/NoData-Img.png";
 import { imgBaseURL } from "../../../service/api.js";
 import moment from "moment";
 import { useParams } from "react-router-dom";
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 export default function Users() {
   const params = useParams();
-  const [nameValue, setNameValue] = useState(""); //search
+  const [pageSize, setPageSize] = useState(10);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchTitle, setSearchTitle] = useState("");
+  const [totalNumberOfRecords, setTotalNumberOfRecords] = useState();
+
   const [userList, setUserList] = useState([]);
-  const [userId, setUserId] = useState(null);
-  const [viewList, setViewList] = useState([]);
+  const [viewList, setViewList] = useState<any | null>(null);
 
   // model bootstrap lists show
   const [showView, setShowView] = useState(false);
-  const handleCloseView = () => setShowView(false);
-  const handleShowView = (id: any) => {
-    setUserId(id);
+  const handleCloseView = () => {
+    setShowView(false);
+    setViewList(null);
+  };
+  const handleShowView = async (id: any) => {
+    await showUserList(id); // show without button
     setShowView(true);
   };
 
   // get users list
-  const getAllUsers = async (userName: any) => {
+  const getAllUsers = async (
+    userName: any,
+    pageSizeValue = pageSize,
+    page = pageNumber
+  ) => {
     try {
       let response: any = await axiosInstance.get(USERS_URL.GET_ALL_USERS, {
         params: {
-          pageSize: 10,
-          pageNumber: 1,
+          pageSize: pageSizeValue,
+          pageNumber: page,
           userName,
         },
       });
 
       console.log(response.data.data);
       setUserList(response.data.data);
+      setTotalPages(response.data.totalNumberOfPages);
+      setTotalNumberOfRecords(response.data.totalNumberOfRecords);
     } catch (error) {
       console.log(error);
     }
-  };
-
-  // search function
-  const getNameValue = (input: any) => {
-    setNameValue(input.target.value);
-    getAllUsers(input.target.value);
   };
 
   // block isActivated / not activate
@@ -55,7 +61,7 @@ export default function Users() {
       let response = await axiosInstance.put(USERS_URL.TOGGLE_USER(id));
       console.log(response);
       await getAllUsers("");
-      toast.success(" Statue has been Changed!");
+      toast.success("Statue has been Changed!");
     } catch (error) {
       console.log(error);
       toast.error("Something Wrong!");
@@ -63,9 +69,9 @@ export default function Users() {
   };
 
   // show modal function
-  const showUserList = async () => {
+  const showUserList = async (id: any) => {
     try {
-      let response: any = await axiosInstance.get(USERS_URL.GET_USER(userId));
+      let response: any = await axiosInstance.get(USERS_URL.GET_USER(id));
       console.log(response.data.data);
       setViewList(response.data);
     } catch (error) {
@@ -74,148 +80,73 @@ export default function Users() {
   };
 
   useEffect(() => {
-    getAllUsers("");
-  }, []);
+    setPageNumber(1);
+  }, [searchTitle, pageSize]);
+
+  useEffect(() => {
+    getAllUsers(searchTitle, pageSize, pageNumber);
+  }, [searchTitle, pageSize, pageNumber]);
 
   return (
     <>
-      <Modal show={showView} onHide={handleCloseView}>
-        <Modal.Header closeButton>
-          <h4 className="viewHead"> User Details </h4>
-        </Modal.Header>
-        <Modal.Body>
-          <div>
-            <div className=" d-flex justify-content-center  ">
-              {viewList?.imagePath === null ? (
-                <img
-                  className="  w-25 pb-4  rounded-3 "
-                  src={NoDataImg}
-                  alt="image"
-                />
-              ) : (
-                <img
-                  className=" w-50 pb-4 rounded-3 "
-                  src={`${imgBaseURL}${viewList.imagePath}`}
-                  alt="image"
-                />
-              )}
-            </div>
-            <h5>
-              {" "}
-              <span className="viewText"> ⭕ User Name : </span>{" "}
-              <span className="viewAnswer text-muted">
-                {" "}
-                {viewList.userName}{" "}
-              </span>
-            </h5>
-            <h5>
-              {" "}
-              <span className="viewText"> ⭕ Phone Number :</span>{" "}
-              <span className="viewAnswer text-muted">
-                {" "}
-                {viewList.phoneNumber}{" "}
-              </span>{" "}
-            </h5>
-            <h5>
-              {" "}
-              <span className="viewText"> ⭕ country :</span>{" "}
-              <span className="viewAnswer text-muted">
-                {" "}
-                {viewList.country}{" "}
-              </span>{" "}
-            </h5>
-            <h5>
-              {" "}
-              <span className="viewText"> ⭕ Email :</span>{" "}
-              <span className="viewAnswer text-muted"> {viewList.email} </span>{" "}
-            </h5>
-            <h5>
-              {" "}
-              <span className="viewText"> ⭕ Date Created :</span>{" "}
-              <span className="viewText text-muted   ">
-                {" "}
-                {viewList.creationDate}{" "}
-              </span>{" "}
-            </h5>
-            <h5>
-              {" "}
-              <span className="viewText"> ⭕ Modification Date :</span>{" "}
-              <span className="viewText text-muted  ">
-                {" "}
-                {viewList.modificationDate}{" "}
-              </span>{" "}
-            </h5>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="btn btn-outline-success" onClick={showUserList}>
-            View Category
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      <div className=" bg-white   py-3">
-        <h3 className=" ms-3  text-muted  ">Users</h3>
+      <div className="d-flex justify-content-between align-items-center px-5 py-4 mb-4 bg-white border border-start-0">
+        <h2>Users</h2>
       </div>
 
-      <div className="container-fluid mt-4 shadow-lg bg-light rounded-3">
-        {/* Search & Filter */}
-        <div className="d-flex gap-2">
-          {/* Search Input with Icon  */}
-
-          <div className="d-flex      justify-content-between  mb-3 input-group   ">
-            <div className="input-group w-25 pb-2 pt-4  ">
-              <span className="input-group-text bg-white border-0  ">
-                <i className="fas fa-search text-muted iconCustomize"></i>
-              </span>
-              <input
-                type="text"
-                className="form-control  border-0 "
-                placeholder="  Search Fleets"
-                aria-label="Username"
-                aria-describedby="visible-addon"
-                onChange={getNameValue}
-                style={{
-                  borderTopRightRadius: "2rem",
-                  borderBottomRightRadius: "2rem",
-                  borderLeft: "none", // Explicitly remove left border
-                  borderColor: "#ced4da", // Match Bootstrap's default input border color
-                }}
-              />
-              {/* Filter Button  */}
-
-              <div>
-                <button
-                  className="btn btn-outline-secondary rounded-5   ms-2 d-flex align-items-center   gap-2 "
-                  disabled
-                >
-                  <i className="fas fa-filter"></i>
-                  Filter
-                </button>
-              </div>
-            </div>
+      <div className="m-5 mt-4 bg-white rounded-4 shadow-sm">
+        {/* =========== search =========== */}
+        <div className="d-flex justify-content-between align-items-center">
+          <div className="input-group m-4 w-25">
+            <span className="input-group-text border-end-0 bg-white rounded-start-pill">
+              <i className="fa-solid fa-magnifying-glass text-secondary"></i>
+            </span>
+            <input
+              type="text"
+              className="form-control border-start-0 rounded-end-pill"
+              placeholder="Search By Title"
+              aria-label="Search"
+              aria-describedby="basic-addon1"
+              value={searchTitle}
+              onChange={(e) => setSearchTitle(e.target.value)}
+            />
           </div>
         </div>
 
-        {/* Loading State */}
-        {/* {loading && <Spinner animation="border" />} */}
-
-        {/* Error Message */}
-        {/* {error && <Alert variant="danger">{error}</Alert>} */}
-
-        {/* Users Table */}
-        {/* {!loading && !error && ( */}
         <>
-          <table className=" table table-striped text-center custom-table ">
-            <thead className=" table-dark ">
+          {/* ============== table ====================== */}
+          <table className="table table-striped table-hover table-bordered align-middle text-center mb-0  ">
+            <thead
+              className=" table table-success table-custom "
+              style={{ background: "rgba(49, 89, 81, 0.90)" }}
+            >
               <tr>
-                <th>User Name</th>
-                <th>Status</th>
-                <th>Images</th>
-                <th>Phone Number</th>
-                <th>Email</th>
-                <th>Date Created</th>
-                <th>Actions</th>
+                <th style={{ width: "15%" }}>
+                  <span>User Name </span>
+                  <i className="bi bi-chevron-expand ms-1 "></i>
+                </th>
+                <th style={{ width: "15%" }}>
+                  <span> Status</span>
+                  <i className="bi bi-chevron-expand ms-1 "></i>
+                </th>
+                <th style={{ width: "15%" }}>
+                  <span>Image </span>
+                  <i className="bi bi-chevron-expand ms-1 "></i>
+                </th>
+                <th style={{ width: "15%" }}>
+                  <span>Phone Number </span>
+                  <i className="bi bi-chevron-expand ms-1 "></i>
+                </th>
+                <th style={{ width: "15%" }}>
+                  <span>Email </span>
+                  <i className="bi bi-chevron-expand ms-1 "></i>
+                </th>
+                <th style={{ width: "15%" }}>
+                  <span className="text-center">Date created </span>
+                  <i className="bi bi-chevron-expand ms-1 "></i>
+                </th>
+                <th style={{ width: "15%" }}>
+                  <span>Actions </span>
+                </th>
               </tr>
             </thead>
 
@@ -308,11 +239,127 @@ export default function Users() {
               </>
             </tbody>
           </table>
-
-          <tfoot></tfoot>
         </>
-        {/* )} */}
+        {/* ============== pagination ====================== */}
+
+        <div className="d-flex justify-content-end align-items-center p-3    gap-5">
+          <div className="d-flex align-items-center gap-2">
+            <span>Showing</span>
+            <select
+              className="form-select border rounded-pill px-3 py-1"
+              style={{ width: "80px" }}
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+                setPageNumber(1);
+              }}
+            >
+              <option disabled hidden value={pageSize}>
+                {pageSize}
+              </option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+            </select>
+            <span>of {totalNumberOfRecords} Results</span>
+          </div>
+
+          <div className="d-flex align-items-center gap-3">
+            <span>
+              Page {pageNumber} of {totalPages}
+            </span>
+            <div className="d-flex gap-3">
+              <button
+                className="btn btn-white border-0 p-1"
+                disabled={pageNumber === 1}
+                onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}
+              >
+                <i className="bi bi-chevron-left fs-5 text-secondary"></i>
+              </button>
+              <button
+                className="btn btn-white border-0 p-1"
+                disabled={pageNumber === totalPages}
+                onClick={() =>
+                  setPageNumber((prev) => Math.min(prev + 1, totalPages))
+                }
+              >
+                <i className="bi bi-chevron-right fs-5 text-secondary"></i>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <Modal show={showView} onHide={handleCloseView}>
+        <Modal.Header closeButton>
+          <h4 className="viewHead"> User Details </h4>
+        </Modal.Header>
+        <Modal.Body>
+          <div>
+            <div className=" d-flex justify-content-center  ">
+              {viewList?.imagePath === null ? (
+                <img
+                  className="  w-25 pb-4  rounded-3 "
+                  src={NoDataImg}
+                  alt="image"
+                />
+              ) : (
+                <img
+                  className=" w-50 pb-4 rounded-3 "
+                  src={`${imgBaseURL}${viewList?.imagePath}`}
+                  alt="image"
+                />
+              )}
+            </div>
+            <h5>
+              {" "}
+              <span className="viewText"> ⭕ User Name : </span>{" "}
+              <span className="viewAnswer text-muted">
+                {" "}
+                {viewList?.userName}{" "}
+              </span>
+            </h5>
+            <h5>
+              {" "}
+              <span className="viewText"> ⭕ Phone Number :</span>{" "}
+              <span className="viewAnswer text-muted">
+                {" "}
+                {viewList?.phoneNumber}{" "}
+              </span>{" "}
+            </h5>
+            <h5>
+              {" "}
+              <span className="viewText"> ⭕ country :</span>{" "}
+              <span className="viewAnswer text-muted">
+                {" "}
+                {viewList?.country}{" "}
+              </span>{" "}
+            </h5>
+            <h5>
+              {" "}
+              <span className="viewText"> ⭕ Email :</span>{" "}
+              <span className="viewAnswer text-muted"> {viewList?.email} </span>{" "}
+            </h5>
+            <h5>
+              {" "}
+              <span className="viewText"> ⭕ Date Created :</span>{" "}
+              <span className="viewText text-muted   ">
+                {" "}
+                {viewList?.creationDate}{" "}
+              </span>{" "}
+            </h5>
+            <h5>
+              {" "}
+              <span className="viewText"> ⭕ Modification Date :</span>{" "}
+              <span className="viewText text-muted  ">
+                {" "}
+                {viewList?.modificationDate}{" "}
+              </span>{" "}
+            </h5>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }
