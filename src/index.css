@@ -63,7 +63,7 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s !important;
 }
 
-/* ================================================ */
+/* ============= sidebar-container =================================== */
 .sidebar-container .ps-sidebar-container {
   background-color: #0e382f;
   color: white;

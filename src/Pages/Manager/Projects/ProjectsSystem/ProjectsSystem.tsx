@@ -5,15 +5,14 @@ import { axiosInstance } from "@/service/urls";
 import { isAxiosError } from "axios";
 import DeleteModal from "@/components/DeleteModal/DeleteModal";
 import { useNavigate } from "react-router-dom";
-import { set } from "react-hook-form";
 
-export default function AllProjects() {
+export default function ProjectsSystem() {
   //=======  hooks ==============
   const navigate = useNavigate();
   //=======  states ==============
-  const [allProjects, setAllProjects] = useState([]);
+  const [allProjects, setAllProjects] = useState<any[]>([]);
   const [searchTitle, setSearchTitle] = useState("");
-  const [pageSize, setPageSize] = useState(3);
+  const [pageSize, setPageSize] = useState(11);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -23,23 +22,20 @@ export default function AllProjects() {
   const [totalNumberOfRecords, setTotalNumberOfRecords] = useState();
 
   //=======  get all projects ==============
-  const getAllProjects = async (
+  const getProjectsSystem = async (
     title = "",
     pageSizeValue = pageSize,
     page = pageNumber
   ) => {
     try {
-      const response = await axiosInstance.get(
-        PROJECT_URLS.GET_PROJECTS_BY_MANAGER,
-        {
-          params: {
-            title: title,
-            pageSize: pageSizeValue,
-            pageNumber: page,
-          },
-        }
-      );
-      console.log(response.data.totalNumberOfRecords);
+      const response = await axiosInstance.get(PROJECT_URLS.GET_ALL_PROJECTS, {
+        params: {
+          ...(title && { title }),
+          pageSize: pageSizeValue,
+          pageNumber: page,
+        },
+      });
+      console.log(response.data);
       setAllProjects(response.data.data);
       setTotalPages(response.data.totalNumberOfPages);
       setTotalNumberOfRecords(response.data.totalNumberOfRecords);
@@ -49,7 +45,6 @@ export default function AllProjects() {
       }
     }
   };
-
   // --------------- delete project -------------
   const onDeleteProject = async (id: number, onSuccess: any) => {
     try {
@@ -57,42 +52,28 @@ export default function AllProjects() {
       await axiosInstance.delete(PROJECT_URLS.DELETE_PROJECT(id));
       toast.success("Project Deleted Successfully");
       onSuccess();
-      getAllProjects();
+      await getProjectsSystem();
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Failed to delete project.");
     } finally {
       setIsSubmitting(false);
     }
   };
-
   //=======  useEffect ==============
   useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      setPageNumber(1); // Reset pagination
-    }, 500); // نص ثانية
-
-    return () => clearTimeout(delayDebounce);
+    setPageNumber(1); // Reset to first page when search changes
   }, [searchTitle, pageSize]);
 
   useEffect(() => {
-    getAllProjects(searchTitle, pageSize, pageNumber);
-    console.log(totalNumberOfRecords);
-  }, [searchTitle, pageSize, pageNumber]);
+    getProjectsSystem(searchTitle, pageSize, pageNumber);
+    // console.log(getProjectsSystem());
+  }, [pageNumber, searchTitle, pageSize]);
 
   return (
     <>
       <div className="d-flex justify-content-between align-items-center px-5 py-4 mb-4 bg-white border border-start-0">
-        <h2>Projects</h2>
-        <div>
-          <button
-            onClick={() => navigate("/projects/add")}
-            className="btn btn-lg bg-orange rounded-pill text-white px-5"
-          >
-            add new project
-          </button>
-        </div>
+        <h2>All Projects System</h2>
       </div>
-
       <div className="m-5 mt-4 bg-white rounded-4 shadow-sm">
         {/* =========== search =========== */}
         <div className="d-flex justify-content-between align-items-center">
@@ -129,7 +110,7 @@ export default function AllProjects() {
               </th>
 
               <th style={{ width: "15%" }}>
-                <span>Num Tasks</span>
+                <span>Admin</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
               <th style={{ width: "20%" }}>
@@ -143,20 +124,12 @@ export default function AllProjects() {
           </thead>
 
           <tbody>
-            {allProjects.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="text-center text-muted py-4">
-                  <div className="my-5">
-                    <i className="fa fa-spinner fa-spin fa-5x"></i>
-                  </div>
-                </td>
-              </tr>
-            ) : (
+            {allProjects.length > 0 ? (
               allProjects.map((project: any) => (
                 <tr key={project.id}>
                   <td>{project.title}</td>
                   <td>{project.description}</td>
-                  <td>{project.task.length}</td>
+                  <td>{project?.manager?.userName}</td>
                   <td>{new Date(project.creationDate).toLocaleDateString()}</td>
                   <td>
                     <div className="dropdown">
@@ -182,9 +155,9 @@ export default function AllProjects() {
                         </li>
                         <li>
                           <button
+                            disabled={isSubmitting}
                             onClick={() => {
                               setSelectedProject(project.id);
-                              // setModalType("delete");
                               setShowDeleteModal(true);
                             }}
                             className="dropdown-item d-flex align-items-center gap-2 text-danger"
@@ -197,6 +170,14 @@ export default function AllProjects() {
                   </td>
                 </tr>
               ))
+            ) : (
+              <tr>
+                <td colSpan={5} className="text-center text-muted py-4">
+                  <div className="my-5">
+                    <i className="fa fa-spinner fa-spin fa-5x"></i>
+                  </div>
+                </td>
+              </tr>
             )}
           </tbody>
         </table>
