@@ -17,52 +17,55 @@ import Users from "./Pages/Manager/users/Users.tsx";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute.tsx";
 import ProjectForm from "./Pages/Manager/Projects/ProjectForm/ProjectForm.tsx";
+import TaskForm from "./Pages/Manager/Tasks/TaskForm/TaskForm.tsx";
 
 function App() {
-  const routes = createBrowserRouter([
-    {
-      path: "/",
-      element: <AuthLayout />,
-      errorElement: <NotFound />,
-      children: [
-        { index: true, element: <Login /> },
-        { path: "login", element: <Login /> },
-        { path: "register", element: <Register /> },
-        { path: "reset-password", element: <ResetPassword /> },
-        { path: "forget-password", element: <ForgetPassword /> },
-        { path: "change-password", element: <ChangePassword /> },
-        { path: "verify-account", element: <VerifyEmail /> },
-      ],
-    },
-    {
-      path: "",
-      element: (
-        <ProtectedRoute>
-          <MasterLayout />
-        </ProtectedRoute>
-      ),
-      errorElement: <NotFound />,
-      children: [
-        { index: true, element: <Dashboard /> },
-        { path: "dashboard", element: <Dashboard /> },
-        { path: "projects", element: <AllProjects /> },
-        { path: "projects/add", element: <ProjectForm /> },
-        { path: "projects/edit/:id", element: <ProjectForm /> },
+    const routes = createBrowserRouter([
+        {
+            path: "/",
+            element: <AuthLayout />,
+            errorElement: <NotFound />,
+            children: [
+                { index: true, element: <Login /> },
+                { path: "login", element: <Login /> },
+                { path: "register", element: <Register /> },
+                { path: "reset-password", element: <ResetPassword /> },
+                { path: "forget-password", element: <ForgetPassword /> },
+                { path: "change-password", element: <ChangePassword /> },
+                { path: "verify-account", element: <VerifyEmail /> },
+            ],
+        },
+        {
+            path: "",
+            element: (
+                <ProtectedRoute>
+                    <MasterLayout />
+                </ProtectedRoute>
+            ),
+            errorElement: <NotFound />,
+            children: [
+                { index: true, element: <Dashboard /> },
+                { path: "dashboard", element: <Dashboard /> },
+                { path: "projects", element: <AllProjects /> },
+                { path: "projects/add", element: <ProjectForm /> },
+                { path: "projects/edit/:id", element: <ProjectForm /> },
 
-        { path: "tasks", element: <AllTasks /> },
-        { path: "users", element: <Users /> },
-        { path: "my-projects", element: <MyProjects /> },
-        { path: "my-tasks", element: <MyTasks /> },
-      ],
-    },
-  ]);
+                { path: "tasks", element: <AllTasks /> },
+                { path: "tasks/add", element: <TaskForm /> },
+                { path: "tasks/edit/:id", element: <TaskForm /> },
+                { path: "users", element: <Users /> },
+                { path: "my-projects", element: <MyProjects /> },
+                { path: "my-tasks", element: <MyTasks /> },
+            ],
+        },
+    ]);
 
-  return (
-    <>
-      <RouterProvider router={routes}></RouterProvider>
-      <Toaster />
-    </>
-  );
+    return (
+        <>
+            <RouterProvider router={routes}></RouterProvider>
+            <Toaster />
+        </>
+    );
 }
 
 export default App;
