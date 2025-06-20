@@ -8,41 +8,34 @@ import moment from "moment";
 import { useParams } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 
-
 export default function Users() {
-
   const params = useParams();
-    const [pageSize, setPageSize] = useState(10);
-    const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchTitle, setSearchTitle] = useState("");
   const [totalNumberOfRecords, setTotalNumberOfRecords] = useState();
 
-    
-
-
-
   const [userList, setUserList] = useState([]);
   const [viewList, setViewList] = useState<any | null>(null);
-  
 
   // model bootstrap lists show
   const [showView, setShowView] = useState(false);
   const handleCloseView = () => {
-    
     setShowView(false);
     setViewList(null);
-  }
-  const handleShowView = async(id: any) => {
-
+  };
+  const handleShowView = async (id: any) => {
     await showUserList(id); // show without button
     setShowView(true);
   };
 
-
-
   // get users list
-  const getAllUsers = async (userName: any, pageSizeValue= pageSize, page=pageNumber ) => {
+  const getAllUsers = async (
+    userName: any,
+    pageSizeValue = pageSize,
+    page = pageNumber
+  ) => {
     try {
       let response: any = await axiosInstance.get(USERS_URL.GET_ALL_USERS, {
         params: {
@@ -61,8 +54,6 @@ export default function Users() {
     }
   };
 
- 
-
   // block isActivated / not activate
 
   const toggleActivated = async (id: number) => {
@@ -70,7 +61,7 @@ export default function Users() {
       let response = await axiosInstance.put(USERS_URL.TOGGLE_USER(id));
       console.log(response);
       await getAllUsers("");
-       toast.success("Statue has been Changed!");
+      toast.success("Statue has been Changed!");
     } catch (error) {
       console.log(error);
       toast.error("Something Wrong!");
@@ -78,7 +69,7 @@ export default function Users() {
   };
 
   // show modal function
-  const showUserList = async (id :any) => {
+  const showUserList = async (id: any) => {
     try {
       let response: any = await axiosInstance.get(USERS_URL.GET_USER(id));
       console.log(response.data.data);
@@ -89,30 +80,21 @@ export default function Users() {
   };
 
   useEffect(() => {
-     setPageNumber(1);
-  
-   
+    setPageNumber(1);
   }, [searchTitle, pageSize]);
-  
 
   useEffect(() => {
-    getAllUsers(searchTitle, pageSize,pageNumber);
+    getAllUsers(searchTitle, pageSize, pageNumber);
   }, [searchTitle, pageSize, pageNumber]);
 
   return (
     <>
-     <div className="d-flex justify-content-between align-items-center px-5 py-4 mb-4 bg-white border border-start-0">
+      <div className="d-flex justify-content-between align-items-center px-5 py-4 mb-4 bg-white border border-start-0">
         <h2>Users</h2>
-      
       </div>
-   
 
-      
-          <div className="m-5 mt-4 bg-white rounded-4 shadow-sm">
-
-      
-        
-         {/* =========== search =========== */}
+      <div className="m-5 mt-4 bg-white rounded-4 shadow-sm">
+        {/* =========== search =========== */}
         <div className="d-flex justify-content-between align-items-center">
           <div className="input-group m-4 w-25">
             <span className="input-group-text border-end-0 bg-white rounded-start-pill">
@@ -124,48 +106,47 @@ export default function Users() {
               placeholder="Search By Title"
               aria-label="Search"
               aria-describedby="basic-addon1"
-               value={searchTitle}
+              value={searchTitle}
               onChange={(e) => setSearchTitle(e.target.value)}
             />
           </div>
         </div>
 
         <>
-         {/* ============== table ====================== */}
+          {/* ============== table ====================== */}
           <table className="table table-striped table-hover table-bordered align-middle text-center mb-0  ">
-            <thead className=" table table-success table-custom "
-            style={{ background: "rgba(49, 89, 81, 0.90)" }}>
-                
-
+            <thead
+              className=" table table-success table-custom "
+              style={{ background: "rgba(49, 89, 81, 0.90)" }}
+            >
               <tr>
                 <th style={{ width: "15%" }}>
                   <span>User Name </span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
-                  </th>
+                </th>
                 <th style={{ width: "15%" }}>
-                 <span> Status</span>
-                <i className="bi bi-chevron-expand ms-1 "></i>
-                 </th>
+                  <span> Status</span>
+                  <i className="bi bi-chevron-expand ms-1 "></i>
+                </th>
                 <th style={{ width: "15%" }}>
                   <span>Image </span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
-                  </th>
-               <th style={{ width: "15%" }}>
+                </th>
+                <th style={{ width: "15%" }}>
                   <span>Phone Number </span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
-                  </th>
+                </th>
                 <th style={{ width: "15%" }}>
                   <span>Email </span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
-                  </th>
+                </th>
                 <th style={{ width: "15%" }}>
                   <span className="text-center">Date created </span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
-                  </th>
+                </th>
                 <th style={{ width: "15%" }}>
                   <span>Actions </span>
-                  
-                  </th>
+                </th>
               </tr>
             </thead>
 
@@ -258,19 +239,20 @@ export default function Users() {
               </>
             </tbody>
           </table>
-
-          
         </>
-                {/* ============== pagination ====================== */}
+        {/* ============== pagination ====================== */}
 
-         <div className="d-flex justify-content-end align-items-center p-3    gap-5">
+        <div className="d-flex justify-content-end align-items-center p-3    gap-5">
           <div className="d-flex align-items-center gap-2">
             <span>Showing</span>
             <select
               className="form-select border rounded-pill px-3 py-1"
               style={{ width: "80px" }}
               value={pageSize}
-              onChange={(e) => setPageSize(Number(e.target.value))}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+                setPageNumber(1);
+              }}
             >
               <option disabled hidden value={pageSize}>
                 {pageSize}
@@ -307,10 +289,9 @@ export default function Users() {
             </div>
           </div>
         </div>
-       
       </div>
-     
-         <Modal show={showView} onHide={handleCloseView}>
+
+      <Modal show={showView} onHide={handleCloseView}>
         <Modal.Header closeButton>
           <h4 className="viewHead"> User Details </h4>
         </Modal.Header>
@@ -378,7 +359,6 @@ export default function Users() {
             </h5>
           </div>
         </Modal.Body>
-       
       </Modal>
     </>
   );
