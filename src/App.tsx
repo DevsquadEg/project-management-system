@@ -18,6 +18,7 @@ import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute.tsx";
 import ProjectForm from "./Pages/Manager/Projects/ProjectForm/ProjectForm.tsx";
 import ProjectsSystem from "./Pages/Manager/Projects/ProjectsSystem/ProjectsSystem.tsx";
+import Profile from "./components/profile/Profile.tsx";
 
 function App() {
   const routes = createBrowserRouter([
@@ -54,6 +55,8 @@ function App() {
         { path: "projects/edit/:id", element: <ProjectForm /> },
         { path: "tasks", element: <AllTasks /> },
         { path: "users", element: <Users /> },
+
+        { path: "profile", element: <Profile /> },
 
         // Employee routes
         { path: "my-projects", element: <MyProjects /> },

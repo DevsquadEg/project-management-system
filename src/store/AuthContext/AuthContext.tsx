@@ -11,12 +11,15 @@ import type {
   AuthContextType,
   DecodedTokenPayload,
 } from "../../interfaces/interfaces";
+import { USERS_URL } from "@/service/api";
+import { axiosInstance } from "@/service/urls";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [loginData, setLoginData] = useState<DecodedTokenPayload | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [fullUserData, setFullUserData] = useState(null);
 
   const saveLoginData = async () => {
     try {
@@ -33,9 +36,20 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const getCurrentUser = async () => {
+    try {
+      const res = await axiosInstance.get(USERS_URL.GET_CURRENT_USER);
+      setFullUserData(res.data);
+      console.log(res.data);
+    } catch (err) {
+      console.error("Failed to fetch user data", err);
+    }
+  };
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
       saveLoginData();
+      getCurrentUser();
     } else {
       setLoginData(null);
       setIsLoading(false); // no token, stop loading anyway
@@ -44,7 +58,14 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ loginData, setLoginData, saveLoginData, isLoading }}
+      value={{
+        loginData,
+        setLoginData,
+        saveLoginData,
+        isLoading,
+        setFullUserData,
+        fullUserData,
+      }}
     >
       {children}
     </AuthContext.Provider>
