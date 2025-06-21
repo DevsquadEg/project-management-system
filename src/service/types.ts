@@ -46,3 +46,10 @@ export type UsersSelectProps = {
     usersHasMore: boolean;
     fetchMoreUsers: () => void;
 };
+
+export type TaskFormInputs = {
+    title: string;
+    description: string;
+    employeeId: string;
+    projectId: string;
+};

@@ -9,9 +9,9 @@ import "./index.css";
 import AuthProvider from "./store/AuthContext/AuthContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
-  </StrictMode>
+    <StrictMode>
+        <AuthProvider>
+            <App />
+        </AuthProvider>
+    </StrictMode>
 );
