@@ -5,7 +5,6 @@ import { axiosInstance } from "@/service/urls";
 import { isAxiosError } from "axios";
 import DeleteModal from "@/components/DeleteModal/DeleteModal";
 import { useNavigate } from "react-router-dom";
-import { set } from "react-hook-form";
 
 export default function AllProjects() {
   //=======  hooks ==============
@@ -33,7 +32,7 @@ export default function AllProjects() {
         PROJECT_URLS.GET_PROJECTS_BY_MANAGER,
         {
           params: {
-            title: title,
+            ...(title && { title }),
             pageSize: pageSizeValue,
             pageNumber: page,
           },
@@ -67,11 +66,23 @@ export default function AllProjects() {
 
   //=======  useEffect ==============
   useEffect(() => {
+<<<<<<< HEAD
     const delayDebounce = setTimeout(() => {
       setPageNumber(1); // Reset pagination
     }, 500); 
 
     return () => clearTimeout(delayDebounce);
+=======
+<<<<<<< Updated upstream
+    setPageNumber(1); // Reset to first page when search changes
+=======
+    const delayDebounce = setTimeout(() => {
+      setPageNumber(1); // Reset pagination
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
+>>>>>>> Stashed changes
+>>>>>>> notfound
   }, [searchTitle, pageSize]);
 
   useEffect(() => {
