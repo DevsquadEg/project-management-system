@@ -75,8 +75,8 @@ export default function AllProjects() {
 
   useEffect(() => {
     getAllProjects(searchTitle, pageSize, pageNumber);
-    console.log(totalNumberOfRecords);
-  }, [searchTitle, pageSize, pageNumber]);
+    // console.log(totalNumberOfRecords);
+  }, [pageNumber, searchTitle, pageSize]);
 
   return (
     <>
