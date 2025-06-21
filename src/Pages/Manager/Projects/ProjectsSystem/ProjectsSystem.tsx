@@ -61,7 +61,11 @@ export default function ProjectsSystem() {
   };
   //=======  useEffect ==============
   useEffect(() => {
-    setPageNumber(1); // Reset to first page when search changes
+    const delayDebounce = setTimeout(() => {
+      setPageNumber(1); // Reset pagination
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
   }, [searchTitle, pageSize]);
 
   useEffect(() => {
