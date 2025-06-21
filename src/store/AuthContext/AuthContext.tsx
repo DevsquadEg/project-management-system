@@ -65,6 +65,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         isLoading,
         setFullUserData,
         fullUserData,
+        getCurrentUser,
       }}
     >
       {children}

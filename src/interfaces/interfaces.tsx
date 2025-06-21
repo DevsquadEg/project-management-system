@@ -30,6 +30,7 @@ export interface AuthContextType {
   isLoading: boolean;
   fullUserData: any;
   setFullUserData: React.Dispatch<React.SetStateAction<any>>;
+  getCurrentUser : () => Promise<void>;
 }
 
 
