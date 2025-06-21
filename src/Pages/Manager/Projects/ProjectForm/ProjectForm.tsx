@@ -46,13 +46,13 @@ export default function ProjectForm() {
         // Update existing project
         await axiosInstance.put(PROJECT_URLS.UPDATE_PROJECT(Number(id)), data);
         toast.success("Project updated");
-        navigate("/projects");
+        navigate("/projects-manage");
         return;
       } else {
         // Create new project
         await axiosInstance.post(PROJECT_URLS.CREATE_PROJECT, data);
         toast.success("Project created");
-        navigate("/projects");
+        navigate("/projects-manage");
       }
     } catch (error) {
       toast.error("Something went wrong!");
@@ -84,7 +84,7 @@ export default function ProjectForm() {
     <>
       <div className="d-flex  flex-column px-5 py-4 mb-5 bg-white border border-start-0">
         <div
-          onClick={() => navigate("/projects")}
+          onClick={() => navigate("/projects-manage")}
           className="d-flex align-items-center  gap-3 mb-3 text-muted"
           style={{ cursor: "pointer" }}
         >
@@ -138,7 +138,7 @@ export default function ProjectForm() {
             <button
               type="button"
               className="btn btn-outline-dark rounded-pill px-4"
-              onClick={() => navigate("/projects")}
+              onClick={() => navigate("/projects-manage")}
             >
               Cancel
             </button>

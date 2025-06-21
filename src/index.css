@@ -63,7 +63,7 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s !important;
 }
 
-/* ================================================ */
+/* ============= sidebar-container =================================== */
 .sidebar-container .ps-sidebar-container {
   background-color: #0e382f;
   color: white;
@@ -220,9 +220,10 @@ input:-webkit-autofill:active {
 
 /* users list */
 .img-table {
-  width: 40px;
+  width: 50px;
   height: 50px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .dotsCustomize {
