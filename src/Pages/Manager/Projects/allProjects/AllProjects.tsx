@@ -66,23 +66,11 @@ export default function AllProjects() {
 
   //=======  useEffect ==============
   useEffect(() => {
-<<<<<<< HEAD
-    const delayDebounce = setTimeout(() => {
-      setPageNumber(1); // Reset pagination
-    }, 500); 
-
-    return () => clearTimeout(delayDebounce);
-=======
-<<<<<<< Updated upstream
-    setPageNumber(1); // Reset to first page when search changes
-=======
     const delayDebounce = setTimeout(() => {
       setPageNumber(1); // Reset pagination
     }, 500);
 
     return () => clearTimeout(delayDebounce);
->>>>>>> Stashed changes
->>>>>>> notfound
   }, [searchTitle, pageSize]);
 
   useEffect(() => {
