@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import DeleteModal from "@/components/DeleteModal/DeleteModal";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-const StatusInfo = ({ status }) => {
+const StatusInfo = ({ status }:any) => {
     const inProgressBgColor = "#EF9B28";
     const doneBgColor = "#009247";
     const todoBgColor = "#E4E1F5";
