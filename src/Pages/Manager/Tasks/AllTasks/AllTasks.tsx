@@ -244,17 +244,21 @@ export default function AllTasks() {
                                 </td>
                             </tr>
                         ))}
+                        {loading && allTasks.length === 0 && (
+                            <tr>
+                                <td
+                                    colSpan={6}
+                                    className="text-center text-muted py-4"
+                                >
+                                    <div className="my-5">
+                                        <i className="fa fa-spinner fa-spin fa-5x"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
-                {loading && allTasks.length === 0 && (
-                    <div className="p-3">
-                        <Skeleton
-                            height={30}
-                            containerClassName="d-flex flex-column gap-1"
-                            count={2}
-                        />
-                    </div>
-                )}
+
                 {allTasks.length === 0 && !loading && (
                     <h5 className="text-muted text-center p-3 fs-2">
                         Found No Tasks!
