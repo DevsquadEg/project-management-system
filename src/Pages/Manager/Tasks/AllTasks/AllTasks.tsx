@@ -5,9 +5,8 @@ import { axiosInstance } from "@/service/urls";
 import { isAxiosError } from "axios";
 import toast from "react-hot-toast";
 import DeleteModal from "@/components/DeleteModal/DeleteModal";
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-const StatusInfo = ({ status }:any) => {
+const StatusInfo = ({ status }: any) => {
     const inProgressBgColor = "#EF9B28";
     const doneBgColor = "#009247";
     const todoBgColor = "#E4E1F5";
@@ -89,7 +88,7 @@ export default function AllTasks() {
         }
     };
 
-    // --------------- delete project -------------
+    // --------------- delete task -------------
     const onDeleteTask = async (id: number, onSuccess: any) => {
         try {
             setIsSubmitting(true);
@@ -212,6 +211,21 @@ export default function AllTasks() {
                                             <li>
                                                 <button
                                                     className="dropdown-item d-flex align-items-center gap-2 text-success"
+                                                    onClick={
+                                                        () =>
+                                                            navigate(
+                                                                `/tasks/${task.id}`
+                                                            )
+                                                        // console.log(task.id)
+                                                    }
+                                                >
+                                                    <i className="bi bi-eye  text-success"></i>{" "}
+                                                    View
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button
+                                                    className="dropdown-item d-flex align-items-center gap-2 text-success"
                                                     onClick={() =>
                                                         navigate(
                                                             `/tasks/edit/${task.id}`
@@ -260,7 +274,7 @@ export default function AllTasks() {
                 </table>
 
                 {allTasks.length === 0 && !loading && (
-                    <h5 className="text-muted text-center p-3 fs-2">
+                    <h5 className="text-muted text-center py-5 fs-2">
                         Found No Tasks!
                     </h5>
                 )}

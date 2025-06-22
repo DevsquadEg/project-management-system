@@ -20,6 +20,7 @@ import ProjectForm from "./Pages/Manager/Projects/ProjectForm/ProjectForm.tsx";
 import ProjectsSystem from "./Pages/Manager/Projects/ProjectsSystem/ProjectsSystem.tsx";
 import Profile from "./components/profile/Profile.tsx";
 import TaskForm from "./Pages/Manager/Tasks/TaskForm/TaskForm.tsx";
+import TaskDetails from "./Pages/Manager/Tasks/TaskDetails/TaskDetails.tsx";
 
 function App() {
     const routes = createBrowserRouter([
@@ -57,9 +58,10 @@ function App() {
                 { path: "tasks", element: <AllTasks /> },
                 { path: "tasks/add", element: <TaskForm /> },
                 { path: "tasks/edit/:id", element: <TaskForm /> },
+                { path: "tasks/:id", element: <TaskDetails /> },
                 { path: "users", element: <Users /> },
 
-        { path: "profile", element: <Profile /> },
+                { path: "profile", element: <Profile /> },
 
                 // Employee routes
                 { path: "my-projects", element: <MyProjects /> },
