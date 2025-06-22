@@ -10,7 +10,6 @@ import { axiosInstance } from "@/service/urls";
 import validation from "@/service/validation";
 import SubmitBtn from "@/components/auth/SubmitBtn";
 import avatar from "../../../assets/register-img.png"
-// import {EMAIL_VALIDATION, PASSWORD_VALIDATION}from "../../../service/validators"
 
 const countriesList = Object.values(countries)
   .map((country) => ({
