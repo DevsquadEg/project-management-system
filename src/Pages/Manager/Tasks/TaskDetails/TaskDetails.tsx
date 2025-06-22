@@ -104,10 +104,12 @@ export default function TaskDetails() {
 
             {/* display task data [title, description, status, modification data, creation date, project [title, description, creation date, modification date], employee [userName, email]] */}
             {task && (
-                <div className="d-flex bg-white border border-start-0 px-5 py-4 mb-5 justify-content-between">
+                <div className="d-flex bg-white border border-start-0 px-5 py-4 mb-5 justify-content-between rounded-3 m-3">
                     <div className="d-flex flex-column gap-3">
                         <div className="d-flex flex-column">
-                            <h5>Task Details</h5>
+                            <h5 className="fw-bold text-center">
+                                Task Details
+                            </h5>
                             <div className="d-flex align-items-center gap-3">
                                 <span className="fw-bold">Title:</span>
                                 <span>{task.title}</span>
@@ -141,7 +143,9 @@ export default function TaskDetails() {
                             </div>
                         </div>
                         <div className="d-flex flex-column">
-                            <h5>Project Details</h5>
+                            <h5 className="fw-bold text-center">
+                                Project Details
+                            </h5>
                             <div className="d-flex align-items-center gap-3">
                                 <span className="fw-bold">Title:</span>
                                 <span>{task.project.title}</span>
@@ -170,8 +174,8 @@ export default function TaskDetails() {
                             </div>
                         </div>
                     </div>
-                    <div className="d-flex flex-column align-items-center">
-                        <h5>Assigned To</h5>
+                    <div className="d-flex flex-column align-items-center justify-content-evenly">
+                        <h5 className="fw-bold text-center">Assigned To</h5>
                         {/* employee image */}
                         <div
                             className="img-container rounded-circle d-flex justify-content-center border-1 overflow-auto"
