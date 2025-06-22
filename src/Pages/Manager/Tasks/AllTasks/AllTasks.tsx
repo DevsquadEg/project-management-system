@@ -274,7 +274,7 @@ export default function AllTasks() {
                 </table>
 
                 {allTasks.length === 0 && !loading && (
-                    <h5 className="text-muted text-center p-3 fs-2">
+                    <h5 className="text-muted text-center py-5 fs-2">
                         Found No Tasks!
                     </h5>
                 )}
