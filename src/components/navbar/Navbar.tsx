@@ -55,7 +55,10 @@ export default function Navbar() {
                     >
                         <img
                             //   src="https://randomuser.me/api/portraits/men/75.jpg"
-                            src={`${imgBaseURL}${fullUserData?.imagePath}`}
+                            src={`${imgBaseURL}${
+                                fullUserData?.imagePath ||
+                                "files/users/images/806profile.jpeg"
+                            }`}
                             alt="user"
                             className="rounded-circle"
                             width="40"
