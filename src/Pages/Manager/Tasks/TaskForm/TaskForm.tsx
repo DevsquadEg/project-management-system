@@ -108,7 +108,7 @@ export default function TaskForm() {
     // };
 
     // =========== fetch users ==========
-    const fetchUsers = async (page = 1, pageSize = 10) => {
+    const fetchUsers = async (page = 1, pageSize = 1000) => {
         try {
             const response = await axiosInstance.get(USERS_URL.GET_ALL_USERS, {
                 params: {
