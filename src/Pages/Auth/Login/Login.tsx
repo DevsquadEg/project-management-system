@@ -28,7 +28,7 @@ export default function Login() {
   const onSubmit = async (data: FormLoginProps) => {
     try {
       const response = await axiosInstance.post(USERS_URL.LOGIN, data);
-      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("token", response?.data?.token);
       await saveLoginData();
       toast.success("Login success!");
       navigate("/dashboard", { replace: true });
@@ -56,7 +56,7 @@ export default function Login() {
 
         {/* E-mail */}
         <div className="mb-3">
-          <label htmlFor="email" className="form-label text-warning fw-normal">
+          <label htmlFor="email" className="form-label fw-normal">
             E-mail
           </label>
 
@@ -66,13 +66,7 @@ export default function Login() {
                 id="email"
                 type="email"
                 placeholder="Enter your E-mail"
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: validation.EMAIL_VALIDATION,
-                    message: "Email Must Be Valid",
-                  },
-                })}
+                {...register("email", validation.EMAIL_VALIDATION)}
                 className="form-control custom-input"
               />
             </div>

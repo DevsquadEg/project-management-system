@@ -183,8 +183,8 @@ export default function Register() {
           <div className="position-relative">
             <label
               htmlFor="password"
-              className="d-block"
-              style={{ color: "#EF9B28" }}
+              className="d-block form-label fw-normal"
+             
             >
               Password
             </label>

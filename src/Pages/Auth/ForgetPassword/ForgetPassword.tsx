@@ -10,29 +10,28 @@ import SubmitBtn from "@/components/auth/SubmitBtn";
 
 export default function ForgetPassword() {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors ,isSubmitting},
   } = useForm();
 
   // =========== submit login ========
   const onSubmit = async (data: any) => {
-    setIsLoading(true);
+
     try {
       const response: any = await axiosInstance.post(
         USERS_URL.RESET_REQUEST,
         data
       );
-
       toast.success("Reset OTP sent Successfully, Please check your Email!");
       navigate("/reset-password", { state: { email: data.email } });
-    } catch (error) {
-      console.log(error);
+    } catch (error:any) {
+      // console.log(error);
       toast.error(error?.response?.data?.message || "Something went wrong");
     }
-    setIsLoading(false);
+   
   };
   return (
     <>
@@ -42,7 +41,7 @@ export default function ForgetPassword() {
       >
         <div className="d-flex flex-column gap-1 ">
           <small className="text-white">welcome to PMS</small>
-          <h2 className="section-title">Forget Password</h2>
+          <h1 className="section-title">Forget Password</h1>
         </div>
 
         {/* E-mail */}
@@ -62,7 +61,9 @@ export default function ForgetPassword() {
               />
             </div>
           </div>
-          <span className="text-danger">{errors.email?.message}</span>
+          {errors?.email && (
+            <span className="text-danger">{errors?.email?.message}</span>)
+          }
         </div>
         <div className="   ">
           <Link
@@ -74,7 +75,7 @@ export default function ForgetPassword() {
         </div>
         {/* Submit */}
         <div className="d-grid">
-          <SubmitBtn isSubmitting={isLoading} title="Update Password" />
+          <SubmitBtn isSubmitting={isSubmitting} title="Update Password" />
         </div>
       </form>
     </>
