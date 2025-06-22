@@ -16,7 +16,7 @@ import SubmitBtn from "@/components/auth/SubmitBtn";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { saveLoginData, loginData } = useAuth();
+  const { saveLoginData, loginData }:any = useAuth();
   const [isPassVisible, setIsPassVisible] = useState(false); // eye flash old password
   const {
     register,
@@ -28,11 +28,13 @@ export default function Login() {
   const onSubmit = async (data: FormLoginProps) => {
     try {
       const response = await axiosInstance.post(USERS_URL.LOGIN, data);
+      console.log(response);
       localStorage.setItem("token", response?.data?.token);
       await saveLoginData();
       toast.success("Login success!");
       navigate("/dashboard", { replace: true });
-    } catch (error) {
+    } catch (error:any) {
+      console.log(error?.response?.data?.message);
       if (isAxiosError(error))
         toast.error(error?.response?.data?.message || "Something went wrong");
     }
