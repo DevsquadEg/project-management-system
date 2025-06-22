@@ -23,9 +23,14 @@ export interface  FormInfo {
 
 export interface AuthContextType {
   loginData: DecodedTokenPayload | null;
-  setLoginData: React.Dispatch<React.SetStateAction<DecodedTokenPayload | null>>;
+  setLoginData: React.Dispatch<
+    React.SetStateAction<DecodedTokenPayload | null>
+  >;
   saveLoginData: () => Promise<void>;
   isLoading: boolean;
+  fullUserData: any;
+  setFullUserData: React.Dispatch<React.SetStateAction<any>>;
+  getCurrentUser : () => Promise<void>;
 }
 
 

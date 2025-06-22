@@ -6,7 +6,7 @@ export default function Header({
 }: any) {
   return (
     <>
-      <div className="header-container d-flex justify-content-between align-items-center p-md-5 mb-4 ">
+      <div className="header-container d-flex justify-content-between align-items-center p-md-5 mb-4 m-4 ">
         <div className="caption text-white ">
           <div className="mb-3 ">
             <span className="h1 ">{title || "Welcome"}</span>
