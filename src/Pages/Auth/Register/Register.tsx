@@ -9,7 +9,7 @@ import { USERS_URL } from "@/service/api";
 import { axiosInstance } from "@/service/urls";
 import validation from "@/service/validation";
 import SubmitBtn from "@/components/auth/SubmitBtn";
-import avatar from "../../../assets/Avatar.png"
+import avatar from "../../../assets/register-img.png"
 // import {EMAIL_VALIDATION, PASSWORD_VALIDATION}from "../../../service/validators"
 
 const countriesList = Object.values(countries)
@@ -162,7 +162,7 @@ useEffect(() => {
 
           <h2 className="section-title"> Create New Account</h2>
 
-           <div className="img rounded-circle register-img  " style={{width:60 , height:60,}}>
+           <div className="img rounded-circle  " style={{width:60 , height:60,}}>
             <img className="rounded-circle" onClick={handleClickImg} src={ reviewImage || avatar} alt="avatar-imge" style={{width:60 , height:60,}} />
             <input
             {...register("profileImage",{
