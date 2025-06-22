@@ -38,13 +38,18 @@ export default function Navbar() {
                         >
                             1
                         </span>
-                    </div>
+            </div>
+                    {/* <!-- Divider --> */}
                     <div
                         className="border-start mx-2"
                         style={{
-                            height: "30px",
-                            borderColor: "#eee",
-                            opacity: 0.5,
+                            height: "40px",
+                            width: "2px",
+                            marginTop: "5px",
+                            backgroundColor: "#eee",
+                          opacity: "1",
+                            
+                            
                         }}
                     ></div>
                     {/* <!-- User avatar --> */}
