@@ -4,13 +4,12 @@ import EditUserModal from "../EditUserModal/EditUserModal";
 import { useState } from "react";
 
 export default function Profile() {
-  const { fullUserData, getCurrentUser }:any = useAuth();
+  const { fullUserData, getCurrentUser }: any = useAuth();
   const [showModal, setShowModal] = useState(false);
 
   const handleClose = () => setShowModal(false);
   const handleOpen = () => setShowModal(true);
 
-    
   const refreshProfile = () => {
     getCurrentUser();
   };
@@ -24,10 +23,10 @@ export default function Profile() {
 
   return (
     <>
-      <div className="container py-5">
-        <div className="row justify-content-center">
-          <div className="col-md-7 col-lg-6">
-            <div className="card shadow border-0 rounded-4">
+      <div className="container py-5 ">
+        <div className="row justify-content-center py-5">
+          <div className="col-md-7 col-lg-6  py-5">
+            <div className="card shadow border-0 rounded-4 p-lg-4">
               <div className="card-body p-4 text-center">
                 <div className="mb-4">
                   <img
@@ -81,19 +80,20 @@ export default function Profile() {
                     </span>
                   </li>
                 </ul>
-
-                <button
-                  onClick={handleOpen}
-                  className="btn btn-primary rounded-3 px-4 py-2 d-flex align-items-center gap-2 shadow-sm"
-                  style={{
-                    fontWeight: "500",
-                    fontSize: "16px",
-                    transition: "all 0.3s",
-                  }}
-                >
-                  <i className="fa-solid fa-pen-to-square"></i>
-                  Edit Profile
-                </button>
+                <div className="d-flex justify-content-center">
+                  <button
+                    onClick={handleOpen}
+                    className="btn btn-outline-success rounded-pill px-4 py-2 d-flex align-items-center gap-2 shadow-sm"
+                    style={{
+                      fontWeight: "500",
+                      fontSize: "16px",
+                      transition: "all 0.3s",
+                    }}
+                  >
+                    <i className="fa-solid fa-pen-to-square"></i>
+                    Edit Profile
+                  </button>
+                </div>
               </div>
             </div>
           </div>
