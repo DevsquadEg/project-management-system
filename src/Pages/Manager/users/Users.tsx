@@ -171,7 +171,7 @@ export default function Users() {
                           {user?.imagePath === null ? (
                             <img
                               className="img-table"
-                              src={NoDataImg}
+                              src={`${imgBaseURL}${`files/users/images/806profile.jpeg`}`}
                               alt="image"
                             />
                           ) : (
