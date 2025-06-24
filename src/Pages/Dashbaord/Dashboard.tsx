@@ -1,6 +1,21 @@
 import Header from "../../components/Header/Header";
+import { AgCharts } from "ag-charts-react";
+import { AgChartOptions } from "ag-charts-community";
+import { useState } from "react";
 
+
+function getData() {
+  return [
+    { asset: "Stocks", amount: 60000 },
+    { asset: "Bonds", amount: 40000 },
+    { asset: "Cash", amount: 7000 },
+    { asset: "Real Estate", amount: 5000 },
+    { asset: "Commodities", amount: 3000 },
+  ];
+}
 export default function Dashboard() {
+
+const [users, setUsers] = useState([])
   return (
     <>
       <Header />
