@@ -1,5 +1,5 @@
 import { imgBaseURL, TASK_URLS } from "@/service/api";
-import type { TaskType } from "@/service/types";
+import type { TaskType } from "@/interfaces/interfaces";
 import { axiosInstance } from "@/service/urls";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";

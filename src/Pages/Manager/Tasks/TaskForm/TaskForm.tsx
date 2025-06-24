@@ -7,7 +7,7 @@ import type {
   TaskType,
   ProjectType,
   TaskFormInputs,
-} from "@/service/types";
+} from "@/interfaces/interfaces";
 import { axiosInstance } from "@/service/urls";
 import { useEffect, useState } from "react";
 

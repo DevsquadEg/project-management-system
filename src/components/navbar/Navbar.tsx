@@ -21,6 +21,7 @@ export default function Navbar() {
     logOutUser();
     navigate("/login");
   };
+
   // ===========================
   useEffect(() => {
     console.log("Login Data in Navbar:", loginData);
@@ -132,7 +133,7 @@ export default function Navbar() {
                       icon: "warning",
                       confirmButtonText: "Logout",
                       showCloseButton: true,
-                    }).then((result) => {
+                    }).then((result:any) => {
                       if (result.isConfirmed) {
                         logOut();
                       }

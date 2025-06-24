@@ -65,58 +65,68 @@ export default function SideBar() {
               Home
             </MenuItem>
 
-            {loginData?.userGroup == "Manager" ? <MenuItem
-              className={location.pathname === "/users" ? "active-menu" : ""}
-              icon={<i className="fa-solid fa-users"></i>}
-              component={<Link to="/users" />}
-            >
-              Users
-            </MenuItem> : "" }
+            {loginData?.userGroup == "Manager" ? (
+              <MenuItem
+                className={location.pathname === "/users" ? "active-menu" : ""}
+                icon={<i className="fa-solid fa-users"></i>}
+                component={<Link to="/users" />}
+              >
+                Users
+              </MenuItem>
+            ) : (
+              ""
+            )}
 
             <MenuItem
               className={
                 location.pathname === "/projects-manage" ? "active-menu" : ""
               }
-              icon={<i className="fa-solid fa-diagram-project"></i>}
+              icon={<i className="fa-solid fa-briefcase"></i>}
               component={<Link to="/projects-manage" />}
             >
               Projects
             </MenuItem>
-            {loginData?.userGroup == "Manager" ? <MenuItem
-              className={
-                location.pathname === "/projects-system" ? "active-menu" : ""
-              }
-              icon={<i className="fa-solid fa-diagram-project"></i>}
-              component={<Link to="/projects-system" />}
-            >
-              Projects System
-            </MenuItem> : "" }
+            {loginData?.userGroup == "Manager" ? (
+              <MenuItem
+                className={
+                  location.pathname === "/projects-system" ? "active-menu" : ""
+                }
+                icon={<i className="fa-solid fa-diagram-project"></i>}
+                component={<Link to="/projects-system" />}
+              >
+                Projects System
+              </MenuItem>
+            ) : (
+              ""
+            )}
 
-            {loginData?.userGroup == "Manager" ? <MenuItem
-              className={location.pathname === "/tasks" ? "active-menu" : ""}
-              icon={<i className="fa-solid fa-list-check"></i>}
-              component={<Link to="/tasks" />}
-            >
-              All Tasks
-            </MenuItem> : "" }
+            {loginData?.userGroup == "Manager" ? (
+              <MenuItem
+                className={location.pathname === "/tasks" ? "active-menu" : ""}
+                icon={<i className="fa-solid fa-list-check"></i>}
+                component={<Link to="/tasks" />}
+              >
+                All Tasks
+              </MenuItem>
+            ) : (
+              ""
+            )}
 
-              {loginData?.userGroup == "Manager" ? <MenuItem
-              className={
-                location.pathname === "/my-projects" ? "active-menu" : ""
-              }
-              icon={<i className="fa-solid fa-briefcase"></i>}
-              component={<Link to="/my-projects" />}
-            >
-              My Projects
-            </MenuItem> : "" }
+            
 
-               {loginData?.userGroup != "Manager" ? <MenuItem
-              className={location.pathname === "/my-tasks" ? "active-menu" : ""}
-              icon={<i className="fa-solid fa-check-double"></i>}
-              component={<Link to="/my-tasks" />}
-            >
-              My Tasks
-            </MenuItem> : "" }
+            {loginData?.userGroup != "Manager" ? (
+              <MenuItem
+                className={
+                  location.pathname === "/my-tasks" ? "active-menu" : ""
+                }
+                icon={<i className="fa-solid fa-check-double"></i>}
+                component={<Link to="/my-tasks" />}
+              >
+                My Tasks
+              </MenuItem>
+            ) : (
+              ""
+            )}
           </Menu>
         </Sidebar>
       </div>

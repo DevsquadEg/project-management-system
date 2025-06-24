@@ -11,7 +11,6 @@ import MasterLayout from "./layouts/MasterLayout/MasterLayout.tsx";
 import Dashboard from "./Pages/Dashbaord/Dashboard.tsx";
 import AllProjects from "./Pages/Manager/Projects/allProjects/AllProjects.tsx";
 import AllTasks from "./Pages/Manager/Tasks/AllTasks/AllTasks.tsx";
-import MyProjects from "./Pages/Employee/MyProjects/MyProjects.tsx";
 import MyTasks from "./Pages/Employee/MyTasks/MyTasks.tsx";
 import Users from "./Pages/Manager/users/Users.tsx";
 import { Toaster } from "react-hot-toast";
@@ -23,59 +22,59 @@ import TaskForm from "./Pages/Manager/Tasks/TaskForm/TaskForm.tsx";
 import TaskDetails from "./Pages/Manager/Tasks/TaskDetails/TaskDetails.tsx";
 
 function App() {
-    const routes = createBrowserRouter([
-        {
-            path: "/",
-            element: <AuthLayout />,
-            errorElement: <NotFound />,
-            children: [
-                { index: true, element: <Login /> },
-                { path: "login", element: <Login /> },
-                { path: "register", element: <Register /> },
-                { path: "reset-password", element: <ResetPassword /> },
-                { path: "forget-password", element: <ForgetPassword /> },
-                { path: "change-password", element: <ChangePassword /> },
-                { path: "verify-account", element: <VerifyEmail /> },
-            ],
-        },
-        {
-            path: "",
-            element: (
-                <ProtectedRoute>
-                    <MasterLayout />
-                </ProtectedRoute>
-            ),
-            errorElement: <NotFound />,
-            children: [
-                { index: true, element: <Dashboard /> },
-                { path: "dashboard", element: <Dashboard /> },
+  const routes = createBrowserRouter([
+    {
+      path: "/",
+      element: <AuthLayout />,
+      errorElement: <NotFound />,
+      children: [
+        { index: true, element: <Login /> },
+        { path: "login", element: <Login /> },
+        { path: "register", element: <Register /> },
+        { path: "reset-password", element: <ResetPassword /> },
+        { path: "forget-password", element: <ForgetPassword /> },
+        { path: "change-password", element: <ChangePassword /> },
+        { path: "verify-account", element: <VerifyEmail /> },
+      ],
+    },
+    {
+      path: "",
+      element: (
+        <ProtectedRoute>
+          <MasterLayout />
+        </ProtectedRoute>
+      ),
+      errorElement: <NotFound />,
+      children: [
+        { index: true, element: <Dashboard /> },
+        { path: "dashboard", element: <Dashboard /> },
 
-                // Manager routes
-                { path: "projects-system", element: <ProjectsSystem /> },
-                { path: "projects-manage", element: <AllProjects /> },
-                { path: "projects/add", element: <ProjectForm /> },
-                { path: "projects/edit/:id", element: <ProjectForm /> },
-                { path: "tasks", element: <AllTasks /> },
-                { path: "tasks/add", element: <TaskForm /> },
-                { path: "tasks/edit/:id", element: <TaskForm /> },
-                { path: "tasks/:id", element: <TaskDetails /> },
-                { path: "users", element: <Users /> },
+        // Manager routes
+        { path: "projects-system", element: <ProjectsSystem /> },
+        { path: "projects-manage", element: <AllProjects /> },
+        { path: "projects/add", element: <ProjectForm /> },
+        { path: "projects/edit/:id", element: <ProjectForm /> },
+        { path: "tasks", element: <AllTasks /> },
+        { path: "tasks/add", element: <TaskForm /> },
+        { path: "tasks/edit/:id", element: <TaskForm /> },
+        { path: "tasks/:id", element: <TaskDetails /> },
+        { path: "users", element: <Users /> },
 
-                { path: "profile", element: <Profile /> },
+        { path: "profile", element: <Profile /> },
 
-                // Employee routes
-                { path: "my-projects", element: <MyProjects /> },
-                { path: "my-tasks", element: <MyTasks /> },
-            ],
-        },
-    ]);
+        // Employee routes
 
-    return (
-        <>
-            <RouterProvider router={routes}></RouterProvider>
-            <Toaster />
-        </>
-    );
+        { path: "my-tasks", element: <MyTasks /> },
+      ],
+    },
+  ]);
+
+  return (
+    <>
+      <RouterProvider router={routes}></RouterProvider>
+      <Toaster />
+    </>
+  );
 }
 
 export default App;
