@@ -2,16 +2,33 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/store/AuthContext/AuthContext";
 import { imgBaseURL } from "@/service/api";
 import { useEffect } from "react";
+import Swal from 'sweetalert2';
+
+
 
 export default function Navbar() {
   const navigate = useNavigate();
   const { saveLoginData, loginData, fullUserData }: any = useAuth();
 
+ 
+
+
   // =========== LogOut ========
   const logOut = () => {
-    localStorage.removeItem("token");
+    try {
+       localStorage.removeItem("token");
     saveLoginData("");
     navigate("/login");
+    
+
+    } catch (error) {
+      console.log(error);
+      
+      
+    }
+    
+    
+
   };
   // ===========================
   useEffect(() => {
@@ -92,7 +109,18 @@ export default function Navbar() {
               <li>
                 <button
                   className="dropdown-item d-flex align-items-center gap-2 text-danger"
-                  onClick={logOut}
+                  onClick={()=>Swal.fire({
+  title: 'LogOut!',
+  text: 'Do you want to continue?',
+  icon: 'warning',
+  confirmButtonText: 'Logout',
+  showCloseButton: true,
+  
+}).then((result) => {
+  if (result.isConfirmed) {
+    logOut(); 
+  }
+})}
                 >
                   <i className="fa-solid fa-right-from-bracket "></i> Logout
                 </button>
@@ -101,6 +129,7 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+    
     </>
   );
 }

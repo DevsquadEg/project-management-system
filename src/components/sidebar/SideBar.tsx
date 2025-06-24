@@ -1,3 +1,4 @@
+import { useAuth } from "@/store/AuthContext/AuthContext";
 import { useEffect, useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Link, useLocation } from "react-router-dom";
@@ -5,6 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 export default function SideBar() {
   const location = useLocation();
   const [isCollapse, setIsCollapse] = useState(false);
+  const {loginData} :any = useAuth();
 
   const handleCollapse = () => {
     setIsCollapse(!isCollapse);
@@ -63,13 +65,13 @@ export default function SideBar() {
               Home
             </MenuItem>
 
-            <MenuItem
+            {loginData?.userGroup == "Manager" ? <MenuItem
               className={location.pathname === "/users" ? "active-menu" : ""}
               icon={<i className="fa-solid fa-users"></i>}
               component={<Link to="/users" />}
             >
               Users
-            </MenuItem>
+            </MenuItem> : "" }
 
             <MenuItem
               className={
@@ -80,7 +82,7 @@ export default function SideBar() {
             >
               Projects
             </MenuItem>
-            <MenuItem
+            {loginData?.userGroup == "Manager" ? <MenuItem
               className={
                 location.pathname === "/projects-system" ? "active-menu" : ""
               }
@@ -88,17 +90,17 @@ export default function SideBar() {
               component={<Link to="/projects-system" />}
             >
               Projects System
-            </MenuItem>
+            </MenuItem> : "" }
 
-            <MenuItem
+            {loginData?.userGroup == "Manager" ? <MenuItem
               className={location.pathname === "/tasks" ? "active-menu" : ""}
               icon={<i className="fa-solid fa-list-check"></i>}
               component={<Link to="/tasks" />}
             >
               All Tasks
-            </MenuItem>
+            </MenuItem> : "" }
 
-            <MenuItem
+              {loginData?.userGroup == "Manager" ? <MenuItem
               className={
                 location.pathname === "/my-projects" ? "active-menu" : ""
               }
@@ -106,15 +108,15 @@ export default function SideBar() {
               component={<Link to="/my-projects" />}
             >
               My Projects
-            </MenuItem>
+            </MenuItem> : "" }
 
-            <MenuItem
+               {loginData?.userGroup != "Manager" ? <MenuItem
               className={location.pathname === "/my-tasks" ? "active-menu" : ""}
               icon={<i className="fa-solid fa-check-double"></i>}
               component={<Link to="/my-tasks" />}
             >
               My Tasks
-            </MenuItem>
+            </MenuItem> : "" }
           </Menu>
         </Sidebar>
       </div>

@@ -2,19 +2,35 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "../../../service/urls.js";
 import { USERS_URL } from "../../../service/api.js";
 import toast from "react-hot-toast";
-import NoDataImg from "../../../assets/NoData-Img.png";
 import { imgBaseURL } from "../../../service/api.js";
 import moment from "moment";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
+import { useAuth } from "@/store/AuthContext/AuthContext.js";
+
+
 
 export default function Users() {
+
+    //======= hooks ==============
+  const {loginData} :any = useAuth();
+  const navigate = useNavigate()
   const params = useParams();
+
+
+  //======= loading  ==============
+  const [loading, setLoading] = useState(true);
+
+
+  //======= paginate ==============
   const [pageSize, setPageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchTitle, setSearchTitle] = useState("");
   const [totalNumberOfRecords, setTotalNumberOfRecords] = useState();
+
+
+
 
   const [userList, setUserList] = useState([]);
   const [viewList, setViewList] = useState<any | null>(null);
@@ -36,6 +52,7 @@ export default function Users() {
     pageSizeValue = pageSize,
     page = pageNumber
   ) => {
+    setLoading(true);
     try {
       let response: any = await axiosInstance.get(USERS_URL.GET_ALL_USERS, {
         params: {
@@ -52,6 +69,9 @@ export default function Users() {
     } catch (error) {
       console.log(error);
     }
+    finally {
+      setLoading(false);
+    }
   };
 
   // block isActivated / not activate
@@ -62,6 +82,7 @@ export default function Users() {
       console.log(response);
       await getAllUsers("");
       toast.success("Statue has been Changed!");
+      
     } catch (error) {
       console.log(error);
       toast.error("Something Wrong!");
@@ -72,7 +93,7 @@ export default function Users() {
   const showUserList = async (id: any) => {
     try {
       let response: any = await axiosInstance.get(USERS_URL.GET_USER(id));
-      console.log(response.data.data);
+      console.log(response.data);
       setViewList(response.data);
     } catch (error) {
       console.log(error);
@@ -80,10 +101,15 @@ export default function Users() {
   };
 
   useEffect(() => {
+     if (loginData?.userGroup != 'Manager') {
+
+      navigate("/dashboard");      
+    }
     setPageNumber(1);
   }, [searchTitle, pageSize]);
 
   useEffect(() => {
+    
     getAllUsers(searchTitle, pageSize, pageNumber);
   }, [searchTitle, pageSize, pageNumber]);
 
@@ -152,8 +178,8 @@ export default function Users() {
 
             <tbody>
               <>
-                {userList.length > 0
-                  ? userList.map((user: any) => (
+               
+                  { userList.map((user: any) => (
                       <tr key={user?.id}>
                         <td>{user.userName}</td>
                         <td>
@@ -171,7 +197,7 @@ export default function Users() {
                           {user?.imagePath === null ? (
                             <img
                               className="img-table"
-                              src={NoDataImg}
+                              src={`https://upskilling-egypt.com:3003/files/users/images/806profile.jpeg`}
                               alt="image"
                             />
                           ) : (
@@ -200,6 +226,7 @@ export default function Users() {
                             <ul className="dropdown-menu">
                               <tr>
                                 {user?.isActivated ? (
+                                  <button className="dropdown-item d-flex align-items-center gap-2">
                                   <li>
                                     <a
                                       onClick={() => toggleActivated(user.id)}
@@ -209,7 +236,9 @@ export default function Users() {
                                       Block
                                     </a>
                                   </li>
+                                  </button>
                                 ) : (
+                                  <button className="dropdown-item d-flex align-items-center gap-2">
                                   <li>
                                     <a
                                       onClick={() => toggleActivated(user.id)}
@@ -219,8 +248,10 @@ export default function Users() {
                                       Unblock
                                     </a>
                                   </li>
+                                  </button>
+
                                 )}
-                                <li>
+                                <button className="dropdown-item d-flex align-items-center gap-2"><li>
                                   <a
                                     onClick={() => handleShowView(user.id)}
                                     className="dropdown-item"
@@ -229,17 +260,39 @@ export default function Users() {
                                     View
                                   </a>
                                 </li>
+                                </button>
                               </tr>
                             </ul>
                           </div>
                         </td>
                       </tr>
-                    ))
-                  : ""}
+                      
+                    ))}
+                      {loading && userList.length === 0 && (
+                            <tr>
+                                <td
+                                    colSpan={7}
+                                    className="text-center text-muted py-4"
+                                >
+                                    <div className="my-5">
+                                        <i className="fa fa-spinner fa-spin fa-5x"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        )}
+                   
+                  
               </>
+             
             </tbody>
           </table>
+
         </>
+        {userList.length === 0 && !loading && (
+                    <h5 className="text-muted text-center p-3 fs-2">
+                        Found No Users!
+                    </h5>
+                )}
         {/* ============== pagination ====================== */}
 
         <div className="d-flex justify-content-end align-items-center p-3    gap-5">
@@ -296,70 +349,88 @@ export default function Users() {
           <h4 className="viewHead"> User Details </h4>
         </Modal.Header>
         <Modal.Body>
-          <div>
-            <div className=" d-flex justify-content-center  ">
-              {viewList?.imagePath === null ? (
+          <div className="container ">
+        <div className="row justify-content-center">
+          <div className="">
+            <div className="card  border-0 rounded-4">
+              <div className="card-body text-center">
+                <div className="mb-4">
+                   {viewList?.imagePath === null ? (
                 <img
-                  className="  w-25 pb-4  rounded-3 "
-                  src={NoDataImg}
+                  className="  rounded-circle shadow "
+                  src={`https://upskilling-egypt.com:3003/files/users/images/806profile.jpeg`}
                   alt="image"
+                  width="130"
+                  height="130"
+                  style={{ objectFit: "cover" }}
                 />
               ) : (
                 <img
-                  className=" w-50 pb-4 rounded-3 "
+                  className="rounded-circle shadow"
                   src={`${imgBaseURL}${viewList?.imagePath}`}
                   alt="image"
+                  width="130"
+                  height="130"
+                  style={{ objectFit: "cover" }}
                 />
               )}
+
+                </div>
+                <h4 className="fw-bold text-primary mb-1">
+                  {viewList?.userName}
+                </h4>
+                <p className="text-muted mb-3">{viewList?.email}</p>
+
+                <ul className="list-group text-start mb-4">
+                  <li className="list-group-item d-flex justify-content-between">
+                    <strong>Country</strong> <span>{viewList?.country}</span>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between">
+                    <strong>Phone</strong>{" "}
+                    <span>{viewList?.phoneNumber || "N/A"}</span>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between">
+                    <strong>Role</strong>{" "}
+                    <span>{viewList?.group?.name}</span>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between">
+                    <strong>Status</strong>{" "}
+                    <span
+                      className={`badge ${
+                        viewList?.isActivated ? "bg-success" : "bg-danger"
+                      }`}
+                    >
+                      {viewList?.isActivated ? "Activated" : "Inactive"}
+                    </span>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between">
+                    <strong>Joined At</strong>{" "}
+                    <span>
+                      {new Date(viewList?.creationDate).toLocaleDateString()}
+                    </span>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between">
+                    <strong>Last Modified</strong>{" "}
+                    <span>
+                      {new Date(
+                        viewList?.modificationDate
+                      ).toLocaleDateString()}
+                    </span>
+                  </li>
+                </ul>
+
+                
+              </div>
             </div>
-            <h5>
-              {" "}
-              <span className="viewText"> ⭕ User Name : </span>{" "}
-              <span className="viewAnswer text-muted">
-                {" "}
-                {viewList?.userName}{" "}
-              </span>
-            </h5>
-            <h5>
-              {" "}
-              <span className="viewText"> ⭕ Phone Number :</span>{" "}
-              <span className="viewAnswer text-muted">
-                {" "}
-                {viewList?.phoneNumber}{" "}
-              </span>{" "}
-            </h5>
-            <h5>
-              {" "}
-              <span className="viewText"> ⭕ country :</span>{" "}
-              <span className="viewAnswer text-muted">
-                {" "}
-                {viewList?.country}{" "}
-              </span>{" "}
-            </h5>
-            <h5>
-              {" "}
-              <span className="viewText"> ⭕ Email :</span>{" "}
-              <span className="viewAnswer text-muted"> {viewList?.email} </span>{" "}
-            </h5>
-            <h5>
-              {" "}
-              <span className="viewText"> ⭕ Date Created :</span>{" "}
-              <span className="viewText text-muted   ">
-                {" "}
-                {viewList?.creationDate}{" "}
-              </span>{" "}
-            </h5>
-            <h5>
-              {" "}
-              <span className="viewText"> ⭕ Modification Date :</span>{" "}
-              <span className="viewText text-muted  ">
-                {" "}
-                {viewList?.modificationDate}{" "}
-              </span>{" "}
-            </h5>
           </div>
+        </div>
+      </div>
+          
+          
         </Modal.Body>
       </Modal>
+
+      
     </>
   );
 }
