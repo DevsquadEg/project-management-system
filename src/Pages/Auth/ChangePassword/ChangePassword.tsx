@@ -49,7 +49,7 @@ export default function ChangePassword() {
                 <div className="text-start mb-4">
                     <small className="text-white">welcome to PMS</small>
                     <div className="hello">
-                        <h2 className="text-warning fw-bold m-0">
+                        <h2 className="text-warning fw-bold m-0 section-title">
                             Change Password
                         </h2>
                     </div>

@@ -5,6 +5,7 @@ import { axiosInstance } from "@/service/urls";
 import { isAxiosError } from "axios";
 import DeleteModal from "@/components/DeleteModal/DeleteModal";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/store/AuthContext/AuthContext";
 
 export default function ProjectsSystem() {
   //=======  hooks ==============
@@ -20,6 +21,9 @@ export default function ProjectsSystem() {
   const [selectedProject, setSelectedProject] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [totalNumberOfRecords, setTotalNumberOfRecords] = useState();
+
+  //=======  deeplinking ==============
+  const {loginData} :any = useAuth();
 
   //=======  get all projects ==============
   const getProjectsSystem = async (
@@ -61,6 +65,10 @@ export default function ProjectsSystem() {
   };
   //=======  useEffect ==============
   useEffect(() => {
+     if (loginData?.userGroup != 'Manager') {
+
+      navigate("/dashboard");      
+    }
     const delayDebounce = setTimeout(() => {
       setPageNumber(1); // Reset pagination
     }, 500);

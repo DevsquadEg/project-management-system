@@ -5,10 +5,12 @@ import { axiosInstance } from "@/service/urls";
 import { isAxiosError } from "axios";
 import DeleteModal from "@/components/DeleteModal/DeleteModal";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/store/AuthContext/AuthContext";
 
 export default function AllProjects() {
   //=======  hooks ==============
   const navigate = useNavigate();
+  const {loginData} :any = useAuth();
   //=======  states ==============
   const [allProjects, setAllProjects] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
@@ -21,27 +23,32 @@ export default function AllProjects() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [totalNumberOfRecords, setTotalNumberOfRecords] = useState();
 
+  //=======  role base manager/employee ==============
+  const isManager = loginData?.userGroup === "Manager";
+  const url = isManager
+  ? PROJECT_URLS.GET_PROJECTS_BY_MANAGER
+  : PROJECT_URLS.GET_PROJECTS_BY_EMPLOYEE;
+  
   //=======  get all projects ==============
+
   const getAllProjects = async (
     title = "",
     pageSizeValue = pageSize,
     page = pageNumber
   ) => {
     try {
-      const response = await axiosInstance.get(
-        PROJECT_URLS.GET_PROJECTS_BY_MANAGER,
-        {
-          params: {
-            ...(title && { title }),
-            pageSize: pageSizeValue,
-            pageNumber: page,
-          },
-        }
-      );
-      console.log(response.data.totalNumberOfRecords);
-      setAllProjects(response.data.data);
-      setTotalPages(response.data.totalNumberOfPages);
-      setTotalNumberOfRecords(response.data.totalNumberOfRecords);
+  const response = await axiosInstance.get(url, {
+    params: {
+      ...(title && { title }),
+      pageSize: pageSizeValue,
+      pageNumber: page,
+    },
+  });
+
+  console.log(response.data.totalNumberOfRecords);
+  setAllProjects(response.data.data);
+  setTotalPages(response.data.totalNumberOfPages);
+  setTotalNumberOfRecords(response.data.totalNumberOfRecords);
     } catch (error) {
       if (isAxiosError(error)) {
         toast.error(error?.response?.data.message || "Something went wrong!");
@@ -83,12 +90,12 @@ export default function AllProjects() {
       <div className="d-flex justify-content-between align-items-center px-5 py-4 mb-4 bg-white border border-start-0">
         <h2>Projects</h2>
         <div>
-          <button
+         {loginData?.userGroup != "Employee" ? <button
             onClick={() => navigate("/projects/add")}
             className="btn btn-lg bg-orange rounded-pill text-white px-5"
           >
             add new project
-          </button>
+          </button> : "" }
         </div>
       </div>
 
@@ -135,10 +142,10 @@ export default function AllProjects() {
                 <span>Date Created</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th style={{ width: "25%" }}>
-                <span>Actions</span>
-              </th>
-            </tr>
+               {loginData?.userGroup != "Employee" &&<th style={{ width: "25%" }}>
+                <span>Actions</span> 
+              </th>  }
+            </tr> 
           </thead>
 
           <tbody>
@@ -157,7 +164,7 @@ export default function AllProjects() {
                   <td>{project.description}</td>
                   <td>{project.task.length}</td>
                   <td>{new Date(project.creationDate).toLocaleDateString()}</td>
-                  <td>
+                   {loginData?.userGroup != "Employee"  &&<td>
                     <div className="dropdown">
                       <button
                         className="btn  border-0"
@@ -192,8 +199,8 @@ export default function AllProjects() {
                           </button>
                         </li>
                       </ul>
-                    </div>
-                  </td>
+                    </div> 
+                  </td>} 
                 </tr>
               ))
             )}

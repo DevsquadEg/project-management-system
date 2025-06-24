@@ -6,6 +6,7 @@ import { isAxiosError } from "axios";
 import toast from "react-hot-toast";
 import DeleteModal from "@/components/DeleteModal/DeleteModal";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useAuth } from "@/store/AuthContext/AuthContext";
 const StatusInfo = ({ status }: any) => {
     const inProgressBgColor = "#EF9B28";
     const doneBgColor = "#009247";
@@ -39,6 +40,7 @@ const StatusInfo = ({ status }: any) => {
 
 export default function AllTasks() {
     //=======  hooks ==============
+    const {loginData} :any = useAuth();
     const navigate = useNavigate();
     //=======  states ==============
     const [allTasks, setAllTasks] = useState([]);
@@ -107,6 +109,10 @@ export default function AllTasks() {
 
     //=======  useEffect ==============
     useEffect(() => {
+         if (loginData?.userGroup != 'Manager') {
+
+      navigate("/dashboard");      
+    }
         setPageNumber(1); // Reset to first page when search changes
     }, [searchTitle, pageSize]);
 
