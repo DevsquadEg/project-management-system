@@ -1,8 +1,10 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import SideBar from "../../components/sidebar/SideBar";
+import { useMode } from "@/store/ModeContext/ModeContext";
 
 export default function MasterLayout() {
+  const { darkMode } = useMode();
   return (
     <>
       <div className="w-100">
@@ -19,7 +21,12 @@ export default function MasterLayout() {
         <div className=" position-sticky top-0 vh-100 bg-info">
           <SideBar />
         </div>
-        <div className="w-100 ">
+        <div
+          className="w-100 "
+          style={{
+            background: darkMode ? "#222" : "#F5F5F5",
+          }}
+        >
           <Outlet />
         </div>
       </div>
