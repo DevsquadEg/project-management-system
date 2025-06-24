@@ -15,9 +15,11 @@ import { useForm } from "react-hook-form";
 
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import { useMode } from "@/store/ModeContext/ModeContext";
 
 export default function TaskForm() {
   const navigate = useNavigate();
+  const { darkMode } = useMode();
 
   const { id } = useParams();
   console.log("Task ID:", id);
@@ -238,7 +240,11 @@ export default function TaskForm() {
   }
   return (
     <>
-      <div className="d-flex  flex-column px-5 py-4 mb-5 bg-white border border-start-0">
+      <div
+        className={`d-flex  flex-column px-5 py-4 mb-5 ${
+          darkMode ? "bg-dark" : "bg-white"
+        } border border-start-0`}
+      >
         <div
           onClick={() => navigate(-1)}
           className="d-flex align-items-center  gap-3 mb-3 text-muted"
@@ -251,7 +257,11 @@ export default function TaskForm() {
       </div>
 
       {/* Form Container */}
-      <div className="bg-white p-5 rounded-4 shadow w-75 mx-auto ">
+      <div
+        className={`${
+          darkMode ? "bg-dark" : "bg-white"
+        } p-5 rounded-4 shadow w-75 mx-auto `}
+      >
         <form onSubmit={handleSubmit(onSubmitTask)}>
           {/* Title */}
 
@@ -263,7 +273,9 @@ export default function TaskForm() {
               <input
                 type="text"
                 placeholder="Name"
-                className="form-control rounded-pill bg-light border-0 px-4 py-2"
+                className={`form-control rounded-pill  ${
+                  darkMode ? "bg-dark border-1" : "bg-light border-0"
+                } px-4 py-2`}
                 {...register("title", {
                   required: "Task Title is required",
                 })}
@@ -283,7 +295,9 @@ export default function TaskForm() {
               <textarea
                 rows={3}
                 placeholder="Description"
-                className="form-control rounded-4 bg-light border-0 px-4 py-2"
+                className={`form-control rounded-4  ${
+                  darkMode ? "bg-dark border-1" : "bg-light border-0"
+                } px-4 py-2`}
                 {...register("description", {
                   required: "Description is required",
                 })}
@@ -304,7 +318,11 @@ export default function TaskForm() {
                 {(loading && <Skeleton height={30} />) || (
                   <select
                     id="user"
-                    className="form-select rounded-pill bg-light border-0 px-4 py-2 text-dark"
+                    className={`form-select rounded-pill ${
+                      darkMode
+                        ? "bg-dark border-1 text-light"
+                        : "bg-light border-0 text-dark"
+                    } border-0 px-4 py-2`}
                     {...register("employeeId", {
                       required: "User is required",
                     })}
@@ -342,7 +360,11 @@ export default function TaskForm() {
               {(loading && <Skeleton height={30} />) || (
                 <select
                   id="project"
-                  className="form-select rounded-pill bg-light border-0 px-4 py-2 text-dark"
+                  className={`form-select rounded-pill  ${
+                    darkMode
+                      ? "bg-dark border-1 text-light"
+                      : "bg-light border-0 text-dark"
+                  } border-0 px-4 py-2`}
                   {...register("projectId", {
                     required: "Project is required",
                   })}

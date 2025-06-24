@@ -2,11 +2,19 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/store/AuthContext/AuthContext";
 import { imgBaseURL } from "@/service/api";
 import { useEffect } from "react";
+import styles from "./DarkModeToggle.module.css";
+import { useMode } from "@/store/ModeContext/ModeContext";
 import Swal from "sweetalert2";
 
 export default function Navbar() {
   const navigate = useNavigate();
+
   const { loginData, fullUserData, logOutUser }: any = useAuth();
+  const { darkMode, setDarkMode } = useMode();
+
+  const handleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
 
   // =========== LogOut ========
   const logOut = () => {
@@ -21,7 +29,15 @@ export default function Navbar() {
   return (
     <>
       <div className="d-flex justify-content-between align-items-center py-3 mx-4 ">
-        <div>
+        <div
+          className="d-flex align-items-center p-2 rounded-3"
+          style={{
+            backgroundColor: darkMode ? "#ccc" : "#fff",
+            boxShadow: darkMode
+              ? "0 2px 4px rgba(255, 255, 255, 0.65)"
+              : "none",
+          }}
+        >
           <img src="/navLogo.svg" className="img-fluid " alt="PMS" />
         </div>
         <div className="d-flex align-items-center justify-content-evenly gap-4 px-2">
@@ -39,6 +55,19 @@ export default function Navbar() {
             >
               1
             </span>
+          </div>
+          {/* Dark & light mode toggle icon */}
+          <div className={styles.toggleContainer} onClick={handleDarkMode}>
+            <i
+              className={`fa-solid fa-sun ${styles.icon} ${styles.sun} ${
+                darkMode ? styles.iconVisible : styles.iconHidden
+              }`}
+            ></i>
+            <i
+              className={`fa-solid fa-moon ${styles.icon} ${styles.moon} ${
+                !darkMode ? styles.iconVisible : styles.iconHidden
+              }`}
+            ></i>
           </div>
           {/* <!-- Divider --> */}
           <div
@@ -72,7 +101,6 @@ export default function Navbar() {
               <small className="text-muted">{loginData?.userEmail}</small>
             </div>
           </div>
-
           {/* <!-- Arrow --> */}
           <div className="dropdown ">
             <button

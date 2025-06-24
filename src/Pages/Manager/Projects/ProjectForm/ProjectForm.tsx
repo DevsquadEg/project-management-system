@@ -1,5 +1,6 @@
 import { PROJECT_URLS } from "@/service/api";
 import { axiosInstance } from "@/service/urls";
+import { useMode } from "@/store/ModeContext/ModeContext";
 import { useEffect } from "react";
 
 import { useForm } from "react-hook-form";
@@ -14,6 +15,7 @@ type ProjectFormInputs = {
 
 export default function ProjectForm() {
   const navigate = useNavigate();
+  const { darkMode } = useMode();
 
   const { id } = useParams();
   console.log("Project ID:", id);
@@ -82,7 +84,11 @@ export default function ProjectForm() {
   }
   return (
     <>
-      <div className="d-flex  flex-column px-5 py-4 mb-5 bg-white border border-start-0">
+      <div
+        className={`d-flex  flex-column px-5 py-4 mb-5 ${
+          darkMode ? "bg-dark" : "bg-white"
+        } border border-start-0`}
+      >
         <div
           onClick={() => navigate("/projects-manage")}
           className="d-flex align-items-center  gap-3 mb-3 text-muted"
@@ -95,7 +101,11 @@ export default function ProjectForm() {
       </div>
 
       {/* Form Container */}
-      <div className="bg-white p-5 rounded-4 shadow w-75 mx-auto ">
+      <div
+        className={`${
+          darkMode ? "bg-dark" : "bg-white"
+        } p-5 rounded-4 shadow w-75 mx-auto `}
+      >
         <form onSubmit={handleSubmit(onSubmitProject)}>
           {/* Title */}
           <div className="mb-4">
@@ -105,7 +115,9 @@ export default function ProjectForm() {
             <input
               type="text"
               placeholder="Name"
-              className="form-control rounded-pill bg-light border-0 px-4 py-2"
+              className={`form-control rounded-pill ${
+                darkMode ? "bg-dark border-1" : "bg-light border-0"
+              }  px-4 py-2`}
               {...register("title", {
                 required: "Project Title is required",
               })}
@@ -123,7 +135,9 @@ export default function ProjectForm() {
             <textarea
               rows={4}
               placeholder="Description"
-              className="form-control rounded-4 bg-light border-0 px-4 py-2"
+              className={`form-control rounded-4  ${
+                darkMode ? "bg-dark border-1" : "bg-light border-0"
+              } px-4 py-2`}
               {...register("description", {
                 required: "Description is required",
               })}

@@ -115,9 +115,9 @@ input:-webkit-autofill:active {
   right: 19px;
   width: 10px;
   height: 10px;
-  background: white;
-  border-left: 1px solid #ddd;
-  border-top: 1px solid #ddd;
+  background: inherit;
+  border-left: 1px solid inherit;
+  border-top: 1px solid inherit;
   transform: rotate(45deg);
   z-index: 1;
   scale: 1.3;
@@ -258,12 +258,28 @@ table.custom-table thead th {
 }
 
 tbody td {
-  color: rgba(79, 79, 79, 1) !important;
-  font-family: Montserrat !important;
+  color: rgba(79, 79, 79, 1);
+  font-family: Montserrat;
   font-weight: 400;
   font-size: 18px;
   line-height: 100%;
   letter-spacing: 0%;
+  transition: color 0.3s ease;
+}
+
+/* Light mode (default) */
+:root,
+[data-bs-theme="light"] {
+  tbody td {
+    color: rgba(79, 79, 79, 1);
+  }
+}
+
+/* Dark mode */
+[data-bs-theme="dark"] {
+  tbody td {
+    color: rgba(220, 220, 220, 1) !important;
+  }
 }
 
 .table > thead {
@@ -280,4 +296,8 @@ tbody td {
 }
 .table > thead td {
   font-family: montserrat;
+}
+
+aside {
+  border: none !important;
 }

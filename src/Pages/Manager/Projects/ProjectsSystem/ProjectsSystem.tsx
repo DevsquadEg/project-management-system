@@ -5,11 +5,13 @@ import { axiosInstance } from "@/service/urls";
 import { isAxiosError } from "axios";
 import DeleteModal from "@/components/DeleteModal/DeleteModal";
 import { useNavigate } from "react-router-dom";
+import { useMode } from "@/store/ModeContext/ModeContext";
 import { useAuth } from "@/store/AuthContext/AuthContext";
 
 export default function ProjectsSystem() {
   //=======  hooks ==============
   const navigate = useNavigate();
+  const { darkMode } = useMode();
   //=======  states ==============
   const [allProjects, setAllProjects] = useState<any[]>([]);
   const [searchTitle, setSearchTitle] = useState("");
@@ -23,7 +25,7 @@ export default function ProjectsSystem() {
   const [totalNumberOfRecords, setTotalNumberOfRecords] = useState();
 
   //=======  deeplinking ==============
-  const {loginData} :any = useAuth();
+  const { loginData }: any = useAuth();
 
   //=======  get all projects ==============
   const getProjectsSystem = async (
@@ -65,9 +67,8 @@ export default function ProjectsSystem() {
   };
   //=======  useEffect ==============
   useEffect(() => {
-     if (loginData?.userGroup != 'Manager') {
-
-      navigate("/dashboard");      
+    if (loginData?.userGroup != "Manager") {
+      navigate("/dashboard");
     }
     const delayDebounce = setTimeout(() => {
       setPageNumber(1); // Reset pagination
@@ -83,14 +84,26 @@ export default function ProjectsSystem() {
 
   return (
     <>
-      <div className="d-flex justify-content-between align-items-center px-5 py-4 mb-4 bg-white border border-start-0">
+      <div
+        className={`d-flex justify-content-between align-items-center px-5 py-4 mb-4 ${
+          darkMode ? "bg-dark" : "bg-white"
+        } border border-start-0`}
+      >
         <h2>All Projects System</h2>
       </div>
-      <div className="m-5 mt-4 bg-white rounded-4 shadow-sm">
+      <div
+        className={`m-5 mt-4 ${
+          darkMode ? "bg-dark" : "bg-white"
+        } rounded-4 shadow-sm`}
+      >
         {/* =========== search =========== */}
         <div className="d-flex justify-content-between align-items-center">
           <div className="input-group m-4 w-25">
-            <span className="input-group-text border-end-0 bg-white rounded-start-pill">
+            <span
+              className={`input-group-text border-end-0 ${
+                darkMode ? "bg-dark" : "bg-white"
+              } rounded-start-pill`}
+            >
               <i className="fa-solid fa-magnifying-glass text-secondary"></i>
             </span>
             <input

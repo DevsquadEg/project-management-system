@@ -6,6 +6,7 @@ import { imgBaseURL } from "../../../service/api.js";
 import moment from "moment";
 import { useNavigate, useParams } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
+import { useMode } from "@/store/ModeContext/ModeContext.js";
 import { useAuth } from "@/store/AuthContext/AuthContext.js";
 
 export default function Users() {
@@ -13,6 +14,7 @@ export default function Users() {
   const { loginData }: any = useAuth();
   const navigate = useNavigate();
   const params = useParams();
+  const { darkMode } = useMode();
 
   //======= loading  ==============
   const [loading, setLoading] = useState(true);
@@ -103,15 +105,27 @@ export default function Users() {
 
   return (
     <>
-      <div className="d-flex justify-content-between align-items-center px-5 py-4 mb-4 bg-white border border-start-0">
+      <div
+        className={`d-flex justify-content-between align-items-center px-5 py-4 mb-4 ${
+          darkMode ? "bg-dark" : "bg-white"
+        } border border-start-0`}
+      >
         <h2>Users</h2>
       </div>
 
-      <div className="m-5 mt-4 bg-white rounded-4 shadow-sm">
+      <div
+        className={`m-5 mt-4 ${
+          darkMode ? "bg-dark" : "bg-white"
+        } rounded-4 shadow-sm`}
+      >
         {/* =========== search =========== */}
         <div className="d-flex justify-content-between align-items-center">
           <div className="input-group m-4 w-25">
-            <span className="input-group-text border-end-0 bg-white rounded-start-pill">
+            <span
+              className={`input-group-text border-end-0 ${
+                darkMode ? "bg-dark" : "bg-white"
+              } rounded-start-pill`}
+            >
               <i className="fa-solid fa-magnifying-glass text-secondary"></i>
             </span>
             <input
