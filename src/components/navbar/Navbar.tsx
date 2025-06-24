@@ -133,7 +133,7 @@ export default function Navbar() {
                       icon: "warning",
                       confirmButtonText: "Logout",
                       showCloseButton: true,
-                    }).then((result:any) => {
+                    }).then((result: any) => {
                       if (result.isConfirmed) {
                         logOut();
                       }
