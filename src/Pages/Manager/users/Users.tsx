@@ -317,7 +317,7 @@ export default function Users() {
         </div>
       </div>
 
-      <Modal show={showView} onHide={handleCloseView}>
+      <Modal show={showView} onHide={handleCloseView} centered>
         <Modal.Header closeButton>
           <h4 className="viewHead"> User Details </h4>
         </Modal.Header>
