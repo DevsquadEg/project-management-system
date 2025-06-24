@@ -10,7 +10,7 @@ import { useAuth } from "@/store/AuthContext/AuthContext";
 export default function AllProjects() {
   //=======  hooks ==============
   const navigate = useNavigate();
-  const {loginData} :any = useAuth();
+  const { loginData }: any = useAuth();
   //=======  states ==============
   const [allProjects, setAllProjects] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
@@ -26,9 +26,9 @@ export default function AllProjects() {
   //=======  role base manager/employee ==============
   const isManager = loginData?.userGroup === "Manager";
   const url = isManager
-  ? PROJECT_URLS.GET_PROJECTS_BY_MANAGER
-  : PROJECT_URLS.GET_PROJECTS_BY_EMPLOYEE;
-  
+    ? PROJECT_URLS.GET_PROJECTS_BY_MANAGER
+    : PROJECT_URLS.GET_PROJECTS_BY_EMPLOYEE;
+
   //=======  get all projects ==============
 
   const getAllProjects = async (
@@ -37,18 +37,18 @@ export default function AllProjects() {
     page = pageNumber
   ) => {
     try {
-  const response = await axiosInstance.get(url, {
-    params: {
-      ...(title && { title }),
-      pageSize: pageSizeValue,
-      pageNumber: page,
-    },
-  });
+      const response = await axiosInstance.get(url, {
+        params: {
+          ...(title && { title }),
+          pageSize: pageSizeValue,
+          pageNumber: page,
+        },
+      });
 
-  console.log(response.data.totalNumberOfRecords);
-  setAllProjects(response.data.data);
-  setTotalPages(response.data.totalNumberOfPages);
-  setTotalNumberOfRecords(response.data.totalNumberOfRecords);
+      console.log(response.data.totalNumberOfRecords);
+      setAllProjects(response.data.data);
+      setTotalPages(response.data.totalNumberOfPages);
+      setTotalNumberOfRecords(response.data.totalNumberOfRecords);
     } catch (error) {
       if (isAxiosError(error)) {
         toast.error(error?.response?.data.message || "Something went wrong!");
@@ -90,12 +90,16 @@ export default function AllProjects() {
       <div className="d-flex justify-content-between align-items-center px-5 py-4 mb-4 bg-white border border-start-0">
         <h2>Projects</h2>
         <div>
-         {loginData?.userGroup != "Employee" ? <button
-            onClick={() => navigate("/projects/add")}
-            className="btn btn-lg bg-orange rounded-pill text-white px-5"
-          >
-            add new project
-          </button> : "" }
+          {loginData?.userGroup != "Employee" ? (
+            <button
+              onClick={() => navigate("/projects/add")}
+              className="btn btn-lg bg-orange rounded-pill text-white px-5"
+            >
+              add new project
+            </button>
+          ) : (
+            ""
+          )}
         </div>
       </div>
 
@@ -142,10 +146,12 @@ export default function AllProjects() {
                 <span>Date Created</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-               {loginData?.userGroup != "Employee" &&<th style={{ width: "25%" }}>
-                <span>Actions</span> 
-              </th>  }
-            </tr> 
+              {loginData?.userGroup != "Employee" && (
+                <th style={{ width: "25%" }}>
+                  <span>Actions</span>
+                </th>
+              )}
+            </tr>
           </thead>
 
           <tbody>
@@ -164,43 +170,45 @@ export default function AllProjects() {
                   <td>{project.description}</td>
                   <td>{project.task.length}</td>
                   <td>{new Date(project.creationDate).toLocaleDateString()}</td>
-                   {loginData?.userGroup != "Employee"  &&<td>
-                    <div className="dropdown">
-                      <button
-                        className="btn  border-0"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        <i className="fa-solid fa-ellipsis fa-lg"></i>
-                      </button>
+                  {loginData?.userGroup != "Employee" && (
+                    <td>
+                      <div className="dropdown">
+                        <button
+                          className="btn  border-0"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i className="fa-solid fa-ellipsis fa-lg"></i>
+                        </button>
 
-                      <ul className="dropdown-menu dropdown-menu-end shadow  border-0">
-                        <li>
-                          <button
-                            className="dropdown-item d-flex align-items-center gap-2 text-success"
-                            onClick={() =>
-                              navigate(`/projects/edit/${project.id}`)
-                            }
-                          >
-                            <i className="bi bi-pencil-square"></i> Edit
-                          </button>
-                        </li>
-                        <li>
-                          <button
-                            onClick={() => {
-                              setSelectedProject(project.id);
-                              // setModalType("delete");
-                              setShowDeleteModal(true);
-                            }}
-                            className="dropdown-item d-flex align-items-center gap-2 text-danger"
-                          >
-                            <i className="bi bi-trash"></i> Delete
-                          </button>
-                        </li>
-                      </ul>
-                    </div> 
-                  </td>} 
+                        <ul className="dropdown-menu dropdown-menu-end shadow  border-0">
+                          <li>
+                            <button
+                              className="dropdown-item d-flex align-items-center gap-2 text-success"
+                              onClick={() =>
+                                navigate(`/projects/edit/${project.id}`)
+                              }
+                            >
+                              <i className="bi bi-pencil-square"></i> Edit
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              onClick={() => {
+                                setSelectedProject(project.id);
+                                // setModalType("delete");
+                                setShowDeleteModal(true);
+                              }}
+                              className="dropdown-item d-flex align-items-center gap-2 text-danger"
+                            >
+                              <i className="bi bi-trash"></i> Delete
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               ))
             )}
