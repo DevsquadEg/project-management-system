@@ -20,12 +20,15 @@ import ProjectsSystem from "./Pages/Manager/Projects/ProjectsSystem/ProjectsSyst
 import Profile from "./components/profile/Profile.tsx";
 import TaskForm from "./Pages/Manager/Tasks/TaskForm/TaskForm.tsx";
 import TaskDetails from "./Pages/Manager/Tasks/TaskDetails/TaskDetails.tsx";
+import GustRoute from "./components/gustRoute/GustRoute.tsx";
+import { HelmetProvider } from 'react-helmet-async';
+const helmetContext = {};
 
 function App() {
   const routes = createBrowserRouter([
     {
       path: "/",
-      element: <AuthLayout />,
+      element:  <GustRoute><AuthLayout /></GustRoute>,
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Login /> },
@@ -33,7 +36,6 @@ function App() {
         { path: "register", element: <Register /> },
         { path: "reset-password", element: <ResetPassword /> },
         { path: "forget-password", element: <ForgetPassword /> },
-        { path: "change-password", element: <ChangePassword /> },
         { path: "verify-account", element: <VerifyEmail /> },
       ],
     },
@@ -59,6 +61,7 @@ function App() {
         { path: "tasks/edit/:id", element: <TaskForm /> },
         { path: "tasks/:id", element: <TaskDetails /> },
         { path: "users", element: <Users /> },
+        { path: "change-password", element: <ChangePassword /> },
 
         { path: "profile", element: <Profile /> },
 
@@ -71,7 +74,9 @@ function App() {
 
   return (
     <>
+    <HelmetProvider context={helmetContext}>
       <RouterProvider router={routes}></RouterProvider>
+      </HelmetProvider>
       <Toaster />
     </>
   );

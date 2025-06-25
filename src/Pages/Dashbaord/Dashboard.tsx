@@ -1,9 +1,11 @@
 import { useMode } from "@/store/ModeContext/ModeContext";
 import Header from "../../components/Header/Header";
+import { Helmet } from 'react-helmet-async';
+import { useAuth } from "@/store/AuthContext/AuthContext";
 
 export default function Dashboard() {
   const { darkMode } = useMode();
-
+const {loginData} = useAuth()
   // Color definitions for consistent theming
   const themeColors = {
     primary: "#EF9B28",
@@ -20,6 +22,15 @@ export default function Dashboard() {
 
   return (
     <>
+
+<Helmet>
+  <title>{loginData?.userGroup == "Manager" ?"Home-Manager|Panel":"Home-Employee|Panel"}</title>
+   <meta name="description" content="A modern project management system for organizing tasks, managing users, and tracking project progress effectively."
+        />
+</Helmet>
+
+
+
       <Header />
       <div
         className={`container mt-5 ${darkMode ? "text-light" : "text-dark"}`}
