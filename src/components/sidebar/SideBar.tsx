@@ -6,7 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 export default function SideBar() {
   const location = useLocation();
   const [isCollapse, setIsCollapse] = useState(false);
-  const {loginData} :any = useAuth();
+  const { loginData }: any = useAuth();
 
   const handleCollapse = () => {
     setIsCollapse(!isCollapse);
@@ -65,7 +65,7 @@ export default function SideBar() {
               Home
             </MenuItem>
 
-            {loginData?.userGroup == "Manager" ? (
+            {loginData?.userGroup == "Manager" && (
               <MenuItem
                 className={location.pathname === "/users" ? "active-menu" : ""}
                 icon={<i className="fa-solid fa-users"></i>}
@@ -73,20 +73,9 @@ export default function SideBar() {
               >
                 Users
               </MenuItem>
-            ) : (
-              ""
-            )}
+            ) }
 
-            <MenuItem
-              className={
-                location.pathname === "/projects-manage" ? "active-menu" : ""
-              }
-              icon={<i className="fa-solid fa-briefcase"></i>}
-              component={<Link to="/projects-manage" />}
-            >
-              Projects
-            </MenuItem>
-            {loginData?.userGroup == "Manager" ? (
+            {loginData?.userGroup == "Manager" && (
               <MenuItem
                 className={
                   location.pathname === "/projects-system" ? "active-menu" : ""
@@ -96,11 +85,17 @@ export default function SideBar() {
               >
                 Projects System
               </MenuItem>
-            ) : (
-              ""
-            )}
-
-            {loginData?.userGroup == "Manager" ? (
+            ) }
+            <MenuItem
+              className={
+                location.pathname === "/projects-manage" ? "active-menu" : ""
+              }
+              icon={<i className="fa-solid fa-briefcase"></i>}
+              component={<Link to="/projects-manage" />}
+            >
+              My Projects
+            </MenuItem>
+            {loginData?.userGroup == "Manager" && (
               <MenuItem
                 className={location.pathname === "/tasks" ? "active-menu" : ""}
                 icon={<i className="fa-solid fa-list-check"></i>}
@@ -108,13 +103,9 @@ export default function SideBar() {
               >
                 All Tasks
               </MenuItem>
-            ) : (
-              ""
             )}
 
-            
-
-            {loginData?.userGroup != "Manager" ? (
+            {loginData?.userGroup != "Manager" && (
               <MenuItem
                 className={
                   location.pathname === "/my-tasks" ? "active-menu" : ""
@@ -124,8 +115,6 @@ export default function SideBar() {
               >
                 My Tasks
               </MenuItem>
-            ) : (
-              ""
             )}
           </Menu>
         </Sidebar>
