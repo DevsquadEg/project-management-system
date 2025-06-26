@@ -301,3 +301,7 @@ tbody td {
 aside {
   border: none !important;
 }
+
+.bg-main {
+  background-color: var(--main-color);
+}

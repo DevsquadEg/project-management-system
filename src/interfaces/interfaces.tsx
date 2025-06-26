@@ -59,7 +59,6 @@ export const PROJECT_URLS = {
   UPDATE_PROJECT: (id: number) => `/Project/${id}`,
 };
 
-
 export type UserType = {
   country: string;
   creationDate: string;
@@ -117,9 +116,26 @@ export type TaskFormInputs = {
 };
 
 // Auth changepass interfaces
-export interface  ChangePassword{
-
+export interface ChangePassword {
   oldPassword: string;
   newPassword: string;
   confirmNewPassword: string;
+}
+
+export interface Task {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export interface Column {
+  id: string;
+  title: string;
+  status: "ToDo" | "InProgress" | "Done";
+}
+
+export interface TasksState {
+  data: TaskType[];
+  columns: Column[];
+  columnOrder: string[];
 }
