@@ -9,6 +9,7 @@ import { AgCharts } from "ag-charts-react";
 import { axiosInstance } from "@/service/urls";
 import { PROJECT_URLS, TASK_URLS, USERS_URL } from "@/service/api";
 import toast from "react-hot-toast";
+import StatCard from "../Manager/StatCard/StatCard";
 
 export default function Dashboard() {
   const { darkMode } = useMode();
@@ -21,7 +22,7 @@ export default function Dashboard() {
     icon: darkMode ? "#EF9B28" : "#212529",
     cardBg: darkMode ? "#2c3034" : "#ffffff",
     statCard: {
-      purple: darkMode ? "#3a2a4a" : "#e2d4f0",
+      purple: darkMode ? "#3a2a4a" : "rgba(128, 0, 128, 0.1)",
       yellow: darkMode ? "#4a3a2a" : "#f0e4d4",
       pink: darkMode ? "#4a2a3a" : "#f0d4e4",
     },
@@ -309,52 +310,36 @@ export default function Dashboard() {
                   Tasks
                 </h6>
                 <small style={{ color: themeColors.mutedText }}>
-                  Lorem ipsum dolor sit amet, consectetur
+                  tasks are the backbone of any project, ensuring that work is organized and tracked efficiently.
                 </small>
               </div>
 
               <div className="d-flex gap-3 flex-wrap">
-                <div
-                  className="stat-card rounded-3 p-3"
-                  style={{ backgroundColor: themeColors.statCard.purple }}
-                >
-                  <i
-                    className="fa-solid fa-chart-line mb-2 fs-4"
-                    style={{ color: themeColors.icon }} // Changed to use themeColors.icon
-                  ></i>
-                  <div className="fw-bold" style={{ color: themeColors.text }}>
-                    Progress
-                  </div>
-                  <div style={{ color: themeColors.text }}>$ 7328.32</div>
-                </div>
+                <StatCard
+                  iconClass="fa-solid fa-tasks"
+                  label="Total Tasks"
+                  value="1293"
+                  backgroundColor={themeColors.statCard.purple}
+                  iconColor={themeColors.icon}
+                  textColor={themeColors.text}
+                />
+                <StatCard
+                  iconClass="fa-solid fa-spinner"
+                  label="In Progress"
+                  value="200"
+                  backgroundColor={themeColors.statCard.yellow}
+                  iconColor={themeColors.icon}
+                  textColor={themeColors.text}
+                />
 
-                <div
-                  className="stat-card rounded-3 p-3"
-                  style={{ backgroundColor: themeColors.statCard.yellow }}
-                >
-                  <i
-                    className="fa-solid fa-tasks mb-2 fs-4"
-                    style={{ color: themeColors.icon }} // Changed to use themeColors.icon
-                  ></i>
-                  <div className="fw-bold" style={{ color: themeColors.text }}>
-                    Tasks Number
-                  </div>
-                  <div style={{ color: themeColors.text }}>1293</div>
-                </div>
-
-                <div
-                  className="stat-card rounded-3 p-3"
-                  style={{ backgroundColor: themeColors.statCard.pink }}
-                >
-                  <i
-                    className="fa-solid fa-folder-open mb-2 fs-4"
-                    style={{ color: themeColors.icon }} // Changed to use themeColors.icon
-                  ></i>
-                  <div className="fw-bold" style={{ color: themeColors.text }}>
-                    Projects Number
-                  </div>
-                  <div style={{ color: themeColors.text }}>32</div>
-                </div>
+                <StatCard
+                  iconClass="fa-solid fa-check"
+                  label="Completed"
+                  value="1000"
+                  backgroundColor={themeColors.statCard.pink}
+                  iconColor={themeColors.icon}
+                  textColor={themeColors.text}
+                />
               </div>
             </div>
           </div>
@@ -382,34 +367,33 @@ export default function Dashboard() {
                 </small>
               </div>
 
+              {/*  Stat Cards for Users */}
               <div className="d-flex gap-3 flex-wrap">
-                <div
-                  className="stat-card rounded-3 p-3"
-                  style={{ backgroundColor: themeColors.statCard.purple }}
-                >
-                  <i
-                    className="fa-solid fa-user-check mb-2 fs-4"
-                    style={{ color: themeColors.icon }} // Changed to use themeColors.icon
-                  ></i>
-                  <div className="fw-bold" style={{ color: themeColors.text }}>
-                    Active
-                  </div>
-                  <div style={{ color: themeColors.text }}>$ 7328.32</div>
-                </div>
+                <StatCard
+                  iconClass="fa-solid fa-users"
+                  label="Total Users"
+                  value={userList.length}
+                  backgroundColor={themeColors.statCard.purple}
+                  iconColor={themeColors.icon}
+                  textColor={themeColors.text}
+                />
 
-                <div
-                  className="stat-card rounded-3 p-3"
-                  style={{ backgroundColor: themeColors.statCard.yellow }}
-                >
-                  <i
-                    className="fa-solid fa-user-slash mb-2 fs-4"
-                    style={{ color: themeColors.icon }} // Changed to use themeColors.icon
-                  ></i>
-                  <div className="fw-bold" style={{ color: themeColors.text }}>
-                    Inactive
-                  </div>
-                  <div style={{ color: themeColors.text }}>1293</div>
-                </div>
+                <StatCard
+                  iconClass="fa-solid fa-user-plus"
+                  label="Active Users"
+                  value="50"
+                  backgroundColor={themeColors.statCard.purple}
+                  iconColor={themeColors.icon}
+                  textColor={themeColors.text}
+                />
+                <StatCard
+                  iconClass="fa-solid fa-user-slash"
+                  label="Inactive Users"
+                  value="10"
+                  backgroundColor={themeColors.statCard.purple}
+                  iconColor={themeColors.icon}
+                  textColor={themeColors.text}
+                />
               </div>
             </div>
           </div>
