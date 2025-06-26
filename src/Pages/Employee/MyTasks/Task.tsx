@@ -83,7 +83,9 @@ const Task: React.FC<TaskProps> = ({
           <h6 className="card-title">{task.title}</h6>
           <p className="card-text small text-muted">{task.description}</p>
           <div className="position-absolute bottom-0 end-0 p-2">
-            <span className="badge bg-secondary">{task.project.title}</span>
+            <span className="badge bg-secondary">
+              {task.project?.title || "NoProject"}
+            </span>
           </div>
         </div>
       </div>
