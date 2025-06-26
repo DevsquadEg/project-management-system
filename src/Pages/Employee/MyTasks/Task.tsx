@@ -51,21 +51,23 @@ const Task: React.FC<TaskProps> = ({
                 // go down button action small arrow
                 handleGoDown(task.status, index);
               }}
+              style={{ fontSize: "12px" }}
             >
-              <i className="bi bi-arrow-down text-dark"></i>
+              <i className="fa-solid fa-less-than fa-rotate-270 text-white"></i>
             </button>
           )}
 
           {index !== 0 && (
             <button
-              className="btn btn-link p-2"
+              className="btn btn-link p-2 "
               onClick={(e) => {
                 e.stopPropagation();
                 // go up button action
                 handleGoUp(task.status, index);
               }}
+              style={{ fontSize: "12px" }}
             >
-              <i className="bi bi-arrow-up text-dark"></i>
+              <i className="fa-solid fa-rotate-270 fa-greater-than text-white"></i>
             </button>
           )}
 
@@ -76,16 +78,14 @@ const Task: React.FC<TaskProps> = ({
               navigate(`/tasks/${task.id}`);
             }}
           >
-            <i className="bi bi-eye text-success"></i>
+            <i className="bi bi-eye text-white"></i>
           </button>
         </div>
         <div {...listeners}>
           <h6 className="card-title">{task.title}</h6>
           <p className="card-text small text-muted">{task.description}</p>
           <div className="position-absolute bottom-0 end-0 p-2">
-            <span className="badge bg-secondary">
-              {task.project?.title || "NoProject"}
-            </span>
+            <span className="badge bg-secondary">{task.project?.title}</span>
           </div>
         </div>
       </div>
