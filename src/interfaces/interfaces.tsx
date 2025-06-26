@@ -18,6 +18,19 @@ export interface FormInfo {
 
 // Auth Context interfaces
 
+export type FullUserDataType = {
+  id: number;
+  userName: string;
+  email: string;
+  phoneNumber: string;
+  country: string;
+  imagePath: string | null;
+  isActivated: boolean;
+  isVerified: boolean;
+  creationDate: string;
+  modificationDate: string;
+};
+
 export interface AuthContextType {
   loginData: DecodedTokenPayload | null;
   setLoginData: React.Dispatch<
@@ -25,8 +38,10 @@ export interface AuthContextType {
   >;
   saveLoginData: () => Promise<void>;
   isLoading: boolean;
-  fullUserData: any;
-  setFullUserData: React.Dispatch<React.SetStateAction<any>>;
+  fullUserData: FullUserDataType | null;
+  setFullUserData: React.Dispatch<
+    React.SetStateAction<FullUserDataType | null>
+  >;
   getCurrentUser: () => Promise<void>;
   logOutUser: () => void;
 }

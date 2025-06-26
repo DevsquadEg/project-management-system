@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { PROJECT_URLS } from "@/service/api";
 import { axiosInstance } from "@/service/urls";
@@ -7,6 +7,7 @@ import DeleteModal from "@/components/DeleteModal/DeleteModal";
 import { useNavigate } from "react-router-dom";
 import { useMode } from "@/store/ModeContext/ModeContext";
 import { useAuth } from "@/store/AuthContext/AuthContext";
+import { Helmet } from "react-helmet-async";
 
 export default function AllProjects() {
   //=======  hooks ==============
@@ -33,31 +34,31 @@ export default function AllProjects() {
 
   //=======  get all projects ==============
 
-  const getAllProjects = async (
-    title = "",
-    pageSizeValue = pageSize,
-    page = pageNumber
-  ) => {
-    try {
-      const response = await axiosInstance.get(url, {
-        params: {
-          ...(title && { title }),
-          pageSize: pageSizeValue,
-          pageNumber: page,
-        },
-      });
+  const getAllProjects = useCallback(
+    async (title = "", pageSizeValue = pageSize, page = pageNumber) => {
 
-      console.log(response.data.totalNumberOfRecords);
-      setAllProjects(response.data.data);
-      setTotalPages(response.data.totalNumberOfPages);
-      setTotalNumberOfRecords(response.data.totalNumberOfRecords);
-    } catch (error) {
-      if (isAxiosError(error)) {
-        toast.error(error?.response?.data.message || "Something went wrong!");
+      
+      try {
+        const response = await axiosInstance.get(url, {
+          params: {
+            ...(title && { title }),
+            pageSize: pageSizeValue,
+            pageNumber: page,
+          },
+        });
+
+        console.log(response.data.totalNumberOfRecords);
+        setAllProjects(response.data.data);
+        setTotalPages(response.data.totalNumberOfPages);
+        setTotalNumberOfRecords(response.data.totalNumberOfRecords);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          toast.error(error?.response?.data.message || "Something went wrong!");
+        }
       }
-    }
-  };
-
+    },
+    []
+  );
   // --------------- delete project -------------
   const onDeleteProject = async (id: number, onSuccess: any) => {
     try {
@@ -89,12 +90,24 @@ export default function AllProjects() {
 
   return (
     <>
+      <Helmet>
+        <title>Projects | Project Management System</title>
+        <meta
+          name="description"
+          content="Manage Projects within your project management system. View user details, edit accounts, or remove Projects."
+        />
+        <meta
+          name="keywords"
+          content="Users, Project Management, Admin Panel, Team Members, User Accounts"
+        />
+      </Helmet>
+
       <div
         className={`d-flex justify-content-between align-items-center px-5 py-4 mb-4 ${
           darkMode ? "bg-dark" : "bg-white"
         } border border-start-0`}
       >
-        <h2>Projects</h2>
+        <h2>My Projects</h2>
         <div>
           {loginData?.userGroup != "Employee" ? (
             <button

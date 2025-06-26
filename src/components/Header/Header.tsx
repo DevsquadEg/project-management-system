@@ -1,15 +1,30 @@
+import { useAuth } from "@/store/AuthContext/AuthContext";
+import { useMemo } from "react";
+
 export default function Header({
   title,
   username,
   description,
   headerImg,
 }: any) {
+  let { loginData } = useAuth();
+  const welcome = useMemo(() => {
+    const now = new Date();
+    const hour = now.getHours();
+
+    if (hour < 12) {
+      return "Good Morning";
+    } else {
+      return "Good Evening";
+    }
+  }, []);
+
   return (
     <>
       <div className="header-container d-flex justify-content-between align-items-center p-md-5 mb-4 m-4 ">
         <div className="caption text-white ">
           <div className="mb-3 ">
-            <span className="h1 ">{title || "Welcome"}</span>
+            <span className="h1 ">{`${welcome} ${loginData?.userName}`}</span>
             <span className="fs-3 mx-3 text-capitalize">
               {username
                 ? username

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TASK_URLS } from "@/service/api";
 import { axiosInstance } from "@/service/urls";
 import { isAxiosError } from "axios";
@@ -8,6 +8,7 @@ import DeleteModal from "@/components/DeleteModal/DeleteModal";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useMode } from "@/store/ModeContext/ModeContext";
 import { useAuth } from "@/store/AuthContext/AuthContext";
+import { Helmet } from "react-helmet-async";
 const StatusInfo = ({ status, darkMode }: any) => {
   const inProgressBgColor = "#EF9B28";
   const doneBgColor = "#009247";
@@ -43,7 +44,7 @@ const StatusInfo = ({ status, darkMode }: any) => {
 
 export default function AllTasks() {
   //=======  hooks ==============
-  const { loginData }: any = useAuth();
+  const { loginData } = useAuth();
   const navigate = useNavigate();
   //=======  states ==============
   const [allTasks, setAllTasks] = useState([]);
@@ -60,11 +61,11 @@ export default function AllTasks() {
   const { darkMode } = useMode();
 
   //=======  get all projects ==============
-  const getAllTasks = async (
+  const getAllTasks = useCallback( async (
     title = "",
     // status = undefined,
-    pageSizeValue = pageSize,
-    page = pageNumber
+    // pageSizeValue = pageSize,
+    // page = pageNumber
   ) => {
     setLoading(true);
     try {
@@ -88,8 +89,8 @@ export default function AllTasks() {
     } finally {
       setLoading(false);
     }
-  };
-
+  },[pageNumber,pageSize]
+  )
   // --------------- delete task -------------
   const onDeleteTask = async (id: number, onSuccess: any) => {
     try {
@@ -98,8 +99,11 @@ export default function AllTasks() {
       toast.success("Task Deleted Successfully");
       onSuccess();
       getAllTasks();
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to delete Task.");
+    } catch (error) {
+      if(isAxiosError(error)){
+              toast.error(error.response?.data?.message || "Failed to delete Task.");
+
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -111,15 +115,34 @@ export default function AllTasks() {
       navigate("/dashboard");
     }
     setPageNumber(1); // Reset to first page when search changes
-  }, [searchTitle, pageSize]);
+  }, [searchTitle, pageSize,loginData ,navigate]);
 
   useEffect(() => {
     getAllTasks(searchTitle, pageSize, pageNumber);
     console.log(totalNumberOfRecords);
-  }, [searchTitle, pageSize, pageNumber]);
+  }, [searchTitle, pageSize, pageNumber,getAllTasks ,totalNumberOfRecords]);
 
   return (
     <>
+
+
+<Helmet>
+  <title>All-Projects | Project Management System</title>
+        <meta
+          name="description"
+          content="Manage Tasks within your project management system. View user details, edit, or remove tasks."
+        />
+        <meta
+          name="keywords"
+          content="Users, Project Management, Admin Panel, Team Members, User Accounts"
+        />
+</Helmet>
+ 
+
+
+
+
+
       <div
         className={`d-flex justify-content-between align-items-center px-5 py-4 mb-4 ${
           darkMode ? "bg-dark" : "bg-white"

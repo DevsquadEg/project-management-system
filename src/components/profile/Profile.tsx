@@ -2,9 +2,10 @@ import { imgBaseURL } from "@/service/api";
 import { useAuth } from "@/store/AuthContext/AuthContext";
 import EditUserModal from "../EditUserModal/EditUserModal";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 export default function Profile() {
-  const { fullUserData, getCurrentUser }: any = useAuth();
+  const { fullUserData, getCurrentUser } = useAuth();
   const [showModal, setShowModal] = useState(false);
 
   const handleClose = () => setShowModal(false);
@@ -23,6 +24,14 @@ export default function Profile() {
 
   return (
     <>
+      <Helmet>
+        <title>{fullUserData.userName}</title>
+        <meta
+          name="description"
+          content="A modern project management system for organizing tasks, managing users, and tracking project progress effectively."
+        />
+      </Helmet>
+
       <div className="container py-5 ">
         <div className="row justify-content-center py-5">
           <div className="col-md-7 col-lg-6  py-5">
@@ -46,6 +55,10 @@ export default function Profile() {
                 <ul className="list-group text-start mb-4">
                   <li className="list-group-item d-flex justify-content-between">
                     <strong>Country</strong> <span>{fullUserData.country}</span>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between">
+                    <strong>UserName</strong>{" "}
+                    <span>{fullUserData.userName}</span>
                   </li>
                   <li className="list-group-item d-flex justify-content-between">
                     <strong>Phone</strong>{" "}
