@@ -286,7 +286,7 @@ const {loginData} = useAuth()
 
       <Header />
       <div
-        className={`container mt-5 ${darkMode ? "text-light" : "text-dark"}`}
+        className={`mx-4  mt-4 ${darkMode ? "text-light" : "text-dark"}`}
       >
         <div className="row gy-4">
           {/* Tasks Section */}

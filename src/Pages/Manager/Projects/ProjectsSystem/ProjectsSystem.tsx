@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { PROJECT_URLS } from "@/service/api";
 import { axiosInstance } from "@/service/urls";
@@ -29,29 +29,31 @@ export default function ProjectsSystem() {
   const { loginData }: any = useAuth();
 
   //=======  get all projects ==============
-  const getProjectsSystem = async (
-    title = "",
-    pageSizeValue = pageSize,
-    page = pageNumber
-  ) => {
-    try {
-      const response = await axiosInstance.get(PROJECT_URLS.GET_ALL_PROJECTS, {
-        params: {
-          ...(title && { title }),
-          pageSize: pageSizeValue,
-          pageNumber: page,
-        },
-      });
-      console.log(response.data);
-      setAllProjects(response.data.data);
-      setTotalPages(response.data.totalNumberOfPages);
-      setTotalNumberOfRecords(response.data.totalNumberOfRecords);
-    } catch (error) {
-      if (isAxiosError(error)) {
-        toast.error(error?.response?.data.message || "Something went wrong!");
+  const getProjectsSystem = useCallback(
+    async (title = "", pageSizeValue = pageSize, page = pageNumber) => {
+      try {
+        const response = await axiosInstance.get(
+          PROJECT_URLS.GET_ALL_PROJECTS,
+          {
+            params: {
+              ...(title && { title }),
+              pageSize: pageSizeValue,
+              pageNumber: page,
+            },
+          }
+        );
+        console.log(response.data);
+        setAllProjects(response.data.data);
+        setTotalPages(response.data.totalNumberOfPages);
+        setTotalNumberOfRecords(response.data.totalNumberOfRecords);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          toast.error(error?.response?.data.message || "Something went wrong!");
+        }
       }
-    }
-  };
+    },
+    []
+  );
   // --------------- delete project -------------
   const onDeleteProject = async (id: number, onSuccess: any) => {
     try {
@@ -66,6 +68,8 @@ export default function ProjectsSystem() {
       setIsSubmitting(false);
     }
   };
+
+  
   //=======  useEffect ==============
   useEffect(() => {
     if (loginData?.userGroup != "Manager") {
@@ -85,10 +89,8 @@ export default function ProjectsSystem() {
 
   return (
     <>
-
-
-<Helmet>
-  <title>All-Projects | Project Management System</title>
+      <Helmet>
+        <title>All-Projects | Project Management System</title>
         <meta
           name="description"
           content="Manage Projects within your project management system. View user details, edit accounts, or remove Projects."
@@ -97,12 +99,7 @@ export default function ProjectsSystem() {
           name="keywords"
           content="Users, Project Management, Admin Panel, Team Members, User Accounts"
         />
-</Helmet>
- 
-
-
-
-
+      </Helmet>
 
       <div
         className={`d-flex justify-content-between align-items-center px-5 py-4 mb-4 ${
