@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { DndContext, type DragEndEvent } from "@dnd-kit/core";
+import { closestCorners, DndContext, type DragEndEvent } from "@dnd-kit/core";
 import TaskColumn from "./TaskColumn";
-import type { Column, TasksState } from "@/interfaces/interfaces";
-import { closestCorners } from "@dnd-kit/core";
+import type { Column, TasksState, TaskType } from "@/interfaces/interfaces";
 import { useMode } from "@/store/ModeContext/ModeContext";
 import { axiosInstance } from "@/service/urls";
 import { TASK_URLS } from "@/service/api";
 import toast from "react-hot-toast";
-// import { arrayMove } from "./ArrayMove";
+import { arrayMove } from "@dnd-kit/sortable";
 
 const initialData: TasksState = {
-  data: [],
+  data: { ToDo: [], InProgress: [], Done: [] },
   columns: [
     {
       id: "column-1",
@@ -32,7 +31,7 @@ const initialData: TasksState = {
 };
 
 export default function MyTasks() {
-  const [state, setState] = useState<TasksState>(initialData);
+  const [data, setData] = useState<TasksState>(initialData);
   const [loading, setLoading] = useState(true);
   const { darkMode } = useMode();
 
@@ -40,33 +39,66 @@ export default function MyTasks() {
     const { active, over } = event;
 
     if (!over) return;
-
     const activeId = active.id as number;
+    const activeTask = active.data.current?.task;
+    const activeColumnStatus = activeTask.status;
     const overId = over.id as string;
-    const overColumn = state.columns.find((column) => column.id === overId);
+    const overColumn = data.columns.find((column) => column.id === overId);
     if (!overColumn) return;
-    if (
-      overColumn.status ===
-      state.data.find((task) => task.id === activeId)?.status
-    )
-      return;
+    console.log("I am here");
+    console.log("overColumn", overColumn);
+    console.log("overColumn", data.data[overColumn.status]);
+    if (data.data[overColumn.status].includes(activeTask as TaskType)) return;
     changeTaskStatus(activeId, overColumn?.status);
 
-    setState((prev) => {
+    setData((prev) => {
+      console.log("active", active);
       // return prev;
+      const targetTask = prev.data[activeTask.status].filter(
+        (task: TaskType) => task.id === activeId
+      )[0];
+      if (!targetTask) return prev;
+      console.log("target", targetTask);
+      targetTask.status = overColumn.status;
+      console.log("target2", targetTask);
+      console.log("active2", active);
       return {
         ...prev,
-        data: [
-          ...prev.data.map((task) => {
-            if (task.id === activeId) {
-              return {
-                ...task,
-                status: overColumn?.status,
-              };
-            }
-            return task;
-          }),
-        ],
+        data: {
+          ...prev.data,
+          [activeColumnStatus]: prev.data[activeColumnStatus].filter(
+            (task: TaskType) => task.id !== activeTask.id
+          ),
+          [overColumn.status]: [...prev.data[overColumn.status], targetTask],
+        },
+      };
+    });
+  };
+
+  const handleGoUp = (status: string, index: number) => {
+    if (index === 0) return;
+    const newList = arrayMove(data.data[status], index, index - 1);
+    setData((prev: TasksState) => {
+      return {
+        ...prev,
+        data: {
+          ...prev.data,
+          [status]: newList,
+        },
+      };
+    });
+  };
+
+  const handleGoDown = (status: string, index: number) => {
+    if (index === data.data[status].length - 1) return;
+    const newList = arrayMove(data.data[status], index, index + 1);
+    setData((prev: TasksState) => {
+      return {
+        ...prev,
+        data: {
+          ...prev.data,
+          [status]: newList,
+        },
       };
     });
   };
@@ -95,10 +127,20 @@ export default function MyTasks() {
           pageNumber: 1,
         },
       });
-      setState((prev) => {
+      setData((prev) => {
         return {
           ...prev,
-          data: response.data.data,
+          data: {
+            ToDo: response.data.data.filter(
+              (task: TaskType) => task.status === "ToDo"
+            ),
+            InProgress: response.data.data.filter(
+              (task: TaskType) => task.status === "InProgress"
+            ),
+            Done: response.data.data.filter(
+              (task: TaskType) => task.status === "Done"
+            ),
+          },
         };
       });
     } catch (error) {
@@ -132,11 +174,11 @@ export default function MyTasks() {
             onDragEnd={handleDragEnd}
           >
             <div className="row">
-              {state.columns
+              {data.columns
                 .sort(
                   (a: Column, b: Column) =>
-                    state.columnOrder.indexOf(a.id) -
-                    state.columnOrder.indexOf(b.id)
+                    data.columnOrder.indexOf(a.id) -
+                    data.columnOrder.indexOf(b.id)
                 )
                 .map((column) => {
                   return (
@@ -144,9 +186,9 @@ export default function MyTasks() {
                       key={column.id}
                       id={column.id}
                       title={column.title}
-                      tasks={state.data?.filter((task) => {
-                        return task ? task.status === column.status : false;
-                      })}
+                      tasks={data.data[column.status]}
+                      handleGoUp={handleGoUp}
+                      handleGoDown={handleGoDown}
                     />
                   );
                 })}

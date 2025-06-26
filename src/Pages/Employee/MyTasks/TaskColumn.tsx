@@ -3,16 +3,24 @@ import { useDroppable } from "@dnd-kit/core";
 import Task from "./Task";
 import type { TaskType } from "@/interfaces/interfaces";
 import { useMode } from "@/store/ModeContext/ModeContext";
-import { arrayMove } from "@dnd-kit/sortable";
 
 interface ColumnProps {
   id: string;
   title: string;
   tasks: TaskType[];
+  handleGoUp: (status: string, id: number) => void;
+  handleGoDown: (status: string, id: number) => void;
 }
 
-const TaskColumn: React.FC<ColumnProps> = ({ id, title, tasks }) => {
+const TaskColumn: React.FC<ColumnProps> = ({
+  id,
+  title,
+  tasks,
+  handleGoUp,
+  handleGoDown,
+}) => {
   const [tasksList, setTasksList] = useState<TaskType[]>([]);
+  console.log(title, "Column Tasks: ", tasks);
   const { setNodeRef } = useDroppable({
     id,
     data: {
@@ -21,15 +29,6 @@ const TaskColumn: React.FC<ColumnProps> = ({ id, title, tasks }) => {
     },
   });
   const { darkMode } = useMode();
-  const handleGoUp = (index: number) => {
-    if (index === 0) return;
-    setTasksList(arrayMove(tasksList, index, index - 1));
-  };
-
-  const handleGoDown = (index: number) => {
-    if (index === tasksList.length - 1) return;
-    setTasksList(arrayMove(tasksList, index, index + 1));
-  };
 
   useEffect(() => {
     setTasksList(tasks);
@@ -51,7 +50,7 @@ const TaskColumn: React.FC<ColumnProps> = ({ id, title, tasks }) => {
       >
         <div className="card-body position-relative p-0 pt-3">
           <div className="position-relative">
-            {tasksList.map((task, index) => (
+            {tasksList?.map((task, index) => (
               <Task
                 task={task}
                 index={index}

@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 interface TaskProps {
   task: TaskType;
   index: number;
-  handleGoUp: (index: number) => void;
-  handleGoDown: (index: number) => void;
+  handleGoUp: (status: string, index: number) => void;
+  handleGoDown: (status: string, index: number) => void;
   lastTask?: boolean;
 }
 
@@ -49,7 +49,7 @@ const Task: React.FC<TaskProps> = ({
               onClick={(e) => {
                 e.stopPropagation();
                 // go down button action small arrow
-                handleGoDown(index);
+                handleGoDown(task.status, index);
               }}
             >
               <i className="bi bi-arrow-down text-dark"></i>
@@ -62,7 +62,7 @@ const Task: React.FC<TaskProps> = ({
               onClick={(e) => {
                 e.stopPropagation();
                 // go up button action
-                handleGoUp(index);
+                handleGoUp(task.status, index);
               }}
             >
               <i className="bi bi-arrow-up text-dark"></i>

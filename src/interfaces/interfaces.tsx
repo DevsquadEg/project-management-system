@@ -150,7 +150,7 @@ export interface Column {
 }
 
 export interface TasksState {
-  data: TaskType[];
+  data: Record<string, TaskType[]>;
   columns: Column[];
   columnOrder: string[];
 }
