@@ -10,6 +10,7 @@ import {
 import type {
     AuthContextType,
     DecodedTokenPayload,
+    FullUserDataType,
 } from "../../interfaces/interfaces";
 import { USERS_URL } from "@/service/api";
 import { axiosInstance } from "@/service/urls";
@@ -21,7 +22,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         null
     );
     const [isLoading, setIsLoading] = useState(true);
-    const [fullUserData, setFullUserData] = useState(null);
+    const [fullUserData, setFullUserData] = useState<FullUserDataType  | null>(null);
 
     const saveLoginData = async () => {
         try {
@@ -82,4 +83,10 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     );
 }
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};

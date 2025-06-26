@@ -7,6 +7,7 @@ import DeleteModal from "@/components/DeleteModal/DeleteModal";
 import { useNavigate } from "react-router-dom";
 import { useMode } from "@/store/ModeContext/ModeContext";
 import { useAuth } from "@/store/AuthContext/AuthContext";
+import { Helmet } from "react-helmet-async";
 
 export default function AllProjects() {
   //=======  hooks ==============
@@ -89,6 +90,22 @@ export default function AllProjects() {
 
   return (
     <>
+
+<Helmet>
+  <title>Projects | Project Management System</title>
+        <meta
+          name="description"
+          content="Manage Projects within your project management system. View user details, edit accounts, or remove Projects."
+        />
+        <meta
+          name="keywords"
+          content="Users, Project Management, Admin Panel, Team Members, User Accounts"
+        />
+</Helmet>
+ 
+
+
+
       <div
         className={`d-flex justify-content-between align-items-center px-5 py-4 mb-4 ${
           darkMode ? "bg-dark" : "bg-white"

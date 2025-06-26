@@ -8,10 +8,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import { useMode } from "@/store/ModeContext/ModeContext.js";
 import { useAuth } from "@/store/AuthContext/AuthContext.js";
+import { Helmet } from "react-helmet-async";
 
 export default function Users() {
   //======= hooks ==============
-  const { loginData }: any = useAuth();
+  const { loginData } = useAuth();
   const navigate = useNavigate();
   const params = useParams();
   const { darkMode } = useMode();
@@ -35,14 +36,14 @@ export default function Users() {
     setShowView(false);
     setViewList(null);
   };
-  const handleShowView = async (id: any) => {
+  const handleShowView = async (id:number) => {
     await showUserList(id); // show without button
     setShowView(true);
   };
 
   // get users list
   const getAllUsers = async (
-    userName: any,
+    userName:string,
     pageSizeValue = pageSize,
     page = pageNumber
   ) => {
@@ -105,6 +106,28 @@ export default function Users() {
 
   return (
     <>
+
+
+<Helmet>
+   <title>Users | Project Management System</title>
+        <meta
+          name="description"
+          content="Manage users within your project management system. View user details, edit accounts, or remove inactive users."
+        />
+        <meta
+          name="keywords"
+          content="Users, Project Management, Admin Panel, Team Members, User Accounts"
+        />
+</Helmet>
+
+
+
+
+
+
+
+
+
       <div
         className={`d-flex justify-content-between align-items-center px-5 py-4 mb-4 ${
           darkMode ? "bg-dark" : "bg-white"
