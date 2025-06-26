@@ -111,7 +111,7 @@ export default function AllProjects() {
           darkMode ? "bg-dark" : "bg-white"
         } border border-start-0`}
       >
-        <h2>Projects</h2>
+        <h2>My Projects</h2>
         <div>
           {loginData?.userGroup != "Employee" ? (
             <button
