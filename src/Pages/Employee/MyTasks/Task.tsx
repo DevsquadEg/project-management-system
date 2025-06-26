@@ -53,7 +53,7 @@ const Task: React.FC<TaskProps> = ({
               }}
               style={{ fontSize: "12px" }}
             >
-              <i className="fa-solid fa-less-than fa-rotate-270 text-white"></i>
+              <i className="fa-solid fa-rotate-90 fa-caret-right text-white"></i>
             </button>
           )}
 
@@ -67,7 +67,7 @@ const Task: React.FC<TaskProps> = ({
               }}
               style={{ fontSize: "12px" }}
             >
-              <i className="fa-solid fa-rotate-270 fa-greater-than text-white"></i>
+              <i className="fa-solid fa-rotate-90 fa-caret-left text-white"></i>
             </button>
           )}
 
