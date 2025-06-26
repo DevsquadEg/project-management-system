@@ -1,7 +1,7 @@
 import { useMode } from "@/store/ModeContext/ModeContext";
 import type { AgChartOptions } from "ag-charts-community";
 import Header from "../../components/Header/Header";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 import { useAuth } from "@/store/AuthContext/AuthContext";
 
 import { useEffect, useMemo, useState } from "react";
@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 
 export default function Dashboard() {
   const { darkMode } = useMode();
-const {loginData} = useAuth()
+  const { loginData } = useAuth();
   // Color definitions for consistent theming
   const themeColors = {
     primary: "#EF9B28",
@@ -275,19 +275,20 @@ const {loginData} = useAuth()
 
   return (
     <>
-
-<Helmet>
-  <title>{loginData?.userGroup == "Manager" ?"Home-Manager|Panel":"Home-Employee|Panel"}</title>
-   <meta name="description" content="A modern project management system for organizing tasks, managing users, and tracking project progress effectively."
+      <Helmet>
+        <title>
+          {loginData?.userGroup == "Manager"
+            ? "Home-Manager|Panel"
+            : "Home-Employee|Panel"}
+        </title>
+        <meta
+          name="description"
+          content="A modern project management system for organizing tasks, managing users, and tracking project progress effectively."
         />
-</Helmet>
-
-
+      </Helmet>
 
       <Header />
-      <div
-        className={`mx-4  mt-4 ${darkMode ? "text-light" : "text-dark"}`}
-      >
+      <div className={`mx-4  mt-4 ${darkMode ? "text-light" : "text-dark"}`}>
         <div className="row gy-4">
           {/* Tasks Section */}
           <div className="col-md-6">
