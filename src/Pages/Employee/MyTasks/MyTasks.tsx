@@ -33,6 +33,7 @@ const initialData: TasksState = {
 
 export default function MyTasks() {
   const [state, setState] = useState<TasksState>(initialData);
+  const [loading, setLoading] = useState(true);
   const { darkMode } = useMode();
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -77,10 +78,12 @@ export default function MyTasks() {
         });
     } catch (error: unknown) {
       toast.error(error?.response?.data?.message || "Something went wrong");
+      fetchAssignedTasks();
     }
   };
 
   const fetchAssignedTasks = async () => {
+    setLoading(true);
     try {
       const response = await axiosInstance.get(TASK_URLS.GET_ASSIGNED_TASKS, {
         params: {
@@ -96,6 +99,8 @@ export default function MyTasks() {
       });
     } catch (error) {
       console.error("Error fetching aligned tasks:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -112,34 +117,39 @@ export default function MyTasks() {
       >
         <h2>My Tasks</h2>
       </div>
-
-      <div className="container-fluid mt-4">
-        <DndContext
-          collisionDetection={closestCorners}
-          onDragEnd={handleDragEnd}
-        >
-          <div className="row">
-            {state.columns
-              .sort(
-                (a: Column, b: Column) =>
-                  state.columnOrder.indexOf(a.id) -
-                  state.columnOrder.indexOf(b.id)
-              )
-              .map((column) => {
-                return (
-                  <TaskColumn
-                    key={column.id}
-                    id={column.id}
-                    title={column.title}
-                    tasks={state.data?.filter((task) => {
-                      return task ? task.status === column.status : false;
-                    })}
-                  />
-                );
-              })}
-          </div>
-        </DndContext>
-      </div>
+      {(loading && (
+        <div className="my-5 mx-auto w-100 d-flex justify-content-center">
+          <i className="fa fa-spinner fa-spin fa-5x mx-auto"></i>
+        </div>
+      )) || (
+        <div className="container-fluid mt-4">
+          <DndContext
+            collisionDetection={closestCorners}
+            onDragEnd={handleDragEnd}
+          >
+            <div className="row">
+              {state.columns
+                .sort(
+                  (a: Column, b: Column) =>
+                    state.columnOrder.indexOf(a.id) -
+                    state.columnOrder.indexOf(b.id)
+                )
+                .map((column) => {
+                  return (
+                    <TaskColumn
+                      key={column.id}
+                      id={column.id}
+                      title={column.title}
+                      tasks={state.data?.filter((task) => {
+                        return task ? task.status === column.status : false;
+                      })}
+                    />
+                  );
+                })}
+            </div>
+          </DndContext>
+        </div>
+      )}
     </>
   );
 }
