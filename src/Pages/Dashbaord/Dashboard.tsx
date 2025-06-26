@@ -46,8 +46,6 @@ export default function Dashboard() {
         : "linear-gradient(135deg, rgba(218, 198, 255, 0.4), rgba(255, 255, 255, 0.3))",
     },
   };
-  
-  
 
   // State to hold user list and pagination details
   const [userList, setUserList] = useState([]);
@@ -331,7 +329,8 @@ export default function Dashboard() {
                   Tasks
                 </h6>
                 <small style={{ color: themeColors.mutedText }}>
-                  tasks are the backbone of any project, ensuring that work is organized and tracked efficiently.
+                  tasks are the backbone of any project, ensuring that work is
+                  organized and tracked efficiently.
                 </small>
               </div>
 
@@ -394,7 +393,7 @@ export default function Dashboard() {
                   iconClass="fa-solid fa-users"
                   label="Total Users"
                   value={userList.length}
-                  backgroundColor={themeColors.statCard.purple}
+                  backgroundGradient={themeColors.statCard.purple}
                   iconColor={themeColors.icon}
                   textColor={themeColors.text}
                 />
@@ -403,7 +402,7 @@ export default function Dashboard() {
                   iconClass="fa-solid fa-user-plus"
                   label="Active Users"
                   value="50"
-                  backgroundColor={themeColors.statCard.purple}
+                  backgroundGradient={themeColors.statCard.purple}
                   iconColor={themeColors.icon}
                   textColor={themeColors.text}
                 />
@@ -411,7 +410,7 @@ export default function Dashboard() {
                   iconClass="fa-solid fa-user-slash"
                   label="Inactive Users"
                   value="10"
-                  backgroundColor={themeColors.statCard.purple}
+                  backgroundGradient={themeColors.statCard.purple}
                   iconColor={themeColors.icon}
                   textColor={themeColors.text}
                 />
