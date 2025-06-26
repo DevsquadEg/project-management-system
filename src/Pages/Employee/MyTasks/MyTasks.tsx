@@ -10,6 +10,7 @@ import { arrayMove } from "@dnd-kit/sortable";
 
 const initialData: TasksState = {
   data: { ToDo: [], InProgress: [], Done: [] },
+  dataLength: 0,
   columns: [
     {
       id: "column-1",
@@ -130,6 +131,7 @@ export default function MyTasks() {
       setData((prev) => {
         return {
           ...prev,
+          dataLength: response.data.data.length,
           data: {
             ToDo: response.data.data.filter(
               (task: TaskType) => task.status === "ToDo"
@@ -167,35 +169,40 @@ export default function MyTasks() {
         <div className="my-5 mx-auto w-100 d-flex justify-content-center">
           <i className="fa fa-spinner fa-spin fa-5x mx-auto"></i>
         </div>
-      )) || (
-        <div className="container-fluid mt-4">
-          <DndContext
-            collisionDetection={closestCorners}
-            onDragEnd={handleDragEnd}
-          >
-            <div className="row">
-              {data.columns
-                .sort(
-                  (a: Column, b: Column) =>
-                    data.columnOrder.indexOf(a.id) -
-                    data.columnOrder.indexOf(b.id)
-                )
-                .map((column) => {
-                  return (
-                    <TaskColumn
-                      key={column.id}
-                      id={column.id}
-                      title={column.title}
-                      tasks={data.data[column.status]}
-                      handleGoUp={handleGoUp}
-                      handleGoDown={handleGoDown}
-                    />
-                  );
-                })}
-            </div>
-          </DndContext>
-        </div>
-      )}
+      )) ||
+        (data.dataLength === 0 && (
+          <div className="my-5 mx-auto w-100 d-flex justify-content-center">
+            <h3 className="text-muted">No Tasks Found</h3>
+          </div>
+        )) || (
+          <div className="container-fluid mt-4">
+            <DndContext
+              collisionDetection={closestCorners}
+              onDragEnd={handleDragEnd}
+            >
+              <div className="row">
+                {data.columns
+                  .sort(
+                    (a: Column, b: Column) =>
+                      data.columnOrder.indexOf(a.id) -
+                      data.columnOrder.indexOf(b.id)
+                  )
+                  .map((column) => {
+                    return (
+                      <TaskColumn
+                        key={column.id}
+                        id={column.id}
+                        title={column.title}
+                        tasks={data.data[column.status]}
+                        handleGoUp={handleGoUp}
+                        handleGoDown={handleGoDown}
+                      />
+                    );
+                  })}
+              </div>
+            </DndContext>
+          </div>
+        )}
     </>
   );
 }

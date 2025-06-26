@@ -151,6 +151,7 @@ export interface Column {
 
 export interface TasksState {
   data: Record<string, TaskType[]>;
+  dataLength: number;
   columns: Column[];
   columnOrder: string[];
 }
