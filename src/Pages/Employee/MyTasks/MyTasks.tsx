@@ -45,7 +45,11 @@ export default function MyTasks() {
     const overId = over.id as string;
     const overColumn = state.columns.find((column) => column.id === overId);
     if (!overColumn) return;
-
+    if (
+      overColumn.status ===
+      state.data.find((task) => task.id === activeId)?.status
+    )
+      return;
     changeTaskStatus(activeId, overColumn?.status);
 
     setState((prev) => {
