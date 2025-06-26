@@ -11,6 +11,9 @@ importers:
       '@fortawesome/fontawesome-free':
         specifier: ^6.7.2
         version: 6.7.2
+      ag-charts-community:
+        specifier: ^11.3.2
+        version: 11.3.2
       ag-charts-react:
         specifier: ^11.3.2
         version: 11.3.2(react@19.1.0)

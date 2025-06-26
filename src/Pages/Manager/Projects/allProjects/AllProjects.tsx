@@ -81,7 +81,7 @@ export default function AllProjects() {
   return (
     <>
       <div className="d-flex justify-content-between align-items-center px-5 py-4 mb-4 bg-white border border-start-0">
-        <h2>Projects</h2>
+        <h2>My Projects</h2>
         <div>
           <button
             onClick={() => navigate("/projects/add")}

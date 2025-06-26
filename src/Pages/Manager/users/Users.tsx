@@ -41,7 +41,7 @@ export default function Users() {
         params: {
           pageSize: pageSizeValue,
           pageNumber: page,
-          userName,
+          ...(userName && { userName }),
         },
       });
 
