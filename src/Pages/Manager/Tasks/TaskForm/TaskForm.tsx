@@ -338,12 +338,14 @@ export default function TaskForm() {
                           (user: UserType) => user.id !== task?.user?.id
                         )
                       : usersList
-                    ).map((user: UserType) => (
-                      <option
-                        key={user.id}
-                        value={user.id}
-                      >{`${user.userName}`}</option>
-                    ))}
+                    )
+                      .sort((a, b) => a.userName.localeCompare(b.userName))
+                      .map((user: UserType) => (
+                        <option
+                          key={user.id}
+                          value={user.id}
+                        >{`${user.userName}`}</option>
+                      ))}
                   </select>
                 )}
               </div>
@@ -385,12 +387,14 @@ export default function TaskForm() {
                         (project: ProjectType) => project.id !== task.project.id
                       )) ||
                     projectsList
-                  ).map((project: ProjectType) => (
-                    <option
-                      key={project.id}
-                      value={project.id}
-                    >{`${project.title}`}</option>
-                  ))}
+                  )
+                    .sort((a, b) => a.title.localeCompare(b.title))
+                    .map((project: ProjectType) => (
+                      <option
+                        key={project.id}
+                        value={project.id}
+                      >{`${project.title}`}</option>
+                    ))}
                 </select>
               )}
               {errors.projectId && (
