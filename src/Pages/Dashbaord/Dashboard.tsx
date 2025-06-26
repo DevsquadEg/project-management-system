@@ -20,13 +20,34 @@ export default function Dashboard() {
     text: darkMode ? "#f8f9fa" : "#212529",
     mutedText: darkMode ? "#adb5bd" : "#6c757d",
     icon: darkMode ? "#EF9B28" : "#212529",
-    cardBg: darkMode ? "#2c3034" : "#ffffff",
+    cardBg: darkMode
+      ? "rgba(33, 37, 41, 0.5)" // خلفية داكنة زجاجية
+      : "rgba(255, 255, 255, 0.6)", // خلفية فاتحة زجاجية
+
     statCard: {
-      purple: darkMode ? "#3a2a4a" : "rgba(128, 0, 128, 0.1)",
-      yellow: darkMode ? "#4a3a2a" : "#f0e4d4",
-      pink: darkMode ? "#4a2a3a" : "#f0d4e4",
+      blue: darkMode
+        ? "linear-gradient(135deg, rgba(0, 123, 255, 0.25), rgba(0, 82, 204, 0.2))"
+        : "linear-gradient(135deg, rgba(68, 145, 218, 0.8), rgba(180, 228, 236, 0.6))",
+
+      green: darkMode
+        ? "linear-gradient(135deg, rgba(40, 167, 69, 0.25), rgba(25, 135, 84, 0.2))"
+        : "linear-gradient(135deg, rgba(34, 165, 34, 0.4), rgba(95, 233, 95, 0.4))",
+
+      orange: darkMode
+        ? "linear-gradient(135deg, rgba(255, 159, 64, 0.25), rgba(255, 87, 34, 0.2))"
+        : "linear-gradient(135deg, rgba(221, 154, 54, 0.4), rgba(233, 178, 78, 0.3))",
+
+      red: darkMode
+        ? "linear-gradient(135deg, rgba(220, 53, 69, 0.25), rgba(139, 0, 0, 0.2))"
+        : "linear-gradient(135deg, rgba(255, 204, 203, 0.4), rgba(255, 255, 255, 0.3))",
+
+      violet: darkMode
+        ? "linear-gradient(135deg, rgba(111, 66, 193, 0.25), rgba(72, 28, 128, 0.2))"
+        : "linear-gradient(135deg, rgba(218, 198, 255, 0.4), rgba(255, 255, 255, 0.3))",
     },
   };
+  
+  
 
   // State to hold user list and pagination details
   const [userList, setUserList] = useState([]);
@@ -319,7 +340,7 @@ export default function Dashboard() {
                   iconClass="fa-solid fa-tasks"
                   label="Total Tasks"
                   value="1293"
-                  backgroundColor={themeColors.statCard.purple}
+                  backgroundGradient={themeColors.statCard.blue}
                   iconColor={themeColors.icon}
                   textColor={themeColors.text}
                 />
@@ -327,7 +348,7 @@ export default function Dashboard() {
                   iconClass="fa-solid fa-spinner"
                   label="In Progress"
                   value="200"
-                  backgroundColor={themeColors.statCard.yellow}
+                  backgroundGradient={themeColors.statCard.green}
                   iconColor={themeColors.icon}
                   textColor={themeColors.text}
                 />
@@ -336,7 +357,7 @@ export default function Dashboard() {
                   iconClass="fa-solid fa-check"
                   label="Completed"
                   value="1000"
-                  backgroundColor={themeColors.statCard.pink}
+                  backgroundGradient={themeColors.statCard.orange}
                   iconColor={themeColors.icon}
                   textColor={themeColors.text}
                 />
