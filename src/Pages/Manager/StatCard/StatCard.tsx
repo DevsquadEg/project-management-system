@@ -1,7 +1,7 @@
 import React from "react";
 
 interface StatCardProps {
-  iconClass: string;
+  icon: React.ReactNode;
   label: string;
   value: string | number;
   backgroundGradient: string;
@@ -10,7 +10,7 @@ interface StatCardProps {
 }
 
 const StatCard: React.FC<StatCardProps> = ({
-  iconClass,
+  icon,
   label,
   value,
   backgroundGradient,
@@ -35,7 +35,9 @@ const StatCard: React.FC<StatCardProps> = ({
         padding: "1rem",
       }}
     >
-      <i className={`${iconClass} mb-2 fs-4`} style={{ color: iconColor }}></i>
+      <div className="mb-2 fs-4" style={{ color: iconColor }}>
+        {icon}
+      </div>
       <div className="fw-bold" style={{ color: textColor }}>
         {label}
       </div>
