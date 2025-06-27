@@ -19,7 +19,7 @@ const StatCard: React.FC<StatCardProps> = ({
 }) => {
   return (
     <div
-      className="stat-card rounded-3 p-3"
+      className="rounded-3 p-3"
       style={{
         background: backgroundGradient,
         color: textColor,
@@ -28,6 +28,11 @@ const StatCard: React.FC<StatCardProps> = ({
         border: "1px solid rgba(255, 255, 255, 0.3)",
         boxShadow: "0 8px 20px rgba(0, 0, 0, 0.1)",
         transition: "transform 0.3s ease",
+        flex: "1",
+        minWidth: "140px",
+        textAlign: "center",
+        borderRadius: "1rem",
+        padding: "1rem",
       }}
     >
       <i className={`${iconClass} mb-2 fs-4`} style={{ color: iconColor }}></i>
