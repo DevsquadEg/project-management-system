@@ -304,3 +304,259 @@ aside {
 .border-start {
   border-left: 4px solid #ef9b28 !important;
 }
+
+/* ================== enhance comments ==================== */
+
+  /* login */
+ .pEnhance{
+  font-size: 12px;
+ }
+
+ .laberlEnhance{
+  color: #EF9B28;
+ }
+
+ /* register */
+
+ .imgEnhance{
+   width: 60px;
+  height: 60px;
+ }
+
+ /* Avatar Styling */
+.avatar-wrapper {
+  width: 60px;
+  height: 60px;
+}
+.avatar-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+.hidden-file-input {
+  appearance: none;
+  display: none;
+}
+
+/* Input Styling */
+.no-outline {
+  outline: none;
+}
+
+/* Label & Font Enhancements */
+.label-orange {
+  color: #EF9B28;
+}
+.label-sm {
+  font-size: 12px;
+}
+
+/* Select Enhancements */
+.select-placeholder {
+  color: #ddd;
+}
+.select-option {
+  color: #000;
+}
+
+/* verify */
+
+/* Text styling */
+.text-orange {
+  color: #EF9B28;
+}
+
+.small-welcome {
+  font-size: 10px;
+}
+
+.small-alert {
+  font-size: 12px;
+}
+
+/* Input styling */
+.no-outline {
+  outline: none;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* dashboard */
+.card-bg {
+  background-color: #f8f9fa; /* Light background for cards */
+}
+
+.border-primary-theme {
+  border-color: #EF9B28 !important; /* Your primary theme color (orange) */
+}
+
+.text-theme {
+  color: #212529; /* Dark text (bootstrap body color) */
+}
+
+.text-muted-theme {
+  color: #6c757d; /* Bootstrap's muted text color */
+}
+
+/* users */
+.thEnhance {
+  width: 15%;
+
+}
+
+.selectEnhance{
+  width: 80px;
+ 
+}
+
+.imgEnhanceUser{
+  object-fit: cover;
+}
+
+.tableEnhance{
+  background-color: rgba(49, 89, 81, 0.90);
+}
+
+/* PROJECT SYSTEM */
+.thPSEnhance1{
+  width: 25%;
+}
+.thPSEnhance2{
+  width: 40%;
+}
+.thPSEnhance3{
+  width: 15%;
+}
+.thPSEnhance4{
+  width: 20%;
+}
+.thPSEnhance5{
+  width: 25%;
+}
+
+/* project form add */
+
+.cursorEnhance{
+  cursor: pointer;
+}
+
+/* TASK */
+.thPSEnhanceTask1{
+  width: 25%;
+}
+.thPSEnhanceTask2{
+  width: 20%;
+}
+.thPSEnhanceTask3{
+  width: 15%;
+}
+/* task view  */
+.skeletonEnhance{
+  min-width: 100px;
+}
+
+/* profile */
+.profileBtnEnhance{
+  font-weight: 500px;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+/* forget password */
+:root {
+  --main-color: #ef9b28;
+  --main-color-darker-1: #d7952f;
+  --main-color-darker-2: #c18c2a;
+  --text-color-white: #fff;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../../../assets/fonts/Inter/Inter-VariableFont_opsz_wght.ttf");
+}
+
+.section-title {
+  color: var(--main-color);
+  font-family: "Inter";
+  line-height: 46px;
+  letter-spacing: -0.4px;
+}
+.section-title::first-letter {
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 0.3em;
+  text-decoration-color: var(--main-color);
+}
+.section-title::after {
+  content: none;
+  display: none;
+}
+
+form .form-label {
+  color: var(--main-color);
+}
+
+form input {
+  caret-color: var(--main-color);
+}
+
+.custom-btn {
+  background-color: var(--main-color);
+  color: var(--text-color-white);
+  border: none;
+  border-radius: 3.125rem;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.custom-btn:hover,
+.custom-btn:focus {
+  background-color: var(--main-color-darker-1);
+  color: var(--text-color-white);
+}
+
+.btn.custom-btn:active {
+  background-color: var(--main-color-darker-2);
+  color: #ccc;
+}
+
+.custom-btn:disabled {
+  background-color: #ccc !important;
+  color: var(--main-color) !important;
+}
+
+/* sidebar styles */
+.sidebar-container li.ps-menuitem-root {
+  padding: 5px 14px;
+}
+.sidebar-container li.ps-menuitem-root:hover {
+  padding: 5px 14px;
+}
+
+.sidebar-container li.ps-menuitem-root.active-menu a {
+  background-color: rgba(239, 155, 40, 0.3) !important;
+}
+
+.sidebar-container li.ps-menuitem-root a.ps-menu-button {
+  padding: 0 16px;
+  border-radius: 8px;
+  justify-content: center;
+}
+
+.sidebar-container li.ps-menuitem-root a.ps-menu-button span:first-child {
+  margin-right: 0px;
+}
+
+/* task column  */
+.styleTCEnhance{
+  min-height: 400px;
+}
+
+.btnClose{
+  padding-top: 10px;
+}
+
+

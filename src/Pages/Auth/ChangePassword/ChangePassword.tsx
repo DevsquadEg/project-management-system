@@ -25,13 +25,13 @@ export default function ChangePassword() {
   const onChangePass = async (data: any) => {
     try {
       let response = await axiosInstance.put(USERS_URL.CHANGE_PASSWORD, data);
-      console.log(response);
+      // console.log(response);
       navigate("/dashboard");
       toast.success(
         response?.data?.message || "Password has been updated successfully!"
       );
     } catch (error: any) {
-      console.log(error);
+      // console.log(error);
       toast.error(error?.response?.data?.message || "Invalid Password");
     }
   };

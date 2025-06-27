@@ -41,10 +41,10 @@ export default function Profile() {
                   <img
                     src={`${imgBaseURL}/${fullUserData.imagePath}`}
                     alt="User"
-                    className="rounded-circle shadow"
+                    className="rounded-circle shadow imgEnhanceUser"
                     width="130"
                     height="130"
-                    style={{ objectFit: "cover" }}
+                    
                   />
                 </div>
                 <h4 className="fw-bold text-primary mb-1">
@@ -96,12 +96,8 @@ export default function Profile() {
                 <div className="d-flex justify-content-center">
                   <button
                     onClick={handleOpen}
-                    className="btn btn-outline-success rounded-pill px-4 py-2 d-flex align-items-center gap-2 shadow-sm"
-                    style={{
-                      fontWeight: "500",
-                      fontSize: "16px",
-                      transition: "all 0.3s",
-                    }}
+                    className="btn btn-outline-success rounded-pill px-4 py-2 d-flex align-items-center gap-2 shadow-sm profileBtnEnhance"
+                    
                   >
                     <i className="fa-solid fa-pen-to-square"></i>
                     Edit Profile

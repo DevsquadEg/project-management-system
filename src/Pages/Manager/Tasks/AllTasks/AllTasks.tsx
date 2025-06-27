@@ -77,14 +77,14 @@ export default function AllTasks() {
           pageNumber: pageNumber,
         },
       });
-      console.log(response);
-      console.log(response.data.totalNumberOfRecords);
+      // console.log(response);
+      // console.log(response.data.totalNumberOfRecords);
       setAllTasks(response.data.data);
       setTotalPages(response.data.totalNumberOfPages);
       setTotalNumberOfRecords(response.data.totalNumberOfRecords);
     } catch (error) {
       if (isAxiosError(error)) {
-        toast.error(error?.response?.data.message || "Something went wrong!");
+        toast.error(error?.response?.data?.message || "Something went wrong!");
       }
     } finally {
       setLoading(false);
@@ -119,7 +119,7 @@ export default function AllTasks() {
 
   useEffect(() => {
     getAllTasks(searchTitle, pageSize, pageNumber);
-    console.log(totalNumberOfRecords);
+    // console.log(totalNumberOfRecords);
   }, [searchTitle, pageSize, pageNumber,getAllTasks ,totalNumberOfRecords]);
 
   return (
@@ -189,32 +189,32 @@ export default function AllTasks() {
         {/* ============== table ====================== */}
         <table className="table table-striped table-hover table-bordered align-middle text-center mb-0 ">
           <thead
-            className="table table-success table-custom"
-            style={{ background: "rgba(49, 89, 81, 0.90)" }}
+            className="table table-success table-custom tableEnhance"
+            
           >
             <tr>
-              <th style={{ width: "25%" }}>
+              <th className="thPSEnhanceTask1" >
                 <span>Title</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th style={{ width: "20%" }}>
+              <th  className="thPSEnhanceTask2">
                 <span>Status</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
 
-              <th style={{ width: "15%" }}>
+              <th className="thPSEnhanceTask3" >
                 <span>User</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th style={{ width: "20%" }}>
+              <th className="thPSEnhanceTask2" >
                 <span>Project</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th style={{ width: "20%" }}>
+              <th  className="thPSEnhanceTask2">
                 <span>Date Created</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th style={{ width: "25%" }}>
+              <th  className="thPSEnhanceTask1">
                 <span>Actions</span>
               </th>
             </tr>

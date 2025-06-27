@@ -20,7 +20,7 @@ const TaskColumn: React.FC<ColumnProps> = ({
   handleGoDown,
 }) => {
   const [tasksList, setTasksList] = useState<TaskType[]>([]);
-  console.log(title, "Column Tasks: ", tasks);
+  // console.log(title, "Column Tasks: ", tasks);
   const { setNodeRef } = useDroppable({
     id,
     data: {
@@ -36,10 +36,8 @@ const TaskColumn: React.FC<ColumnProps> = ({
   return (
     <div
       ref={setNodeRef}
-      className="col-md-4 position-relative"
-      style={{
-        minHeight: "400px",
-      }}
+      className="col-md-4 position-relative styleTCEnhance"
+      
     >
       <h5 className="mb-4 ms-4">{title}</h5>
       <div

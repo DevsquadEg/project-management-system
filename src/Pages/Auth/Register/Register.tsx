@@ -76,7 +76,8 @@ function convertValuesIntoForm(data:FormInfo){
         "Account created successfully. A verification code has been sent to your email address."
       ) {
         setErrorMessage(null);
-        toast.success(data.message);
+        
+        toast.success(data.message ||" A verification code has been sent to your email address.");
         setTimeout(() => {
           navigate("/verify-account", {
             state: { email: watch("email") },
@@ -162,7 +163,7 @@ useEffect(() => {
           <h2 className="section-title"> Create New Account</h2>
 
            <div className="img rounded-circle  " style={{width:60 , height:60,}}>
-            <img className="rounded-circle" onClick={handleClickImg} src={ reviewImage || avatar} alt="avatar-imge" style={{width:60 , height:60,}} />
+            <img className="rounded-circle imgEnhance" onClick={handleClickImg} src={ reviewImage || avatar} alt="avatar-imge"  />
             <input
             {...register("profileImage",{
               onChange(e) {
@@ -187,8 +188,8 @@ useEffect(() => {
           <div className="mb-3">
             <label
               htmlFor="userName"
-              className="d-block"
-              style={{ color: "#EF9B28" }}
+              className="d-block laberlEnhance"
+              
             >
               User Name
             </label>

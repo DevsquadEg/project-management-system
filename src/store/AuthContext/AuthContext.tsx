@@ -32,7 +32,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
                 setLoginData(decoded);
             }
         } catch (err) {
-            console.error("Invalid token", err);
+             console.error("Invalid token", err);
             localStorage.removeItem("token");
         } finally {
             setIsLoading(false); // stop loading whether success or fail
@@ -43,7 +43,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         try {
             const res = await axiosInstance.get(USERS_URL.GET_CURRENT_USER);
             setFullUserData(res.data);
-            console.log("userData", res.data);
+            // console.log("userData", res.data);
         } catch (err) {
             console.error("Failed to fetch user data", err);
         }

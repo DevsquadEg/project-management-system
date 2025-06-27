@@ -22,7 +22,7 @@ export default function TaskForm() {
   const { darkMode } = useMode();
 
   const { id } = useParams();
-  console.log("Task ID:", id);
+  // console.log("Task ID:", id);
   const {
     register,
     handleSubmit,
@@ -175,7 +175,7 @@ export default function TaskForm() {
     setLoading(true);
     try {
       const response = await axiosInstance.get(TASK_URLS.GET_TASK(Number(id)));
-      console.log(response.data);
+      // console.log(response.data);
       setTask(response.data);
       const { title, description, employee, project } = response.data;
       reset({
@@ -184,7 +184,7 @@ export default function TaskForm() {
         employeeId: employee.id,
         projectId: project.id,
       }); // put data into form
-      console.log("Fetched task data:", response.data);
+      // console.log("Fetched task data:", response.data);
     } catch (error) {
       toast.error("Failed to load task data");
       console.error("Error fetching task data:", error);
@@ -209,8 +209,8 @@ export default function TaskForm() {
         toast.success("Task created");
         navigate(-1);
       }
-    } catch (error) {
-      toast.error("Something went wrong!");
+    } catch (error:any) {
+      toast.error(error?.response?.data?.message ||"Something went wrong!");
     }
   };
 
@@ -247,8 +247,8 @@ export default function TaskForm() {
       >
         <div
           onClick={() => navigate(-1)}
-          className="d-flex align-items-center  gap-3 mb-3 text-muted"
-          style={{ cursor: "pointer" }}
+          className="d-flex align-items-center  gap-3 mb-3 text-muted cursorEnhance"
+          
         >
           <i className="fa-solid fa-angle-left"></i>
           <small>View All Tasks</small>

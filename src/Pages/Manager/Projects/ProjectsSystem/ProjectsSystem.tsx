@@ -42,7 +42,7 @@ export default function ProjectsSystem() {
             },
           }
         );
-        console.log(response.data);
+        // console.log(response.data);
         setAllProjects(response.data.data);
         setTotalPages(response.data.totalNumberOfPages);
         setTotalNumberOfRecords(response.data.totalNumberOfRecords);
@@ -143,28 +143,28 @@ export default function ProjectsSystem() {
         {/* ============== table ====================== */}
         <table className="table table-striped table-hover table-bordered align-middle text-center mb-0 ">
           <thead
-            className="table table-success table-custom"
-            style={{ background: "rgba(49, 89, 81, 0.90)" }}
+            className="table table-success table-custom tableEnhance"
+           
           >
             <tr>
-              <th style={{ width: "25%" }}>
+              <th className="thPSEnhance1" >
                 <span>Title</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th style={{ width: "40%" }}>
+              <th className="thPSEnhance2" >
                 <span>Description</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
 
-              <th style={{ width: "15%" }}>
+              <th className="thPSEnhance3" >
                 <span>Admin</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th style={{ width: "20%" }}>
+              <th className="thPSEnhance4" >
                 <span>Date Created</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th style={{ width: "25%" }}>
+              <th className="thPSEnhance5" >
                 <span>Actions</span>
               </th>
             </tr>
@@ -233,8 +233,8 @@ export default function ProjectsSystem() {
           <div className="d-flex align-items-center gap-2">
             <span>Showing</span>
             <select
-              className="form-select border rounded-pill px-3 py-1"
-              style={{ width: "80px" }}
+              className="form-select border rounded-pill px-3 py-1 selectEnhance"
+              
               value={pageSize}
               onChange={(e) => setPageSize(Number(e.target.value))}
             >

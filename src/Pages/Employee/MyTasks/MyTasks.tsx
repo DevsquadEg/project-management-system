@@ -50,23 +50,23 @@ export default function MyTasks() {
     const overId = over.id as string;
     const overColumn = data.columns.find((column) => column.id === overId);
     if (!overColumn) return;
-    console.log("I am here");
-    console.log("overColumn", overColumn);
-    console.log("overColumn", data.data[overColumn.status]);
+    // console.log("I am here");
+    // console.log("overColumn", overColumn);
+    // console.log("overColumn", data.data[overColumn.status]);
     if (data.data[overColumn.status].includes(activeTask as TaskType)) return;
     changeTaskStatus(activeId, overColumn?.status);
 
     setData((prev) => {
-      console.log("active", active);
+      // console.log("active", active);
       // return prev;
       const targetTask = prev.data[activeTask.status].filter(
         (task: TaskType) => task.id === activeId
       )[0];
       if (!targetTask) return prev;
-      console.log("target", targetTask);
+      // console.log("target", targetTask);
       targetTask.status = overColumn.status;
-      console.log("target2", targetTask);
-      console.log("active2", active);
+      // console.log("target2", targetTask);
+      // console.log("active2", active);
       return {
         ...prev,
         data: {
@@ -150,7 +150,7 @@ export default function MyTasks() {
         };
       });
     } catch (error) {
-      console.error("Error fetching aligned tasks:", error);
+      // console.error("Error fetching aligned tasks:", error);
     } finally {
       setLoading(false);
     }

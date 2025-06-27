@@ -68,11 +68,7 @@ export interface FormInfoVerifyProps {
   code: string;
 }
 
-export const PROJECT_URLS = {
-  GET_PROJECT_BY_ID: (id: number) => `/Project/${id}`,
-  CREATE_PROJECT: "/Project",
-  UPDATE_PROJECT: (id: number) => `/Project/${id}`,
-};
+
 
 export type UserType = {
   country: string;
