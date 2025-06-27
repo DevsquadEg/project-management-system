@@ -59,11 +59,13 @@ export default function Users() {
       });
 
       // console.log(response.data.data);
+      // console.log(response.data.data);
       setUserList(response.data.data);
       setTotalPages(response.data.totalNumberOfPages);
       setTotalNumberOfRecords(response.data.totalNumberOfRecords);
-    } catch (error) {
+    } catch (error:any) {
       // console.log(error);
+      toast.error(error?.response?.data.message || "Something went wrong!");
     } finally {
       setLoading(false);
     }
@@ -77,9 +79,9 @@ export default function Users() {
       // console.log(response);
       await getAllUsers("");
       toast.success("Statue has been Changed!");
-    } catch (error) {
-      // console.log(error);
-      toast.error("Something Wrong!");
+    } catch (error:any) {
+       console.log(error);
+      toast.error(error?.response?.data?.message ||"Something Wrong!");
     }
   };
 
@@ -89,8 +91,9 @@ export default function Users() {
       let response: any = await axiosInstance.get(USERS_URL.GET_USER(id));
       // console.log(response.data);
       setViewList(response.data);
-    } catch (error) {
+    } catch (error:any) {
       // console.log(error);
+      toast.error(error?.response?.data?.message ||"Something Wrong!");
     }
   };
 
@@ -117,7 +120,8 @@ export default function Users() {
           name="keywords"
           content="Users, Project Management, Admin Panel, Team Members, User Accounts"
         />
-      </Helmet>
+</Helmet>
+
 
       <div
         className={`d-flex justify-content-between align-items-center px-5 py-4 mb-4 ${
@@ -158,35 +162,35 @@ export default function Users() {
           {/* ============== table ====================== */}
           <table className="table table-striped table-hover table-bordered align-middle text-center mb-0  ">
             <thead
-              className=" table table-success table-custom "
-              style={{ background: "rgba(49, 89, 81, 0.90)" }}
+              className=" table table-success table-custom tableEnhance "
+             
             >
               <tr>
-                <th style={{ width: "15%" }}>
+                <th className="thEnhance" >
                   <span>User Name </span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
                 </th>
-                <th style={{ width: "15%" }}>
+                <th className="thEnhance" >
                   <span> Status</span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
                 </th>
-                <th style={{ width: "15%" }}>
+                <th className="thEnhance" >
                   <span>Image </span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
                 </th>
-                <th style={{ width: "15%" }}>
+                <th className="thEnhance" >
                   <span>Phone Number </span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
                 </th>
-                <th style={{ width: "15%" }}>
+                <th className="thEnhance" >
                   <span>Email </span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
                 </th>
-                <th style={{ width: "15%" }}>
+                <th className="thEnhance" >
                   <span className="text-center">Date created </span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
                 </th>
-                <th style={{ width: "15%" }}>
+                <th className="thEnhance" >
                   <span>Actions </span>
                 </th>
               </tr>
@@ -286,8 +290,8 @@ export default function Users() {
           <div className="d-flex align-items-center gap-2">
             <span>Showing</span>
             <select
-              className="form-select border rounded-pill px-3 py-1"
-              style={{ width: "80px" }}
+              className="form-select border rounded-pill px-3 py-1 selectEnhance"
+              
               value={pageSize}
               onChange={(e) => {
                 setPageSize(Number(e.target.value));
@@ -344,21 +348,21 @@ export default function Users() {
                     <div className="mb-4">
                       {viewList?.imagePath === null ? (
                         <img
-                          className="  rounded-circle shadow "
+                          className="  rounded-circle shadow imgEnhanceUser "
                           src={`https://upskilling-egypt.com:3003/files/users/images/806profile.jpeg`}
                           alt="image"
                           width="130"
                           height="130"
-                          style={{ objectFit: "cover" }}
+                          
                         />
                       ) : (
                         <img
-                          className="rounded-circle shadow"
+                          className="rounded-circle shadow imgEnhanceUser"
                           src={`${imgBaseURL}${viewList?.imagePath}`}
                           alt="image"
                           width="130"
                           height="130"
-                          style={{ objectFit: "cover" }}
+                          
                         />
                       )}
                     </div>

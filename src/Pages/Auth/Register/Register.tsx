@@ -65,7 +65,8 @@ export default function Register() {
         "Account created successfully. A verification code has been sent to your email address."
       ) {
         setErrorMessage(null);
-        toast.success(data.message);
+        
+        toast.success(data.message ||" A verification code has been sent to your email address.");
         setTimeout(() => {
           navigate("/verify-account", {
             state: { email: watch("email") },
@@ -133,33 +134,22 @@ export default function Register() {
         <div className="d-flex flex-column gap-1 mb-5 ">
           <small className="text-white">Welcome to PMS</small>
           <div className=" w-50 d-flex justify-content-between">
-            <h2 className="section-title"> Create New Account</h2>
 
-            <div
-              className="img rounded-circle  "
-              style={{ width: 60, height: 60 }}
-            >
-              <img
-                className="rounded-circle"
-                onClick={handleClickImg}
-                src={reviewImage || avatar}
-                alt="avatar-imge"
-                style={{ width: 60, height: 60 }}
-              />
-              <input
-                {...register("profileImage", {
-                  onChange(e) {
-                    const file = e.target.files[0];
-                    setValue("profileImage", file);
-                  },
-                })}
-                accept="image/*"
-                ref={fileInputRef}
-                type="file"
-                placeholder="hello"
-                style={{ appearance: "none", display: "none" }}
-              />
-            </div>
+          <h1 className="section-title"> Create New Account</h1>
+
+           <div className="img rounded-circle  " style={{width:60 , height:60,}}>
+            <img className="rounded-circle imgEnhance" onClick={handleClickImg} src={ reviewImage || avatar} alt="avatar-imge"  />
+            <input
+            {...register("profileImage",{
+              onChange(e) {
+                const file = e.target.files[0]
+              setValue("profileImage", file);
+              },
+            })}
+            
+            accept="image/*"  ref={fileInputRef} type="file"  placeholder="hello" style={{appearance:"none",display:"none"}}/>
+           </div>
+
           </div>
         </div>
 
@@ -170,8 +160,8 @@ export default function Register() {
           <div className="mb-3">
             <label
               htmlFor="userName"
-              className="d-block"
-              style={{ color: "#EF9B28" }}
+              className="d-block laberlEnhance"
+              
             >
               User Name
             </label>

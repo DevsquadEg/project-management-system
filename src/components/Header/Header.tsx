@@ -24,7 +24,9 @@ export default function Header({
       <div className="header-container d-flex justify-content-between align-items-center p-md-5 mb-4 m-4 ">
         <div className="caption text-white ">
           <div className="mb-3 ">
-            <span className="h1 ">{`${welcome} ${loginData?.userName}`}</span>
+            <span className="h1 h1PaddingCustom">{`${welcome}` }</span>
+            <span className="h2 changePassBtn ">{ loginData?.userName}</span>
+            <p className="h3 headerPCustomize">You can add project and assign tasks to your team</p>
             <span className="fs-3 mx-3 text-capitalize">
               {username
                 ? username

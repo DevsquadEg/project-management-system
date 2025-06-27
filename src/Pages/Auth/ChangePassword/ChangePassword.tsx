@@ -27,6 +27,7 @@ export default function ChangePassword() {
     try {
       let response = await axiosInstance.put(USERS_URL.CHANGE_PASSWORD, data);
       // console.log(response);
+     
       navigate("/dashboard");
       toast.success(
         response?.data?.message || "Password has been updated successfully!"
@@ -45,14 +46,14 @@ export default function ChangePassword() {
 
   return (
     <>
-      <div className="container  bg-white rounded-3 shadow-lg p-5 mt-5 ">
+      <div className="container  changePassBg rounded-3 shadow-lg p-5 mt-5 ">
         <form onSubmit={handleSubmit(onChangePass)} className="text-start">
           <div className="text-start mb-4">
             <small className="text-white">welcome to PMS</small>
             <div className="hello">
-              <h2 className="text-warning fw-bold m-0 section-title">
+              <h1 className="section-title fw-bold m-0 section-title">
                 Change Password
-              </h2>
+              </h1>
             </div>
           </div>
 
@@ -61,7 +62,7 @@ export default function ChangePassword() {
             {/* label  */}
             <label
               htmlFor="Passeword"
-              className="form-label text-warning fw-normal "
+              className="form-label  fw-normal "
             >
               Old Password
             </label>
@@ -71,7 +72,7 @@ export default function ChangePassword() {
                 <input
                   type={isFirstPassVisible ? "text" : "password"}
                   placeholder="Enter your Old Password"
-                  className="form-control "
+                  className="form-control custom-input"
                   {...register(
                     "oldPassword",
                     validation.PASSWORD_VALIDATION("password is required")
@@ -106,7 +107,7 @@ export default function ChangePassword() {
             {/* label  */}
             <label
               htmlFor="password"
-              className="form-label text-warning fw-normal"
+              className="form-label  fw-normal"
             >
               New Password
             </label>
@@ -120,7 +121,7 @@ export default function ChangePassword() {
                     "newPassword",
                     validation.PASSWORD_VALIDATION("Password is required")
                   )}
-                  className="form-control 
+                  className="form-control custom-input
                   "
                 />
                 {/* show password icon  */}
@@ -152,12 +153,12 @@ export default function ChangePassword() {
             {/* label  */}
             <label
               htmlFor="password"
-              className="form-label text-warning fw-normal"
+              className="form-label  fw-normal"
             >
               Confirm New Password
             </label>
             <div className="border-bottom d-flex align-items-center pb-1">
-              <div className="input-group ">
+              <div className="input-group  ">
                 {/* input */}
                 <input
                   type={isSecondPassVisible ? "text" : "password"}
@@ -171,7 +172,7 @@ export default function ChangePassword() {
                         "Passwords do not match", //match passowrd and confirm password
                     }
                   )}
-                  className="form-control 
+                  className="form-control custom-input
                   "
                 />
                 {/* show password icon  */}

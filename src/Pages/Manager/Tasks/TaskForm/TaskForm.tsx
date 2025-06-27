@@ -209,8 +209,8 @@ export default function TaskForm() {
         toast.success("Task created");
         navigate(-1);
       }
-    } catch (error) {
-      toast.error("Something went wrong!");
+    } catch (error:any) {
+      toast.error(error?.response?.data?.message ||"Something went wrong!");
     }
   };
 
@@ -247,8 +247,8 @@ export default function TaskForm() {
       >
         <div
           onClick={() => navigate(-1)}
-          className="d-flex align-items-center  gap-3 mb-3 text-muted"
-          style={{ cursor: "pointer" }}
+          className="d-flex align-items-center  gap-3 mb-3 text-muted cursorEnhance"
+          
         >
           <i className="fa-solid fa-angle-left"></i>
           <small>View All Tasks</small>

@@ -150,7 +150,7 @@ export default function MyTasks() {
         };
       });
     } catch (error) {
-      console.error("Error fetching aligned tasks:", error);
+      // console.error("Error fetching aligned tasks:", error);
     } finally {
       setLoading(false);
     }

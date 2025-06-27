@@ -55,113 +55,94 @@ export default function VerifyEmail() {
     }
 
     return (
-        <main className="rounded-2 py-2 px-4" role="main">
-            <section aria-labelledby="verify-heading" className="text mt-3">
-                <p className="mb-0 text-white" style={{ fontSize: 10 }}>
-                    Welcome to PMS
-                </p>
-                <h1
-                    id="verify-heading"
-                    className="h4 fw-bold"
-                    style={{ color: "#EF9B28" }}
-                >
-                    Verify Account
-                </h1>
-            </section>
+       <main className="rounded-2 py-2 px-4" role="main">
+  <header className="mt-3">
+    <p className="mb-0 text-white small-welcome">Welcome to PMS</p>
+    <h1 id="verify-heading" className="h4 fw-bold text-orange">
+      Verify Account
+    </h1>
+  </header>
 
-            <form
-                className="row mt-2 py-3"
-                onSubmit={handleSubmit(verificationAccount)}
-                noValidate
-            >
-                <div className="col-md-8">
-                    {/* Email Input */}
-                    <div className="mb-3">
-                        <label
-                            htmlFor="email"
-                            style={{ color: "#EF9B28" }}
-                            className="d-block"
-                        >
-                            E-mail
-                        </label>
-                        <input
-                            {...register("email", {
-                                required: "Email is required",
-                                pattern: {
-                                    value: validation.EMAIL_VALIDATION,
-                                    message: "Email must be valid",
-                                },
-                            })}
-                            id="email"
-                            type="email"
-                            className="border-0 border-1 border-bottom bg-transparent p-1"
-                            style={{ outline: 0, width: "100%" }}
-                            placeholder="Enter Your Email"
-                            aria-invalid={errors.email ? "true" : "false"}
-                            aria-describedby="email-error"
-                        />
-                        {errors.email && (
-                            <p
-                                id="email-error"
-                                className="text-white"
-                                style={{ fontSize: 12 }}
-                                role="alert"
-                            >
-                                {errors.email.message}
-                            </p>
-                        )}
-                    </div>
+  <form
+    className="row mt-2 py-3"
+    onSubmit={handleSubmit(verificationAccount)}
+    noValidate
+    aria-labelledby="verify-heading"
+  >
+    <fieldset className="col-md-8">
+      <legend className="visually-hidden">Verification Information</legend>
 
-                    {/* OTP Input */}
-                    <div className="mb-3">
-                        <label
-                            htmlFor="otp"
-                            style={{ color: "#EF9B28" }}
-                            className="d-block"
-                        >
-                            OTP Validation
-                        </label>
-                        <input
-                            {...register("code", {
-                                required: "OTP is required",
-                                minLength: {
-                                    value: 4,
-                                    message: "OTP must be 4 characters long",
-                                },
-                                maxLength: {
-                                    value: 4,
-                                    message: "OTP only 4 characters long",
-                                },
-                            })}
-                            id="otp"
-                            type="text"
-                            className="border-0 border-1 border-bottom bg-transparent p-1"
-                            style={{ outline: 0, width: "100%" }}
-                            placeholder="Enter Your OTP"
-                            aria-invalid={errors.code ? "true" : "false"}
-                            aria-describedby="otp-error"
-                        />
-                        {errors.code && (
-                            <p
-                                id="otp-error"
-                                className="text-white"
-                                style={{ fontSize: 12 }}
-                                role="alert"
-                            >
-                                {errors.code.message}
-                            </p>
-                        )}
-                    </div>
-                </div>
+      {/* Email Input */}
+      <div className="mb-3">
+        <label htmlFor="email" className="d-block text-orange">
+          E-mail
+        </label>
+        <input
+          {...register("email", {
+            required: "Email is required",
+            pattern: {
+              value: validation.EMAIL_VALIDATION,
+              message: "Email must be valid",
+            },
+          })}
+          id="email"
+          type="email"
+          className="border-0 border-1 border-bottom bg-transparent p-1 full-width no-outline text-white"
+          placeholder="Enter Your Email"
+          aria-invalid={errors.email ? "true" : "false"}
+          aria-required="true"
+          aria-describedby="email-error"
+        />
+        {errors.email && (
+          <p id="email-error" className="text-white small-alert" role="alert">
+            {errors.email.message}
+          </p>
+        )}
+      </div>
 
-                {errorMessage && (
-                    <p className="text-center text-white mt-2" role="alert">
-                        {errorMessage}
-                    </p>
-                )}
+      {/* OTP Input */}
+      <div className="mb-3">
+        <label htmlFor="otp" className="d-block text-orange">
+          OTP Validation
+        </label>
+        <input
+          {...register("code", {
+            required: "OTP is required",
+            minLength: {
+              value: 4,
+              message: "OTP must be 4 characters long",
+            },
+            maxLength: {
+              value: 4,
+              message: "OTP only 4 characters long",
+            },
+          })}
+          id="otp"
+          type="text"
+          className="border-0 border-1 border-bottom bg-transparent p-1 full-width no-outline text-white"
+          placeholder="Enter Your OTP"
+          aria-invalid={errors.code ? "true" : "false"}
+          aria-required="true"
+          aria-describedby="otp-error"
+        />
+        {errors.code && (
+          <p id="otp-error" className="text-white small-alert" role="alert">
+            {errors.code.message}
+          </p>
+        )}
+      </div>
+    </fieldset>
 
-                <SubmitBtn isSubmitting={isSubmitting} title="Verify" />
-            </form>
-        </main>
+    {errorMessage && (
+      <p className="text-center text-white mt-2" role="alert">
+        {errorMessage}
+      </p>
+    )}
+
+    <SubmitBtn isSubmitting={isSubmitting} title="Verify" />
+  </form>
+</main>
+
+
     );
 }

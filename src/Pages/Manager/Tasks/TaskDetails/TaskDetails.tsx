@@ -30,13 +30,13 @@ export default function TaskDetails() {
     setLoading(true);
     try {
       const response = await axiosInstance.get(TASK_URLS.GET_TASK(Number(id)));
-      // console.log(response.data);
+      // // console.log(response.data);
       setTask(response.data);
       // const { title, description, employee, project } = response.data;
       // console.log("Fetched task data:", response.data);
-    } catch (error) {
-      toast.error("Failed to load task data");
-      console.error("Error fetching task data:", error);
+    } catch (error:any) {
+      toast.error(error?.response?.data?.message||"Failed to load task data");
+      // console.error("Error fetching task data:", error);
     } finally {
       setLoading(false);
     }
@@ -53,8 +53,8 @@ export default function TaskDetails() {
       >
         <div
           onClick={() => navigate(-1)}
-          className="d-flex align-items-center  gap-3 mb-3 text-muted"
-          style={{ cursor: "pointer" }}
+          className="d-flex align-items-center  gap-3 mb-3 text-muted cursorEnhance "
+          
         >
           <i className="fa-solid fa-angle-left"></i>
           <small>View All Tasks</small>
@@ -84,8 +84,8 @@ export default function TaskDetails() {
               circle
               width={100}
               height={100}
-              className="mx-auto mb-3"
-              style={{ minWidth: "100px" }}
+              className="mx-auto mb-3 skeletonEnhance"
+              
             />
             <DetailRowSkeleton count={2} align="center" />
           </div>

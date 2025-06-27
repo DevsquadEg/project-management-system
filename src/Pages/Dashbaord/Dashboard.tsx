@@ -50,7 +50,7 @@ export default function Dashboard() {
       });
       setAllTasks(response.data.data);
       // console.log(response.data.data);
-    } catch (error: any) {
+    } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong!");
     }
   };
@@ -407,27 +407,18 @@ export default function Dashboard() {
       </Helmet>
 
       <Header />
-      <div className={`mx-4  mt-4 ${darkMode ? "text-light" : "text-dark"}`}>
+      <div className={`mx-4 mt-4 ${darkMode ? "text-light" : "text-dark"}`}>
         <div className="row gy-4">
           {/* Tasks Section */}
           <div className="col-md-6">
             <div
-              className={`${
+              className={`p-4 rounded-4 shadow-sm ${
                 darkMode ? "bg-dark" : "bg-white"
-              } p-4 rounded-4 shadow-sm`}
-              style={{ backgroundColor: themeColors.cardBg }}
+              } card-bg`}
             >
-              <div
-                className="border-start border-4 ps-3 mb-3"
-                style={{ borderColor: themeColors.primary }}
-              >
-                <h6
-                  className="mb-0 fw-bold"
-                  style={{ color: themeColors.text }}
-                >
-                  Tasks
-                </h6>
-                <small style={{ color: themeColors.mutedText }}>
+              <div className="border-start border-4 ps-3 mb-3 border-primary-theme">
+                <h6 className="mb-0 fw-bold text-theme">Tasks</h6>
+                <small className="text-muted-theme">
                   tasks are the backbone of any project, ensuring that work is
                   organized and tracked efficiently.
                 </small>
@@ -472,25 +463,15 @@ export default function Dashboard() {
 
           {isManger && (
             <>
-              {/* Users Section */}
               <div className="col-md-6">
                 <div
-                  className={`${
+                  className={`p-4 rounded-4 shadow-sm ${
                     darkMode ? "bg-dark" : "bg-white"
-                  } p-4 rounded-4 shadow-sm`}
-                  style={{ backgroundColor: themeColors.cardBg }}
+                  } card-bg`}
                 >
-                  <div
-                    className="border-start border-4 ps-3 mb-3"
-                    style={{ borderLeft: `${themeColors.primary} !important` }}
-                  >
-                    <h6
-                      className="mb-0 fw-bold"
-                      style={{ color: themeColors.text }}
-                    >
-                      Users
-                    </h6>
-                    <small style={{ color: themeColors.mutedText }}>
+                  <div className="border-start border-4 ps-3 mb-3 border-primary-theme">
+                    <h6 className="mb-0 fw-bold text-theme">Users</h6>
+                    <small className="text-muted-theme">
                       users are the key to any project, bringing skills and
                       expertise to
                     </small>

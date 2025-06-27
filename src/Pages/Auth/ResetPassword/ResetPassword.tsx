@@ -31,24 +31,26 @@ export default function ResetPassword() {
     try {
       const response = await axiosInstance.post(USERS_URL.RESET, data);
 
-      toast.success("Password has been reset successfully!");
-      navigate("/login", { state: { email: data.email } });
-    } catch (error) {
-      // console.log(error);
-      toast.error(error?.response?.data?.message || "Something went wrong");
-    }
-    setIsLoading(false);
-  };
-  return (
-    <>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="d-flex flex-column gap-4"
-      >
-        <div className="d-flex flex-column gap-1 ">
-          <small className="text-white">welcome to PMS</small>
-          <h2 className="section-title">Reset Password</h2>
-        </div>
+            toast.success(response?.data?.message ||"Password has been reset successfully!");
+            navigate("/login", { state: { email: data.email } });
+        } catch (error) {
+            // console.log(error);
+            toast.error(
+                error?.response?.data?.message || "Something went wrong"
+            );
+        }
+        setIsLoading(false);
+    };
+    return (
+        <>
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="d-flex flex-column gap-4"
+            >
+                <div className="d-flex flex-column gap-1 ">
+                    <small className="text-white">welcome to PMS</small>
+                    <h1 className="section-title">Reset Password</h1>
+                </div>
 
         {/* E-mail */}
         <div className="mb-3">

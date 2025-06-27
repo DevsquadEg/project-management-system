@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import toast from "react-hot-toast";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 type ProjectFormInputs = {
   title: string;
@@ -18,7 +18,7 @@ export default function ProjectForm() {
   const { darkMode } = useMode();
 
   const { id } = useParams();
-  // console.log("Project ID:", id);
+  //  console.log("Project ID:", id);
   const {
     register,
     handleSubmit,
@@ -35,9 +35,9 @@ export default function ProjectForm() {
       const { title, description } = response.data;
       reset({ title, description }); // put data into form
       // console.log("Fetched project data:", response.data);
-    } catch (error) {
-      toast.error("Failed to load project data");
-      console.error("Error fetching project data:", error);
+    } catch (error:any) {
+      toast.error(error?.response?.data?.message ||"Failed to load project data");
+      //  console.error("Error fetching project data:", error);
     }
   };
 
@@ -89,14 +89,13 @@ export default function ProjectForm() {
           darkMode ? "bg-dark" : "bg-white"
         } border border-start-0`}
       >
-        <div
-          onClick={() => navigate("/projects-manage")}
-          className="d-flex align-items-center  gap-3 mb-3 text-muted"
-          style={{ cursor: "pointer" }}
+       <Link
+       to="/projects-manage"
+       className="d-flex align-items-center gap-3 mb-3 text-muted cursorEnhance text-decoration-none"
         >
-          <i className="fa-solid fa-angle-left"></i>
-          <small>View All Projects</small>
-        </div>
+       <i className="fa-solid fa-angle-left"></i>
+       <small>View All Projects</small>
+      </Link>
         <h3>{id ? "Edit Project" : "Add a New Project"}</h3>
       </div>
 
@@ -149,13 +148,12 @@ export default function ProjectForm() {
 
           {/* Action Buttons */}
           <div className="border-top pt-4 d-flex justify-content-between">
-            <button
-              type="button"
-              className="btn btn-outline-dark rounded-pill px-4"
-              onClick={() => navigate("/projects-manage")}
+            <Link
+             to="/projects-manage"
+             className="btn btn-outline-dark rounded-pill px-4 btnClose"
             >
-              Cancel
-            </button>
+           Cancel
+            </Link>
             <button
               type="submit"
               className="btn btn-lg text-white rounded-pill px-4 bg-orange"

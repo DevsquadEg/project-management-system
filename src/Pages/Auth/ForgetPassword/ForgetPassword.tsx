@@ -1,7 +1,5 @@
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import "./forgetPassword.css";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import validation from "@/service/validation";
 import { axiosInstance } from "@/service/urls";
@@ -24,7 +22,9 @@ export default function ForgetPassword() {
         USERS_URL.RESET_REQUEST,
         data
       );
-      toast.success("Reset OTP sent Successfully, Please check your Email!");
+      
+      
+      toast.success(response?.data?.message ||"Reset OTP sent Successfully, Please check your Email!");
       navigate("/reset-password", { state: { email: data.email } });
     } catch (error: any) {
       // console.log(error);
