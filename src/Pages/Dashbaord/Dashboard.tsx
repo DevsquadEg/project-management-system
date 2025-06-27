@@ -25,8 +25,8 @@ export default function Dashboard() {
   const [allProjects, setAllProjects] = useState([]);
   const [allTasks, setAllTasks] = useState([]);
 
-  const activeCount = userList.filter((u) => u.isActivated).length;
-  const notActiveCount = userList.filter((u) => !u.isActivated).length;
+  const activeCount = userList.filter((u: any) => u.isActivated).length;
+  const notActiveCount = userList.filter((u: any) => !u.isActivated).length;
 
   //=======  get all tasks ==============
   const getAllTasks = async () => {
@@ -74,7 +74,7 @@ export default function Dashboard() {
       const data = response.data.data;
       setAllProjects(data);
       console.log(data);
-    } catch (error) {
+    } catch (error: any) {
       if (error) {
         toast.error(error?.response?.data.message || "Something went wrong!");
       }
@@ -225,9 +225,11 @@ export default function Dashboard() {
 
   // Tasks chart options
   const tasksChartOptions = useMemo<AgChartOptions>(() => {
-    const toDoTaks = allTasks.filter((t) => t.status === "ToDo").length;
-    const InProgress = allTasks.filter((t) => t.status === "InProgress").length;
-    const doneTasks = allTasks.filter((t) => t.status === "Done").length;
+    const toDoTaks = allTasks.filter((t: any) => t.status === "ToDo").length;
+    const InProgress = allTasks.filter(
+      (t: any) => t.status === "InProgress"
+    ).length;
+    const doneTasks = allTasks.filter((t: any) => t.status === "Done").length;
 
     return {
       title: { text: ` Tasks` },
@@ -344,7 +346,9 @@ export default function Dashboard() {
                 <StatCard
                   iconClass="fa-solid fa-check"
                   label="Completed"
-                  value={allTasks.filter((t) => t.status === "Done").length}
+                  value={
+                    allTasks.filter((t: any) => t.status === "Done").length
+                  }
                   backgroundGradient={themeColors.statCard.green}
                   iconColor={themeColors.icon}
                   textColor={themeColors.text}
