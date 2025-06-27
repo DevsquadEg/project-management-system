@@ -1,5 +1,13 @@
 import { useAuth } from "@/store/AuthContext/AuthContext";
 import { useEffect, useState } from "react";
+import { FaProjectDiagram } from "react-icons/fa";
+import {
+  MdChecklist,
+  MdOutlineWork,
+  MdPeople,
+  MdSpaceDashboard,
+  MdTaskAlt,
+} from "react-icons/md";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Link, useLocation } from "react-router-dom";
 
@@ -59,7 +67,7 @@ export default function SideBar() {
               className={
                 location.pathname === "/dashboard" ? "active-menu" : ""
               }
-              icon={<i className="fa-solid fa-house"></i>}
+              icon={<MdSpaceDashboard size={20} />}
               component={<Link to="/dashboard" />}
             >
               Home
@@ -68,29 +76,29 @@ export default function SideBar() {
             {loginData?.userGroup == "Manager" && (
               <MenuItem
                 className={location.pathname === "/users" ? "active-menu" : ""}
-                icon={<i className="fa-solid fa-users"></i>}
+                icon={<MdPeople size={20} />}
                 component={<Link to="/users" />}
               >
                 Users
               </MenuItem>
-            ) }
+            )}
 
             {loginData?.userGroup == "Manager" && (
               <MenuItem
                 className={
                   location.pathname === "/projects-system" ? "active-menu" : ""
                 }
-                icon={<i className="fa-solid fa-diagram-project"></i>}
+                icon={<FaProjectDiagram size={18} />}
                 component={<Link to="/projects-system" />}
               >
                 Projects System
               </MenuItem>
-            ) }
+            )}
             <MenuItem
               className={
                 location.pathname === "/projects-manage" ? "active-menu" : ""
               }
-              icon={<i className="fa-solid fa-briefcase"></i>}
+              icon={<MdOutlineWork size={20} />}
               component={<Link to="/projects-manage" />}
             >
               My Projects
@@ -98,7 +106,7 @@ export default function SideBar() {
             {loginData?.userGroup == "Manager" && (
               <MenuItem
                 className={location.pathname === "/tasks" ? "active-menu" : ""}
-                icon={<i className="fa-solid fa-list-check"></i>}
+                icon={<MdChecklist size={20} />}
                 component={<Link to="/tasks" />}
               >
                 All Tasks
@@ -110,7 +118,7 @@ export default function SideBar() {
                 className={
                   location.pathname === "/my-tasks" ? "active-menu" : ""
                 }
-                icon={<i className="fa-solid fa-check-double"></i>}
+                icon={<MdTaskAlt size={20} />}
                 component={<Link to="/my-tasks" />}
               >
                 My Tasks

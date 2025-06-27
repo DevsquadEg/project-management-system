@@ -6,6 +6,11 @@ import styles from "./DarkModeToggle.module.css";
 import { useMode } from "@/store/ModeContext/ModeContext";
 import Swal from "sweetalert2";
 
+import { MdOutlineWbSunny } from "react-icons/md";
+import { BsMoonStarsFill } from "react-icons/bs";
+import { FiLock, FiLogOut } from "react-icons/fi";
+import { HiBell, HiChevronDown } from "react-icons/hi";
+
 export default function Navbar() {
   const navigate = useNavigate();
 
@@ -16,7 +21,6 @@ export default function Navbar() {
     setDarkMode(!darkMode);
   };
 
-  
   // =========== LogOut ========
   const logOut = () => {
     logOutUser();
@@ -44,32 +48,32 @@ export default function Navbar() {
         </div>
         <div className="d-flex align-items-center justify-content-evenly gap-4 px-2">
           {/* <!-- Notification icon --> */}
-          <div className="position-relative">
-            <i
-              style={{ color: "#EF9B28" }}
-              className="fa-solid fa-bell fs-4 text-warning"
-            ></i>
+          <div
+            className="position-relative"
+            style={{ width: "fit-content", cursor: "pointer" }}
+          >
+            <HiBell size={28} color="#EF9B28" />
             <span
               className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
               style={{
                 fontSize: "0.6rem",
+                padding: "2px 6px",
+                fontWeight: "bold",
               }}
             >
-              1
+              3
             </span>
           </div>
+
           {/* Dark & light mode toggle icon */}
           <div className={styles.toggleContainer} onClick={handleDarkMode}>
-            <i
-              className={`fa-solid fa-sun ${styles.icon} ${styles.sun} ${
-                darkMode ? styles.iconVisible : styles.iconHidden
-              }`}
-            ></i>
-            <i
-              className={`fa-solid fa-moon ${styles.icon} ${styles.moon} ${
-                !darkMode ? styles.iconVisible : styles.iconHidden
-              }`}
-            ></i>
+            <div className={styles.toggleContainer} onClick={handleDarkMode}>
+              {darkMode ? (
+                <MdOutlineWbSunny size={24} color="#EF9B28" />
+              ) : (
+                <BsMoonStarsFill size={20} color="#EF9B28" />
+              )}
+            </div>
           </div>
           {/* <!-- Divider --> */}
           <div
@@ -89,7 +93,6 @@ export default function Navbar() {
             onClick={() => navigate("/profile")}
           >
             <img
-              //   src="https://randomuser.me/api/portraits/men/75.jpg"
               src={`${imgBaseURL}${
                 fullUserData?.imagePath || "files/users/images/806profile.jpeg"
               }`}
@@ -101,7 +104,9 @@ export default function Navbar() {
             <div className="d-flex flex-column">
               {/* <span>{loginData?.userName}</span> */}
               <small className="">{loginData?.userEmail}</small>
-              <span className="text-muted fw-light">{loginData?.userGroup}</span>
+              <span className="text-muted fw-light">
+                {loginData?.userGroup}
+              </span>
             </div>
           </div>
           {/* <!-- Arrow --> */}
@@ -112,22 +117,34 @@ export default function Navbar() {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <i className="fa-solid fa-angle-down"></i>
+              <HiChevronDown
+                size={18}
+                color={darkMode ? "#f8f9fa" : "#212529"}
+              />
             </button>
             <ul className="dropdown-menu dropdown-menu-end shadow-lg">
               <li>
                 <button
-                  className="dropdown-item d-flex align-items-center gap-2 text-secondary"
+                  className={`dropdown-item d-flex align-items-center gap-2  ${
+                    darkMode ? `text-whtie` : `text-secondary`
+                  }`}
                   onClick={() => {
                     navigate("/change-password");
                   }}
                 >
-                  <i className="bi bi-key "></i> Change Password
+                  <FiLock size={18} color={darkMode ? "#f8f9fa" : "#212529"} />{" "}
+                  Change Password
                 </button>
               </li>
               <li>
                 <button
-                  className="dropdown-item d-flex align-items-center gap-2 text-danger"
+                  className={`dropdown-item d-flex align-items-center gap-2 ${
+                    darkMode ? "text-light" : "text-danger"
+                  }`}
+                  style={{
+                    backgroundColor: darkMode ? "#1c1c1c" : "#fff",
+                    borderRadius: "6px",
+                  }}
                   onClick={() =>
                     Swal.fire({
                       title: "LogOut!",
@@ -135,6 +152,8 @@ export default function Navbar() {
                       icon: "warning",
                       confirmButtonText: "Logout",
                       showCloseButton: true,
+                      background: darkMode ? "#2c2c2c" : "#fff",
+                      color: darkMode ? "#fff" : "#000",
                     }).then((result: any) => {
                       if (result.isConfirmed) {
                         logOut();
@@ -142,7 +161,11 @@ export default function Navbar() {
                     })
                   }
                 >
-                  <i className="fa-solid fa-right-from-bracket "></i> Logout
+                  <FiLogOut
+                    size={18}
+                    color={darkMode ? "#ffffff" : "#dc3545"}
+                  />
+                  Logout
                 </button>
               </li>
             </ul>
