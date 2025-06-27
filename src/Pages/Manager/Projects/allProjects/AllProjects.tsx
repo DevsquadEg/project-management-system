@@ -62,6 +62,7 @@ export default function AllProjects() {
     try {
       setIsSubmitting(true);
       await axiosInstance.delete(PROJECT_URLS.DELETE_PROJECT(id));
+      
       toast.success("Project Deleted Successfully");
       onSuccess();
       getAllProjects();

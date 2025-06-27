@@ -559,4 +559,33 @@ form input {
   padding-top: 10px;
 }
 
+/* changepassword */
+.changePassBg{
+    background: rgba(49, 89, 81, 0.9);
 
+}
+.changePassBtn{
+    color: #ef9b28;
+
+}
+.changePassBtn:hover{
+    color: #ef9b28;
+}
+
+
+.custom-input{
+  background-color: transparent !important;
+  border: none !important;
+  /* border-bottom: 1px solid #ccc !important; */
+  color: #fff !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* header  */
+.h1PaddingCustom{
+   padding-right: 11px;
+}
+.headerPCustomize{
+  padding-top: 30px;
+}

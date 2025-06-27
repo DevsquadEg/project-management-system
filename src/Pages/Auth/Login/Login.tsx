@@ -64,7 +64,7 @@ export default function Login() {
                 Please log in using your email and password. Required fields are marked.
             </p>
             <small className="text-white">Welcome to PMS</small>
-            <h2 id="login-heading" className="section-title">Login</h2>
+            <h1 id="login-heading" className="section-title">Login</h1>
         </div>
 
         {/* E-mail */}
@@ -101,7 +101,7 @@ export default function Login() {
 
         {/* Password */}
         <div className="mb-3">
-            <label htmlFor="password" className="form-label text-warning fw-normal">
+            <label htmlFor="password" className="form-label  fw-normal">
                 Password <span className="visually-hidden">(required)</span>
             </label>
             <div className="border-bottom d-flex align-items-center pb-1">

@@ -49,7 +49,7 @@ export default function ResetPassword() {
             >
                 <div className="d-flex flex-column gap-1 ">
                     <small className="text-white">welcome to PMS</small>
-                    <h2 className="section-title">Reset Password</h2>
+                    <h1 className="section-title">Reset Password</h1>
                 </div>
 
                 {/* E-mail */}

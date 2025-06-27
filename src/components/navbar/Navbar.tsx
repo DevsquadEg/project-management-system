@@ -117,7 +117,7 @@ export default function Navbar() {
             <ul className="dropdown-menu dropdown-menu-end shadow-lg">
               <li>
                 <button
-                  className="dropdown-item d-flex align-items-center gap-2 text-secondary"
+                  className="dropdown-item d-flex align-items-center gap-2  changePassBtn "
                   onClick={() => {
                     navigate("/change-password");
                   }}

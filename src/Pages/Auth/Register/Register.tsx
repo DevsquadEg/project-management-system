@@ -160,7 +160,7 @@ useEffect(() => {
           <small className="text-white">Welcome to PMS</small>
           <div className=" w-50 d-flex justify-content-between">
 
-          <h2 className="section-title"> Create New Account</h2>
+          <h1 className="section-title"> Create New Account</h1>
 
            <div className="img rounded-circle  " style={{width:60 , height:60,}}>
             <img className="rounded-circle imgEnhance" onClick={handleClickImg} src={ reviewImage || avatar} alt="avatar-imge"  />
