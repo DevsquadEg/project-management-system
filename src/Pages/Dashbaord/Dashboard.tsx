@@ -387,6 +387,7 @@ export default function Dashboard() {
                   className="stat-card rounded-3 p-3"
                   style={{ backgroundColor: themeColors.statCard.purple }}
                 >
+                 
                   <i
                     className="fa-solid fa-user-check mb-2 fs-4"
                     style={{ color: themeColors.icon }} // Changed to use themeColors.icon

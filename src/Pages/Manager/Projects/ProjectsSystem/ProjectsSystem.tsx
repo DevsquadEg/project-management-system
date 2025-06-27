@@ -74,6 +74,7 @@ export default function ProjectsSystem() {
   useEffect(() => {
     if (loginData?.userGroup != "Manager") {
       navigate("/dashboard");
+      return;
     }
     const delayDebounce = setTimeout(() => {
       setPageNumber(1); // Reset pagination
@@ -83,6 +84,10 @@ export default function ProjectsSystem() {
   }, [searchTitle, pageSize]);
 
   useEffect(() => {
+    if (loginData?.userGroup != "Manager") {
+      navigate("/dashboard");
+      return;
+    }
     getProjectsSystem(searchTitle, pageSize, pageNumber);
     // console.log(getProjectsSystem());
   }, [pageNumber, searchTitle, pageSize]);

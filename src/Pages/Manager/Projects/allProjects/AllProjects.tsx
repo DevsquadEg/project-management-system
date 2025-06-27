@@ -36,8 +36,6 @@ export default function AllProjects() {
 
   const getAllProjects = useCallback(
     async (title = "", pageSizeValue = pageSize, page = pageNumber) => {
-
-      
       try {
         const response = await axiosInstance.get(url, {
           params: {
@@ -76,6 +74,10 @@ export default function AllProjects() {
 
   //=======  useEffect ==============
   useEffect(() => {
+    if (loginData?.userGroup != "Manager") {
+      navigate("/dashboard");
+      return;
+    }
     const delayDebounce = setTimeout(() => {
       setPageNumber(1); // Reset pagination
     }, 500);
@@ -84,6 +86,10 @@ export default function AllProjects() {
   }, [searchTitle, pageSize]);
 
   useEffect(() => {
+    if (loginData?.userGroup != "Manager") {
+      navigate("/dashboard");
+      return;
+    }
     getAllProjects(searchTitle, pageSize, pageNumber);
     // console.log(totalNumberOfRecords);
   }, [pageNumber, searchTitle, pageSize]);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { closestCorners, DndContext, type DragEndEvent } from "@dnd-kit/core";
 import TaskColumn from "./TaskColumn";
 import type { Column, TasksState, TaskType } from "@/interfaces/interfaces";
@@ -7,6 +7,8 @@ import { axiosInstance } from "@/service/urls";
 import { TASK_URLS } from "@/service/api";
 import toast from "react-hot-toast";
 import { arrayMove } from "@dnd-kit/sortable";
+import { useAuth } from "@/store/AuthContext/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const initialData: TasksState = {
   data: { ToDo: [], InProgress: [], Done: [] },
@@ -32,6 +34,8 @@ const initialData: TasksState = {
 };
 
 export default function MyTasks() {
+  const navigat = useNavigate();
+  const { loginData } = useAuth();
   const [data, setData] = useState<TasksState>(initialData);
   const [loading, setLoading] = useState(true);
   const { darkMode } = useMode();
@@ -153,6 +157,10 @@ export default function MyTasks() {
   };
 
   useEffect(() => {
+    if (loginData?.userGroup === "Manager") {
+      navigat("/login");
+      return;
+    }
     fetchAssignedTasks();
   }, []);
 
