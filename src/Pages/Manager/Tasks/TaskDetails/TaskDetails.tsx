@@ -30,10 +30,10 @@ export default function TaskDetails() {
     setLoading(true);
     try {
       const response = await axiosInstance.get(TASK_URLS.GET_TASK(Number(id)));
-      console.log(response.data);
+      // console.log(response.data);
       setTask(response.data);
       // const { title, description, employee, project } = response.data;
-      console.log("Fetched task data:", response.data);
+      // console.log("Fetched task data:", response.data);
     } catch (error) {
       toast.error("Failed to load task data");
       console.error("Error fetching task data:", error);

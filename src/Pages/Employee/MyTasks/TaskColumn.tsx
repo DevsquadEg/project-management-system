@@ -20,7 +20,7 @@ const TaskColumn: React.FC<ColumnProps> = ({
   handleGoDown,
 }) => {
   const [tasksList, setTasksList] = useState<TaskType[]>([]);
-  console.log(title, "Column Tasks: ", tasks);
+  // console.log(title, "Column Tasks: ", tasks);
   const { setNodeRef } = useDroppable({
     id,
     data: {

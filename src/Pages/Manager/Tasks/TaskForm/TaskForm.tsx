@@ -22,7 +22,7 @@ export default function TaskForm() {
   const { darkMode } = useMode();
 
   const { id } = useParams();
-  console.log("Task ID:", id);
+  // console.log("Task ID:", id);
   const {
     register,
     handleSubmit,
@@ -101,7 +101,7 @@ export default function TaskForm() {
   //         );
   //         // todo: delete this
   //         toast.success("projects fetched successfully");
-  //         console.log(response);
+  //         // console.log(response);
   //         setProjectsList(response.data.data);
   //     } catch (error) {
   //         toast.error("Failed to load projects data");
@@ -162,7 +162,7 @@ export default function TaskForm() {
   //         );
   //         // todo: delete this
   //         toast.success("users fetched successfully");
-  //         console.log(usersResponse);
+  //         // console.log(usersResponse);
   //         setUsersList(usersResponse.data.data);
   //     } catch (error) {
   //         toast.error("Failed to load users data");
@@ -175,7 +175,7 @@ export default function TaskForm() {
     setLoading(true);
     try {
       const response = await axiosInstance.get(TASK_URLS.GET_TASK(Number(id)));
-      console.log(response.data);
+      // console.log(response.data);
       setTask(response.data);
       const { title, description, employee, project } = response.data;
       reset({
@@ -184,7 +184,7 @@ export default function TaskForm() {
         employeeId: employee.id,
         projectId: project.id,
       }); // put data into form
-      console.log("Fetched task data:", response.data);
+      // console.log("Fetched task data:", response.data);
     } catch (error) {
       toast.error("Failed to load task data");
       console.error("Error fetching task data:", error);

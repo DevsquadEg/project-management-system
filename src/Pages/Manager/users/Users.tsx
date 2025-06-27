@@ -9,6 +9,7 @@ import Modal from "react-bootstrap/Modal";
 import { useMode } from "@/store/ModeContext/ModeContext.js";
 import { useAuth } from "@/store/AuthContext/AuthContext.js";
 import { Helmet } from "react-helmet-async";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
 export default function Users() {
   //======= hooks ==============
@@ -36,14 +37,14 @@ export default function Users() {
     setShowView(false);
     setViewList(null);
   };
-  const handleShowView = async (id:number) => {
+  const handleShowView = async (id: number) => {
     await showUserList(id); // show without button
     setShowView(true);
   };
 
   // get users list
   const getAllUsers = async (
-    userName:string,
+    userName: string,
     pageSizeValue = pageSize,
     page = pageNumber
   ) => {
@@ -57,12 +58,12 @@ export default function Users() {
         },
       });
 
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setUserList(response.data.data);
       setTotalPages(response.data.totalNumberOfPages);
       setTotalNumberOfRecords(response.data.totalNumberOfRecords);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     } finally {
       setLoading(false);
     }
@@ -73,11 +74,11 @@ export default function Users() {
   const toggleActivated = async (id: number) => {
     try {
       let response = await axiosInstance.put(USERS_URL.TOGGLE_USER(id));
-      console.log(response);
+      // console.log(response);
       await getAllUsers("");
       toast.success("Statue has been Changed!");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error("Something Wrong!");
     }
   };
@@ -86,10 +87,10 @@ export default function Users() {
   const showUserList = async (id: any) => {
     try {
       let response: any = await axiosInstance.get(USERS_URL.GET_USER(id));
-      console.log(response.data);
+      // console.log(response.data);
       setViewList(response.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -106,10 +107,8 @@ export default function Users() {
 
   return (
     <>
-
-
-<Helmet>
-   <title>Users | Project Management System</title>
+      <Helmet>
+        <title>Users | Project Management System</title>
         <meta
           name="description"
           content="Manage users within your project management system. View user details, edit accounts, or remove inactive users."
@@ -118,15 +117,7 @@ export default function Users() {
           name="keywords"
           content="Users, Project Management, Admin Panel, Team Members, User Accounts"
         />
-</Helmet>
-
-
-
-
-
-
-
-
+      </Helmet>
 
       <div
         className={`d-flex justify-content-between align-items-center px-5 py-4 mb-4 ${
@@ -243,7 +234,7 @@ export default function Users() {
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
-                          <i className="fa-solid fa-ellipsis fa-lg"></i>
+                          <HiOutlineDotsHorizontal size={20} />
                         </button>
 
                         <ul className="dropdown-menu dropdown-menu-end shadow border-0">

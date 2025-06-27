@@ -11,7 +11,14 @@ import { PROJECT_URLS, TASK_URLS, USERS_URL } from "@/service/api";
 import toast from "react-hot-toast";
 import StatCard from "../Manager/StatCard/StatCard";
 import { getThemeColors } from "../../service/style";
-import { FaCheck, FaSpinner, FaTasks, FaUserPlus, FaUsers, FaUserSlash } from "react-icons/fa";
+import {
+  FaCheck,
+  FaSpinner,
+  FaTasks,
+  FaUserPlus,
+  FaUsers,
+  FaUserSlash,
+} from "react-icons/fa";
 
 export default function Dashboard() {
   const { darkMode } = useMode();
@@ -42,7 +49,7 @@ export default function Dashboard() {
         },
       });
       setAllTasks(response.data.data);
-      console.log(response.data.data);
+      // console.log(response.data.data);
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "Something went wrong!");
     }
@@ -62,7 +69,7 @@ export default function Dashboard() {
       // console.log(response.data);
       setUserList(response.data.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -81,7 +88,7 @@ export default function Dashboard() {
       // Set to a high number to get all projects
       const data = response.data.data;
       setAllProjects(data);
-      console.log(data);
+      // console.log(data);
     } catch (error: any) {
       if (error) {
         toast.error(error?.response?.data.message || "Something went wrong!");
@@ -495,7 +502,7 @@ export default function Dashboard() {
                       icon={<FaUsers />}
                       label="Total "
                       value={userList.length}
-                      backgroundGradient={themeColors.statCard.violet} 
+                      backgroundGradient={themeColors.statCard.violet}
                       iconColor={themeColors.icon}
                       textColor={themeColors.text}
                     />
@@ -513,7 +520,7 @@ export default function Dashboard() {
                       icon={<FaUserSlash />}
                       label="Inactive "
                       value={notActiveCount}
-                      backgroundGradient={themeColors.statCard.red} 
+                      backgroundGradient={themeColors.statCard.red}
                       iconColor={themeColors.icon}
                       textColor={themeColors.text}
                     />

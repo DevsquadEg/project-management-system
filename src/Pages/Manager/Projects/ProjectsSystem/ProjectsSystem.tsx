@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { useMode } from "@/store/ModeContext/ModeContext";
 import { useAuth } from "@/store/AuthContext/AuthContext";
 import { Helmet } from "react-helmet-async";
+import { FiEdit } from "react-icons/fi";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
 export default function ProjectsSystem() {
   //=======  hooks ==============
@@ -42,7 +45,7 @@ export default function ProjectsSystem() {
             },
           }
         );
-        console.log(response.data);
+        // console.log(response.data);
         setAllProjects(response.data.data);
         setTotalPages(response.data.totalNumberOfPages);
         setTotalNumberOfRecords(response.data.totalNumberOfRecords);
@@ -69,7 +72,6 @@ export default function ProjectsSystem() {
     }
   };
 
-  
   //=======  useEffect ==============
   useEffect(() => {
     if (loginData?.userGroup != "Manager") {
@@ -186,7 +188,7 @@ export default function ProjectsSystem() {
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
-                        <i className="fa-solid fa-ellipsis fa-lg"></i>
+                        <HiOutlineDotsHorizontal size={20} />
                       </button>
 
                       <ul className="dropdown-menu dropdown-menu-end shadow  border-0">
@@ -197,7 +199,7 @@ export default function ProjectsSystem() {
                               navigate(`/projects/edit/${project.id}`)
                             }
                           >
-                            <i className="bi bi-pencil-square"></i> Edit
+                            <FiEdit size={18} /> Edit
                           </button>
                         </li>
                         <li>
@@ -209,7 +211,11 @@ export default function ProjectsSystem() {
                             }}
                             className="dropdown-item d-flex align-items-center gap-2 text-danger"
                           >
-                            <i className="bi bi-trash"></i> Delete
+                            <RiDeleteBin6Line
+                              size={18}
+                              className="text-danger"
+                            />{" "}
+                            Delete
                           </button>
                         </li>
                       </ul>

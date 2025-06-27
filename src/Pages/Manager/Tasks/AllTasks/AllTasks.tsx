@@ -9,6 +9,9 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useMode } from "@/store/ModeContext/ModeContext";
 import { useAuth } from "@/store/AuthContext/AuthContext";
 import { Helmet } from "react-helmet-async";
+import { FiEdit, FiEye } from "react-icons/fi";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 const StatusInfo = ({ status, darkMode }: any) => {
   const inProgressBgColor = "#EF9B28";
   const doneBgColor = "#009247";
@@ -61,36 +64,41 @@ export default function AllTasks() {
   const { darkMode } = useMode();
 
   //=======  get all projects ==============
-  const getAllTasks = useCallback( async (
-    title = "",
-    // status = undefined,
-    // pageSizeValue = pageSize,
-    // page = pageNumber
-  ) => {
-    setLoading(true);
-    try {
-      const response = await axiosInstance.get(TASK_URLS.GET_TASKS_BY_MANAGER, {
-        params: {
-          title: title,
-          status,
-          pageSize: pageSize,
-          pageNumber: pageNumber,
-        },
-      });
-      console.log(response);
-      console.log(response.data.totalNumberOfRecords);
-      setAllTasks(response.data.data);
-      setTotalPages(response.data.totalNumberOfPages);
-      setTotalNumberOfRecords(response.data.totalNumberOfRecords);
-    } catch (error) {
-      if (isAxiosError(error)) {
-        toast.error(error?.response?.data.message || "Something went wrong!");
+  const getAllTasks = useCallback(
+    async (
+      title = ""
+      // status = undefined,
+      // pageSizeValue = pageSize,
+      // page = pageNumber
+    ) => {
+      setLoading(true);
+      try {
+        const response = await axiosInstance.get(
+          TASK_URLS.GET_TASKS_BY_MANAGER,
+          {
+            params: {
+              title: title,
+              status,
+              pageSize: pageSize,
+              pageNumber: pageNumber,
+            },
+          }
+        );
+        // console.log(response);
+        // console.log(response.data.totalNumberOfRecords);
+        setAllTasks(response.data.data);
+        setTotalPages(response.data.totalNumberOfPages);
+        setTotalNumberOfRecords(response.data.totalNumberOfRecords);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          toast.error(error?.response?.data.message || "Something went wrong!");
+        }
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
-    }
-  },[pageNumber,pageSize]
-  )
+    },
+    [pageNumber, pageSize]
+  );
   // --------------- delete task -------------
   const onDeleteTask = async (id: number, onSuccess: any) => {
     try {
@@ -100,9 +108,8 @@ export default function AllTasks() {
       onSuccess();
       getAllTasks();
     } catch (error) {
-      if(isAxiosError(error)){
-              toast.error(error.response?.data?.message || "Failed to delete Task.");
-
+      if (isAxiosError(error)) {
+        toast.error(error.response?.data?.message || "Failed to delete Task.");
       }
     } finally {
       setIsSubmitting(false);
@@ -115,19 +122,17 @@ export default function AllTasks() {
       navigate("/dashboard");
     }
     setPageNumber(1); // Reset to first page when search changes
-  }, [searchTitle, pageSize,loginData ,navigate]);
+  }, [searchTitle, pageSize, loginData, navigate]);
 
   useEffect(() => {
     getAllTasks(searchTitle, pageSize, pageNumber);
-    console.log(totalNumberOfRecords);
-  }, [searchTitle, pageSize, pageNumber,getAllTasks ,totalNumberOfRecords]);
+    // console.log(totalNumberOfRecords);
+  }, [searchTitle, pageSize, pageNumber, getAllTasks, totalNumberOfRecords]);
 
   return (
     <>
-
-
-<Helmet>
-  <title>All-Projects | Project Management System</title>
+      <Helmet>
+        <title>All-Projects | Project Management System</title>
         <meta
           name="description"
           content="Manage Tasks within your project management system. View user details, edit, or remove tasks."
@@ -136,12 +141,7 @@ export default function AllTasks() {
           name="keywords"
           content="Users, Project Management, Admin Panel, Team Members, User Accounts"
         />
-</Helmet>
- 
-
-
-
-
+      </Helmet>
 
       <div
         className={`d-flex justify-content-between align-items-center px-5 py-4 mb-4 ${
@@ -238,7 +238,7 @@ export default function AllTasks() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      <i className="fa-solid fa-ellipsis fa-lg"></i>
+                      <HiOutlineDotsHorizontal size={20} />
                     </button>
 
                     <ul className="dropdown-menu dropdown-menu-end shadow  border-0">
@@ -247,10 +247,10 @@ export default function AllTasks() {
                           className="dropdown-item d-flex align-items-center gap-2 text-success"
                           onClick={
                             () => navigate(`/tasks/${task.id}`)
-                            // console.log(task.id)
+                            // // console.log(task.id)
                           }
                         >
-                          <i className="bi bi-eye  text-success"></i> View
+                          <FiEye size={18} className="text-success" /> View
                         </button>
                       </li>
                       <li>
@@ -258,7 +258,7 @@ export default function AllTasks() {
                           className="dropdown-item d-flex align-items-center gap-2 text-success"
                           onClick={() => navigate(`/tasks/edit/${task.id}`)}
                         >
-                          <i className="bi bi-pencil-square"></i> Edit
+                          <FiEdit size={18} /> Edit
                         </button>
                       </li>
                       <li>
@@ -270,7 +270,8 @@ export default function AllTasks() {
                           }}
                           className="dropdown-item d-flex align-items-center gap-2 text-danger"
                         >
-                          <i className="bi bi-trash"></i> Delete
+                          <RiDeleteBin6Line size={18} className="text-danger" />
+                          Delete
                         </button>
                       </li>
                     </ul>

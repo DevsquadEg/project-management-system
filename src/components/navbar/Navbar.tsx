@@ -29,7 +29,7 @@ export default function Navbar() {
 
   // ===========================
   useEffect(() => {
-    console.log("Login Data in Navbar:", loginData);
+    // console.log("Login Data in Navbar:", loginData);
   }, []);
 
   return (

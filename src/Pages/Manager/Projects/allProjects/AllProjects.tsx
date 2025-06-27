@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { useMode } from "@/store/ModeContext/ModeContext";
 import { useAuth } from "@/store/AuthContext/AuthContext";
 import { Helmet } from "react-helmet-async";
+import { FiEdit, FiSearch } from "react-icons/fi";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
 export default function AllProjects() {
   //=======  hooks ==============
@@ -45,7 +48,7 @@ export default function AllProjects() {
           },
         });
 
-        console.log(response.data.totalNumberOfRecords);
+        // console.log(response.data.totalNumberOfRecords);
         setAllProjects(response.data.data);
         setTotalPages(response.data.totalNumberOfPages);
         setTotalNumberOfRecords(response.data.totalNumberOfRecords);
@@ -74,10 +77,6 @@ export default function AllProjects() {
 
   //=======  useEffect ==============
   useEffect(() => {
-    if (loginData?.userGroup != "Manager") {
-      navigate("/dashboard");
-      return;
-    }
     const delayDebounce = setTimeout(() => {
       setPageNumber(1); // Reset pagination
     }, 500);
@@ -86,10 +85,6 @@ export default function AllProjects() {
   }, [searchTitle, pageSize]);
 
   useEffect(() => {
-    if (loginData?.userGroup != "Manager") {
-      navigate("/dashboard");
-      return;
-    }
     getAllProjects(searchTitle, pageSize, pageNumber);
     // console.log(totalNumberOfRecords);
   }, [pageNumber, searchTitle, pageSize]);
@@ -141,7 +136,7 @@ export default function AllProjects() {
                 darkMode ? "bg-dark" : "bg-white"
               } rounded-start-pill`}
             >
-              <i className="fa-solid fa-magnifying-glass text-secondary"></i>
+              <FiSearch size={18} className="text-secondary" />
             </span>
             <input
               type="text"
@@ -212,7 +207,7 @@ export default function AllProjects() {
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
-                          <i className="fa-solid fa-ellipsis fa-lg"></i>
+                          <HiOutlineDotsHorizontal size={20} />
                         </button>
 
                         <ul className="dropdown-menu dropdown-menu-end shadow  border-0">
@@ -223,7 +218,7 @@ export default function AllProjects() {
                                 navigate(`/projects/edit/${project.id}`)
                               }
                             >
-                              <i className="bi bi-pencil-square"></i> Edit
+                              <FiEdit size={18} /> Edit
                             </button>
                           </li>
                           <li>
@@ -235,7 +230,11 @@ export default function AllProjects() {
                               }}
                               className="dropdown-item d-flex align-items-center gap-2 text-danger"
                             >
-                              <i className="bi bi-trash"></i> Delete
+                              <RiDeleteBin6Line
+                                size={18}
+                                className="text-danger"
+                              />
+                              Delete
                             </button>
                           </li>
                         </ul>

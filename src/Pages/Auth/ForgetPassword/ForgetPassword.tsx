@@ -14,12 +14,11 @@ export default function ForgetPassword() {
   const {
     register,
     handleSubmit,
-    formState: { errors ,isSubmitting},
+    formState: { errors, isSubmitting },
   } = useForm();
 
   // =========== submit login ========
   const onSubmit = async (data: any) => {
-
     try {
       const response: any = await axiosInstance.post(
         USERS_URL.RESET_REQUEST,
@@ -27,11 +26,10 @@ export default function ForgetPassword() {
       );
       toast.success("Reset OTP sent Successfully, Please check your Email!");
       navigate("/reset-password", { state: { email: data.email } });
-    } catch (error:any) {
+    } catch (error: any) {
       // console.log(error);
       toast.error(error?.response?.data?.message || "Something went wrong");
     }
-   
   };
   return (
     <>
@@ -62,8 +60,8 @@ export default function ForgetPassword() {
             </div>
           </div>
           {errors?.email && (
-            <span className="text-danger">{errors?.email?.message}</span>)
-          }
+            <span className="text-danger">{errors?.email?.message}</span>
+          )}
         </div>
         <div className="   ">
           <Link

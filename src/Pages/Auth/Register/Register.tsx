@@ -9,7 +9,7 @@ import { USERS_URL } from "@/service/api";
 import { axiosInstance } from "@/service/urls";
 import validation from "@/service/validation";
 import SubmitBtn from "@/components/auth/SubmitBtn";
-import avatar from "../../../assets/register-img.png"
+import avatar from "../../../assets/register-img.png";
 
 const countriesList = Object.values(countries)
   .map((country) => ({
@@ -23,8 +23,8 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null)
-const [reviewImage , setReviewImage] = useState< string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [reviewImage, setReviewImage] = useState<string | null>(null);
 
   const navigate = useNavigate();
   const {
@@ -33,36 +33,25 @@ const [reviewImage , setReviewImage] = useState< string | null>(null)
     formState: { errors, isSubmitting },
     watch,
     trigger,
-    setValue
+    setValue,
   } = useForm<FormInfo>({ mode: "onChange", defaultValues: { country: "" } });
 
-
-
-function convertValuesIntoForm(data:FormInfo){
-  const formData = new FormData()
-  formData.append('userName', data.userName)
-  formData.append('email', data.email)
-  formData.append('password', data.password)
-  formData.append('confirmPassword', data.confirmPassword)
-  formData.append('country', data.country)
-  formData.append('phoneNumber', data.phoneNumber)
-  if(data.profileImage){
-     formData.append('profileImage', data.profileImage)
+  function convertValuesIntoForm(data: FormInfo) {
+    const formData = new FormData();
+    formData.append("userName", data.userName);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("confirmPassword", data.confirmPassword);
+    formData.append("country", data.country);
+    formData.append("phoneNumber", data.phoneNumber);
+    if (data.profileImage) {
+      formData.append("profileImage", data.profileImage);
+    }
+    return formData;
   }
-  return formData
-
-}
-
-
-
-
-
-
-
 
   async function registerEmploye(info: FormInfo) {
-
-    const convertedData = convertValuesIntoForm(info)
+    const convertedData = convertValuesIntoForm(info);
     const toastId = toast.loading("Waiting....");
     try {
       const options = {
@@ -115,37 +104,24 @@ function convertValuesIntoForm(data:FormInfo){
     handleChangePrefix();
   }, [selectedCountry, handleChangePrefix]);
 
+  // handle upload photo
 
-
-// handle upload photo
-
-
-function handleClickImg(){
-  fileInputRef.current?.click()
-}
-
-// Update preview when user selects a new image
-
-const watchImage = watch("profileImage");
-
-useEffect(() => {
-  if (watchImage instanceof File) {
-    const previewUrl = URL.createObjectURL(watchImage);
-    setReviewImage(previewUrl);
-
-    return () => URL.revokeObjectURL(previewUrl);
+  function handleClickImg() {
+    fileInputRef.current?.click();
   }
-}, [watchImage]);
 
+  // Update preview when user selects a new image
 
+  const watchImage = watch("profileImage");
 
+  useEffect(() => {
+    if (watchImage instanceof File) {
+      const previewUrl = URL.createObjectURL(watchImage);
+      setReviewImage(previewUrl);
 
-
-
-
-
-
-
+      return () => URL.revokeObjectURL(previewUrl);
+    }
+  }, [watchImage]);
 
   return (
     <>
@@ -154,32 +130,39 @@ useEffect(() => {
         onSubmit={handleSubmit(registerEmploye)}
         noValidate
       >
-        
         <div className="d-flex flex-column gap-1 mb-5 ">
           <small className="text-white">Welcome to PMS</small>
           <div className=" w-50 d-flex justify-content-between">
+            <h2 className="section-title"> Create New Account</h2>
 
-          <h2 className="section-title"> Create New Account</h2>
-
-           <div className="img rounded-circle  " style={{width:60 , height:60,}}>
-            <img className="rounded-circle" onClick={handleClickImg} src={ reviewImage || avatar} alt="avatar-imge" style={{width:60 , height:60,}} />
-            <input
-            {...register("profileImage",{
-              onChange(e) {
-                const file = e.target.files[0]
-              setValue("profileImage", file);
-              },
-            })}
-            
-            accept="image/*"  ref={fileInputRef} type="file"  placeholder="hello" style={{appearance:"none",display:"none"}}/>
-           </div>
-
+            <div
+              className="img rounded-circle  "
+              style={{ width: 60, height: 60 }}
+            >
+              <img
+                className="rounded-circle"
+                onClick={handleClickImg}
+                src={reviewImage || avatar}
+                alt="avatar-imge"
+                style={{ width: 60, height: 60 }}
+              />
+              <input
+                {...register("profileImage", {
+                  onChange(e) {
+                    const file = e.target.files[0];
+                    setValue("profileImage", file);
+                  },
+                })}
+                accept="image/*"
+                ref={fileInputRef}
+                type="file"
+                placeholder="hello"
+                style={{ appearance: "none", display: "none" }}
+              />
+            </div>
           </div>
         </div>
 
-
-
-        
         {/* Left Column */}
         <fieldset className="col-md-6">
           <legend className="visually-hidden">Personal Details</legend>
@@ -193,21 +176,7 @@ useEffect(() => {
               User Name
             </label>
             <input
-              {...register("userName", {
-                required: "User Name Is Required",
-                minLength: {
-                  value: 4,
-                  message: "Minimum 4 characters",
-                },
-                maxLength: {
-                  value: 8,
-                  message: "Maximum 8 characters",
-                },
-                pattern: {
-                  value: /^[A-Za-z]+[A-Za-z0-9]*\d$/,
-                  message: "Must end with numbers without spaces",
-                },
-              })}
+              {...register("userName", validation.USERNAME_VALIDATION)}
               id="userName"
               type="text"
               placeholder="Enter Your Name"
@@ -265,22 +234,14 @@ useEffect(() => {
           </div>
           {/* Password */}
           <div className="position-relative">
-            <label
-              htmlFor="password"
-              className="d-block form-label fw-normal"
-             
-            >
+            <label htmlFor="password" className="d-block form-label fw-normal">
               Password
             </label>
             <input
-              {...register("password", {
-                required: "Password is required",
-                pattern: {
-                  value: validation.CONFIRM_PASSWORD_VALIDATION,
-                  message:
-                    "Minimum 8 chars, with upper/lowercase, number, and special character",
-                },
-              })}
+              {...register(
+                "password",
+                validation.PASSWORD_VALIDATION("Password is required")
+              )}
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Enter Your Password"
@@ -385,11 +346,10 @@ useEffect(() => {
               Confirm Password
             </label>
             <input
-              {...register("confirmPassword", {
-                required: "Confirmed Password is required",
-                validate: (value) =>
-                  value === watch("password") || "Passwords do not match",
-              })}
+              {...register(
+                "confirmPassword",
+                validation.CONFIRM_PASSWORD_VALIDATION(watch, "password")
+              )}
               id="confirmedpassword"
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm Your Password"

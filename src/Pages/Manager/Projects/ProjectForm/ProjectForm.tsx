@@ -18,7 +18,7 @@ export default function ProjectForm() {
   const { darkMode } = useMode();
 
   const { id } = useParams();
-  console.log("Project ID:", id);
+  // console.log("Project ID:", id);
   const {
     register,
     handleSubmit,
@@ -34,7 +34,7 @@ export default function ProjectForm() {
       );
       const { title, description } = response.data;
       reset({ title, description }); // put data into form
-      console.log("Fetched project data:", response.data);
+      // console.log("Fetched project data:", response.data);
     } catch (error) {
       toast.error("Failed to load project data");
       console.error("Error fetching project data:", error);

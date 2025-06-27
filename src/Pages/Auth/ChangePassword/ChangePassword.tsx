@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import SubmitBtn from "@/components/auth/SubmitBtn";
 import type { ChangePassword } from "@/interfaces/interfaces";
+import validation from "@/service/validation";
 
 export default function ChangePassword() {
   const [isFirstPassVisible, setIsFirstPassVisible] = useState(false); // eye flash old password
@@ -25,13 +26,13 @@ export default function ChangePassword() {
   const onChangePass = async (data: any) => {
     try {
       let response = await axiosInstance.put(USERS_URL.CHANGE_PASSWORD, data);
-      console.log(response);
+      // console.log(response);
       navigate("/dashboard");
       toast.success(
         response?.data?.message || "Password has been updated successfully!"
       );
     } catch (error: any) {
-      console.log(error);
+      // console.log(error);
       toast.error(error?.response?.data?.message || "Invalid Password");
     }
   };
@@ -70,17 +71,11 @@ export default function ChangePassword() {
                 <input
                   type={isFirstPassVisible ? "text" : "password"}
                   placeholder="Enter your Old Password"
-                  className="form-control 
-                  "
-                  {...register("oldPassword", {
-                    required: "Old Password is Required", // validtion for old password
-                    pattern: {
-                      value:
-                        /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/,
-                      message:
-                        " must include at least one lowercase letter, one uppercase letter, one digit, one special character, and be at least 6 characters long.",
-                    },
-                  })}
+                  className="form-control "
+                  {...register(
+                    "oldPassword",
+                    validation.PASSWORD_VALIDATION("password is required")
+                  )}
                 />
                 {/* show password icon  */}
                 <button
@@ -121,9 +116,10 @@ export default function ChangePassword() {
                 <input
                   type={isSecondPassVisible ? "text" : "password"}
                   placeholder="Enter Your New Password"
-                  {...register("newPassword", {
-                    required: "New Password is Required", // validtion for New password
-                  })}
+                  {...register(
+                    "newPassword",
+                    validation.PASSWORD_VALIDATION("Password is required")
+                  )}
                   className="form-control 
                   "
                 />
