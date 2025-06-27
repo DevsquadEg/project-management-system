@@ -135,13 +135,7 @@ input:-webkit-autofill:active {
 }
 
 /* ================================ */
-.stat-card {
-  flex: 1;
-  min-width: 140px;
-  padding: 1rem;
-  border-radius: 1rem;
-  text-align: center;
-}
+
 
 .bg-light-purple {
   background-color: #e5e7fa;
@@ -304,4 +298,9 @@ aside {
 
 .bg-main {
   background-color: var(--main-color);
+}
+
+/* ================== stat-card ==================== */
+.border-start {
+  border-left: 4px solid #ef9b28 !important;
 }
