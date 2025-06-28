@@ -15,6 +15,7 @@ export interface FormInfo {
   country: string;
   phoneNumber: string;
   confirmPassword: string;
+  profileImage: File | null;
 }
 
 // Auth Context interfaces

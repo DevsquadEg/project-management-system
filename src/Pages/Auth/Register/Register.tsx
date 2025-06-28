@@ -65,8 +65,11 @@ export default function Register() {
         "Account created successfully. A verification code has been sent to your email address."
       ) {
         setErrorMessage(null);
-        
-        toast.success(data.message ||" A verification code has been sent to your email address.");
+
+        toast.success(
+          data.message ||
+            " A verification code has been sent to your email address."
+        );
         setTimeout(() => {
           navigate("/verify-account", {
             state: { email: watch("email") },
@@ -134,22 +137,32 @@ export default function Register() {
         <div className="d-flex flex-column gap-1 mb-5 ">
           <small className="text-white">Welcome to PMS</small>
           <div className=" w-50 d-flex justify-content-between">
+            <h1 className="section-title"> Create New Account</h1>
 
-          <h1 className="section-title"> Create New Account</h1>
-
-           <div className="img rounded-circle  " style={{width:60 , height:60,}}>
-            <img className="rounded-circle imgEnhance" onClick={handleClickImg} src={ reviewImage || avatar} alt="avatar-imge"  />
-            <input
-            {...register("profileImage",{
-              onChange(e) {
-                const file = e.target.files[0]
-              setValue("profileImage", file);
-              },
-            })}
-            
-            accept="image/*"  ref={fileInputRef} type="file"  placeholder="hello" style={{appearance:"none",display:"none"}}/>
-           </div>
-
+            <div
+              className="img rounded-circle  "
+              style={{ width: 60, height: 60 }}
+            >
+              <img
+                className="rounded-circle imgEnhance"
+                onClick={handleClickImg}
+                src={reviewImage || avatar}
+                alt="avatar-imge"
+              />
+              <input
+                {...register("profileImage", {
+                  onChange(e) {
+                    const file = e.target.files[0];
+                    setValue("profileImage", file);
+                  },
+                })}
+                accept="image/*"
+                ref={fileInputRef}
+                type="file"
+                placeholder="hello"
+                style={{ appearance: "none", display: "none" }}
+              />
+            </div>
           </div>
         </div>
 
@@ -158,11 +171,7 @@ export default function Register() {
           <legend className="visually-hidden">Personal Details</legend>
           {/* UserName */}
           <div className="mb-3">
-            <label
-              htmlFor="userName"
-              className="d-block laberlEnhance"
-              
-            >
+            <label htmlFor="userName" className="d-block laberlEnhance">
               User Name
             </label>
             <input
@@ -271,13 +280,7 @@ export default function Register() {
               E-mail
             </label>
             <input
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: validation.EMAIL_VALIDATION,
-                  message: "Email must be valid",
-                },
-              })}
+              {...register("email", validation.EMAIL_VALIDATION)}
               id="email"
               type="email"
               placeholder="Enter Your Email"

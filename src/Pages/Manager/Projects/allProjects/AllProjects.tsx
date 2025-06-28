@@ -68,10 +68,7 @@ export default function AllProjects() {
     [pageNumber, pageSize, url]
   );
   // --------------- delete project -------------
-  const onDeleteProject = async (
-    id: number | undefined,
-    onSuccess: () => void
-  ) => {
+  const onDeleteProject = async (id: number, onSuccess: () => void) => {
     try {
       setIsSubmitting(true);
       await axiosInstance.delete(PROJECT_URLS.DELETE_PROJECT(id));
@@ -106,7 +103,7 @@ export default function AllProjects() {
   useEffect(() => {
     getAllProjects(searchTitle, pageSize, pageNumber);
     // console.log(totalNumberOfRecords);
-  }, [pageNumber, searchTitle, pageSize]);
+  }, [pageNumber, searchTitle, pageSize, getAllProjects]);
 
   return (
     <>
@@ -273,9 +270,12 @@ export default function AllProjects() {
       <DeleteModal
         show={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
-        onConfirm={() =>
-          onDeleteProject(selectedProject?.id, () => setShowDeleteModal(false))
-        }
+        onConfirm={() => {
+          if (selectedProject)
+            onDeleteProject(selectedProject.id, () =>
+              setShowDeleteModal(false)
+            );
+        }}
         itemName={selectedProject?.title}
         title="Delete Project"
         isSubmitting={isSubmitting}
