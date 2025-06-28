@@ -41,13 +41,7 @@ export default function Header({
 
           <p>{description}</p>
         </div>
-        {/* <div className="header-img ">
-          <img
-            className="img-fluid"
-            src={headerImg || `/public/home-bg.svg`}
-            alt="header-image"
-          />
-        </div> */}
+       
       </div>
     </>
   );

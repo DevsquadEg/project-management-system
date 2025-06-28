@@ -6,7 +6,7 @@ export default function NotFound() {
     <>
       <div
         style={{
-          backgroundImage: `url("/public/backgroundNot.svg")`,
+          backgroundImage: `url("/backgroundNot.svg")`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
