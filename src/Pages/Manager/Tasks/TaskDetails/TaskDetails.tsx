@@ -16,25 +16,19 @@ export default function TaskDetails() {
   const [loading, setLoading] = useState(false);
   const [task, setTask] = useState<TaskType | undefined>(undefined);
 
-  const options: Intl.DateTimeFormatOptions = {
-    weekday: "long",
+  const dateOptions: Intl.DateTimeFormatOptions = {
     year: "numeric",
-    month: "long",
+    month: "short",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
-    second: "2-digit",
-    hour12: true,
   };
 
   const fetchTask = async () => {
     setLoading(true);
     try {
       const response = await axiosInstance.get(TASK_URLS.GET_TASK(Number(id)));
-      // // console.log(response.data);
       setTask(response.data);
-      // const { title, description, employee, project } = response.data;
-      // console.log("Fetched task data:", response.data);
     } catch (error: unknown) {
       if (isAxiosError(error)) {
         toast.error(
@@ -45,169 +39,236 @@ export default function TaskDetails() {
       } else {
         toast.error("An unknown error occurred");
       }
-      // console.error("Error fetching task data:", error);
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     fetchTask();
   }, []);
+
   return (
-    <>
-      <div
-        className={`d-flex  flex-column px-5 py-4 mb-5 ${
-          darkMode ? "bg-dark" : "bg-white"
-        } border border-start-0`}
-      >
-        <div
-          onClick={() => navigate(-1)}
-          className="d-flex align-items-center  gap-3 mb-3 text-muted cursorEnhance "
-        >
-          <i className="fa-solid fa-angle-left"></i>
-          <small>View All Tasks</small>
-        </div>
-        <h3>View Task Details</h3>
-      </div>
-      {/* show skeleton when loading */}
-      {loading && (
-        <div
-          className={`d-flex ${
-            darkMode ? "bg-dark" : "bg-white"
-          } border border-start-0 px-5 py-4 mb-5 justify-content-between rounded-3 m-3 shadow-sm border-0`}
-        >
-          {/* Left Column - Task & Project Details */}
-          <div className="flex-grow-1">
-            {/* Task Details */}
-            <div className="mb-4">
-              <Skeleton height={28} width={150} className="mb-3" />
-              <DetailRowSkeleton count={5} />
-            </div>
-          </div>
-
-          {/* Right Column - Assigned Employee */}
-          <div className="employee-skeleton">
-            <Skeleton height={28} width={180} className="mb-3 text-center" />
-            <Skeleton
-              circle
-              width={100}
-              height={100}
-              className="mx-auto mb-3 skeletonEnhance"
-            />
-            <DetailRowSkeleton count={2} align="center" />
-          </div>
-        </div>
-      )}
-
-      {/* display task data [title, description, status, modification data, creation date, project [title, description, creation date, modification date], employee [userName, email]] */}
-      {task && (
-        <div
-          className={`d-flex ${
-            darkMode ? "bg-dark" : "bg-white"
-          } border border-start-0 px-5 py-4 mb-5 justify-content-between rounded-3 m-3 shadow-sm border-0`}
-        >
-          <div className="d-flex flex-column gap-3">
-            <div className="d-flex flex-column">
-              <h5 className="fw-bold text-center">Task Details</h5>
-              <div className="d-flex align-items-center gap-3">
-                <span className="fw-bold">Title:</span>
-                <span>{task.title}</span>
-              </div>
-              <div className="d-flex align-items-center gap-3">
-                <span className="fw-bold">Description:</span>
-                <span>{task.description}</span>
-              </div>
-              <div className="d-flex align-items-center gap-3">
-                <span className="fw-bold">Status:</span>
-                <span>{task.status}</span>
-              </div>
-              <div className="d-flex align-items-center gap-3">
-                <span className="fw-bold">Created At:</span>
-                <span>
-                  {new Date(task.creationDate).toLocaleString("en", options)}
-                </span>
-              </div>
-              <div className="d-flex align-items-center gap-3">
-                <span className="fw-bold">Last Modified At:</span>
-                <span>
-                  {new Date(task.modificationDate).toLocaleString(
-                    "en",
-                    options
-                  )}
-                </span>
-              </div>
-            </div>
-            <div className="d-flex flex-column">
-              <h5 className="fw-bold text-center">Project Details</h5>
-              <div className="d-flex align-items-center gap-3">
-                <span className="fw-bold">Title:</span>
-                <span>{task.project.title}</span>
-              </div>
-              <div className="d-flex align-items-center gap-3">
-                <span className="fw-bold">Description:</span>
-                <span>{task.project.description}</span>
-              </div>
-              <div className="d-flex align-items-center gap-3">
-                <span className="fw-bold">Created At:</span>
-                <span>
-                  {new Date(task.project.creationDate).toLocaleString(
-                    "en",
-                    options
-                  )}
-                </span>
-              </div>
-              <div className="d-flex align-items-center gap-3">
-                <span className="fw-bold">Last Modified At:</span>
-                <span>
-                  {new Date(task.project.modificationDate).toLocaleString(
-                    "en",
-                    options
-                  )}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="d-flex flex-column align-items-center justify-content-evenly">
-            <h5 className="fw-bold text-center">Assigned To</h5>
-            {/* employee image */}
-            <div
-              className="img-container rounded-circle d-flex justify-content-center border-1 overflow-auto"
-              style={{
-                border: "1px solid #ef9b28",
-                width: "100px",
-                height: "100px",
-              }}
+    <div
+      className={`max-vh-100 ${darkMode ? "bg-dark text-light" : "bg-light"}`}
+    >
+      {/* Header Section */}
+      <header className={`${darkMode ? "bg-dark" : "bg-white"} shadow-sm py-3`}>
+        <div className="container">
+          <div className="d-flex align-items-center">
+            <button
+              onClick={() => navigate(-1)}
+              className={`btn btn-link ${
+                darkMode ? "text-light" : "text-dark"
+              } text-decoration-none`}
             >
-              <img
-                src={`/profile.jpeg`}
-                alt="User"
-                className="img-fluid object-fit-cover"
-              />
-            </div>
-            <div className="p-2">
-              <div className="d-flex align-items-center gap-3">
-                <span className="fw-bold">User Name:</span>
-                <span>{task.employee.userName}</span>
+              <i className="fas fa-arrow-left me-2"></i>
+              Back to Tasks
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main className="container py-4">
+        <h2 className="mb-4 fw-bold">Task Details</h2>
+
+        {loading ? (
+          <TaskDetailsSkeleton darkMode={darkMode} />
+        ) : task ? (
+          <div className="row g-4">
+            {/* Employee Card */}
+            <div className="col-md-4">
+              <div
+                className={`card ${
+                  darkMode ? "bg-dark-gray" : "bg-white"
+                } h-100 shadow-sm`}
+              >
+                <div className="card-body text-center">
+                  <h5 className="card-title mb-4">Assigned To</h5>
+                  <div className="mb-3">
+                    <img
+                      src="/profile.jpeg"
+                      alt="User"
+                      className="rounded-circle border border-3"
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
+                  <DetailItem label="Name" value={task.employee.userName} />
+                  <DetailItem label="Email" value={task.employee.email} />
+                </div>
               </div>
-              <div className="d-flex align-items-center gap-3">
-                <span className="fw-bold">Email:</span>
-                <span>{task.employee.email}</span>
+            </div>
+
+            {/* Task Details Card */}
+            <div className="col-md-8">
+              <div
+                className={`card ${
+                  darkMode ? "bg-dark-gray" : "bg-white"
+                } shadow-sm`}
+              >
+                <div className="card-body">
+                  <div className="row g-4">
+                    <div className="col-md-6">
+                      <SectionHeader title="Task Information" />
+                      <DetailItem label="Title" value={task.title} />
+                      <DetailItem
+                        label="Description"
+                        value={task.description}
+                      />
+                      <DetailItem
+                        label="Status"
+                        value={
+                          <span
+                            className={`badge ${getStatusBadgeClass(
+                              task.status
+                            )}`}
+                          >
+                            {task.status}
+                          </span>
+                        }
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <SectionHeader title="Timeline" />
+                      <DetailItem
+                        label="Created"
+                        value={new Date(task.creationDate).toLocaleString(
+                          "en",
+                          dateOptions
+                        )}
+                      />
+                      <DetailItem
+                        label="Last Modified"
+                        value={new Date(task.modificationDate).toLocaleString(
+                          "en",
+                          dateOptions
+                        )}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Project Details Card */}
+              <div
+                className={`card mt-4 ${
+                  darkMode ? "bg-dark-gray" : "bg-white"
+                } shadow-sm`}
+              >
+                <div className="card-body">
+                  <SectionHeader title="Project Details" />
+                  <div className="row g-4">
+                    <div className="col-md-6">
+                      <DetailItem
+                        label="Project Title"
+                        value={task.project.title}
+                      />
+                      <DetailItem
+                        label="Description"
+                        value={task.project.description}
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <DetailItem
+                        label="Created"
+                        value={new Date(
+                          task.project.creationDate
+                        ).toLocaleString("en", dateOptions)}
+                      />
+                      <DetailItem
+                        label="Last Modified"
+                        value={new Date(
+                          task.project.modificationDate
+                        ).toLocaleString("en", dateOptions)}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-    </>
+        ) : (
+          <div className="alert alert-warning">No task data available</div>
+        )}
+      </main>
+    </div>
   );
 }
 
-const DetailRowSkeleton = ({ count = 1, align = "start" }) => (
-  <div className={`d-flex flex-column gap-2 text-${align}`}>
-    {[...Array(count)].map((_, i) => (
-      <div key={i} className="d-flex align-items-center gap-3">
-        <Skeleton height={18} width={100} />
-        <Skeleton height={18} width={i % 2 === 0 ? "65%" : "50%"} />
-      </div>
-    ))}
+// Helper Components
+const DetailItem = ({
+  label,
+  value,
+}: {
+  label: string;
+  value: React.ReactNode;
+}) => (
+  <div className="mb-3">
+    <h6 className="text-muted mb-1">{label}</h6>
+    <p className="mb-0">{value}</p>
   </div>
 );
+
+const SectionHeader = ({ title }: { title: string }) => (
+  <h5 className="mb-4 fw-bold border-bottom pb-2">{title}</h5>
+);
+
+const TaskDetailsSkeleton = ({ darkMode }: { darkMode: boolean }) => (
+  <div className="row g-4">
+    <div className="col-md-4">
+      <div className={`card ${darkMode ? "bg-dark-gray" : "bg-white"} h-100`}>
+        <div className="card-body text-center">
+          <Skeleton height={28} width={120} className="mb-4 mx-auto" />
+          <Skeleton circle width={100} height={100} className="mb-3 mx-auto" />
+          <Skeleton count={2} height={20} className="mb-2" />
+        </div>
+      </div>
+    </div>
+    <div className="col-md-8">
+      <div className={`card ${darkMode ? "bg-dark-gray" : "bg-white"} mb-4`}>
+        <div className="card-body">
+          <Skeleton height={28} width={150} className="mb-4" />
+          <div className="row">
+            <div className="col-md-6">
+              <Skeleton count={4} height={20} className="mb-3" />
+            </div>
+            <div className="col-md-6">
+              <Skeleton count={2} height={20} className="mb-3" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className={`card ${darkMode ? "bg-dark-gray" : "bg-white"}`}>
+        <div className="card-body">
+          <Skeleton height={28} width={150} className="mb-4" />
+          <div className="row">
+            <div className="col-md-6">
+              <Skeleton count={2} height={20} className="mb-3" />
+            </div>
+            <div className="col-md-6">
+              <Skeleton count={2} height={20} className="mb-3" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// Helper function for status badges
+const getStatusBadgeClass = (status: string) => {
+  switch (status.toLowerCase()) {
+    case "completed":
+      return "bg-success";
+    case "in progress":
+      return "bg-primary";
+    case "pending":
+      return "bg-warning text-dark";
+    default:
+      return "bg-secondary";
+  }
+};
