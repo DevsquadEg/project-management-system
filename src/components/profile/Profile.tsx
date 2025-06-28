@@ -44,7 +44,6 @@ export default function Profile() {
                     className="rounded-circle shadow imgEnhanceUser"
                     width="130"
                     height="130"
-                    
                   />
                 </div>
                 <h4 className="fw-bold text-primary mb-1">
@@ -97,7 +96,6 @@ export default function Profile() {
                   <button
                     onClick={handleOpen}
                     className="btn btn-outline-success rounded-pill px-4 py-2 d-flex align-items-center gap-2 shadow-sm profileBtnEnhance"
-                    
                   >
                     <i className="fa-solid fa-pen-to-square"></i>
                     Edit Profile

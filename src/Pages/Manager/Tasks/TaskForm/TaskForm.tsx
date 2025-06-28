@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMode } from "@/store/ModeContext/ModeContext";
-import { isAxiosError } from "@/service/checkAxiosError";
+import { isAxiosError } from "axios";
 
 export default function TaskForm() {
   const navigate = useNavigate();
@@ -180,7 +180,7 @@ export default function TaskForm() {
         toast.success("Task created");
         navigate(-1);
       }
-    } catch (error: unknown) {
+    } catch (error) {
       if (isAxiosError(error)) {
         toast.error(error.response?.data?.message || "Something went wrong!");
       } else if (error instanceof Error) {

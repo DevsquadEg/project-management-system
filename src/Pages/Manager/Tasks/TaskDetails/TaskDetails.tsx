@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useMode } from "@/store/ModeContext/ModeContext";
-import { isAxiosError } from "@/service/checkAxiosError";
+import { isAxiosError } from "axios";
 
 export default function TaskDetails() {
   const { id } = useParams();
@@ -29,7 +29,7 @@ export default function TaskDetails() {
     try {
       const response = await axiosInstance.get(TASK_URLS.GET_TASK(Number(id)));
       setTask(response.data);
-    } catch (error: unknown) {
+    } catch (error) {
       if (isAxiosError(error)) {
         toast.error(
           error?.response?.data?.message || "Failed to load task data"

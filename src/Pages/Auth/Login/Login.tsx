@@ -34,8 +34,8 @@ export default function Login() {
       await getCurrentUser();
       toast.success("Login success!");
       navigate("/dashboard", { replace: true });
-    } catch (error: any) {
-      console.log(error?.response?.data?.message);
+    } catch (error) {
+      // console.log(error?.response?.data?.message);
       if (isAxiosError(error))
         toast.error(error?.response?.data?.message || "Something went wrong");
     }

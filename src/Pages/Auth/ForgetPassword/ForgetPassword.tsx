@@ -5,6 +5,7 @@ import validation from "@/service/validation";
 import { axiosInstance } from "@/service/urls";
 import { USERS_URL } from "@/service/api";
 import SubmitBtn from "@/components/auth/SubmitBtn";
+import { isAxiosError } from "axios";
 
 export default function ForgetPassword() {
   const navigate = useNavigate();
@@ -22,13 +23,17 @@ export default function ForgetPassword() {
         USERS_URL.RESET_REQUEST,
         data
       );
-      
-      
-      toast.success(response?.data?.message ||"Reset OTP sent Successfully, Please check your Email!");
+
+      toast.success(
+        response?.data?.message ||
+          "Reset OTP sent Successfully, Please check your Email!"
+      );
       navigate("/reset-password", { state: { email: data.email } });
-    } catch (error: any) {
+    } catch (error) {
+      if (isAxiosError(error)) {
+        toast.error(error?.response?.data?.message || "Something went wrong");
+      }
       // console.log(error);
-      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   };
   return (

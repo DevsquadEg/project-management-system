@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import SubmitBtn from "@/components/auth/SubmitBtn";
 import type { ChangePassword } from "@/interfaces/interfaces";
 import validation from "@/service/validation";
+import { isAxiosError } from "axios";
 
 export default function ChangePassword() {
   const [isFirstPassVisible, setIsFirstPassVisible] = useState(false); // eye flash old password
@@ -27,14 +28,16 @@ export default function ChangePassword() {
     try {
       let response = await axiosInstance.put(USERS_URL.CHANGE_PASSWORD, data);
       // console.log(response);
-     
+
       navigate("/dashboard");
       toast.success(
         response?.data?.message || "Password has been updated successfully!"
       );
-    } catch (error: any) {
+    } catch (error) {
+      if (isAxiosError(error)) {
+        toast.error(error?.response?.data?.message || "Invalid Password");
+      }
       // console.log(error);
-      toast.error(error?.response?.data?.message || "Invalid Password");
     }
   };
 
@@ -60,10 +63,7 @@ export default function ChangePassword() {
           {/* UI Old Password*/}
           <div className="mb-3">
             {/* label  */}
-            <label
-              htmlFor="Passeword"
-              className="form-label  fw-normal "
-            >
+            <label htmlFor="Passeword" className="form-label  fw-normal ">
               Old Password
             </label>
             <div className="border-bottom d-flex align-items-center pb-1">
@@ -105,10 +105,7 @@ export default function ChangePassword() {
           {/*  UI New Password  */}
           <div className="mb-3">
             {/* label  */}
-            <label
-              htmlFor="password"
-              className="form-label  fw-normal"
-            >
+            <label htmlFor="password" className="form-label  fw-normal">
               New Password
             </label>
             <div className="border-bottom d-flex align-items-center pb-1">
@@ -151,10 +148,7 @@ export default function ChangePassword() {
           {/* UI Confirm Password  */}
           <div className="mb-3">
             {/* label  */}
-            <label
-              htmlFor="password"
-              className="form-label  fw-normal"
-            >
+            <label htmlFor="password" className="form-label  fw-normal">
               Confirm New Password
             </label>
             <div className="border-bottom d-flex align-items-center pb-1">

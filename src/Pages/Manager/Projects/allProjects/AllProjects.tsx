@@ -79,7 +79,7 @@ export default function AllProjects() {
       toast.success("Project Deleted Successfully");
       onSuccess();
       getAllProjects();
-    } catch (error: unknown) {
+    } catch (error) {
       if (isAxiosError(error)) {
         toast.error(
           error.response?.data?.message || "Failed to delete project."

@@ -66,7 +66,7 @@ export default function Users() {
       setUserList(response.data.data);
       setTotalPages(response.data.totalNumberOfPages);
       setTotalNumberOfRecords(response.data.totalNumberOfRecords);
-    } catch (error: unknown) {
+    } catch (error) {
       // console.log(error);
       if (isAxiosError(error)) {
         toast.error(error?.response?.data.message || "Something went wrong!");
@@ -88,7 +88,7 @@ export default function Users() {
       // console.log(response);
       await getAllUsers("");
       toast.success("Statue has been Changed!");
-    } catch (error: unknown) {
+    } catch (error) {
       if (isAxiosError(error)) {
         toast.error(error?.response?.data?.message || "Something Wrong!");
       } else if (error instanceof Error) {
@@ -105,7 +105,7 @@ export default function Users() {
       const response = await axiosInstance.get(USERS_URL.GET_USER(id));
       // console.log(response.data);
       setViewList(response.data);
-    } catch (error: unknown) {
+    } catch (error) {
       if (isAxiosError(error)) {
         toast.error(error?.response?.data?.message || "Something Wrong!");
       } else if (error instanceof Error) {

@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { arrayMove } from "@dnd-kit/sortable";
 import { useAuth } from "@/store/AuthContext/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { isAxiosError } from "@/service/checkAxiosError";
+import { isAxiosError } from "axios";
 
 const initialData: TasksState = {
   data: { ToDo: [], InProgress: [], Done: [] },
@@ -118,7 +118,7 @@ export default function MyTasks() {
         .then(() => {
           toast.success("Status Changed Successfully");
         });
-    } catch (error: unknown) {
+    } catch (error) {
       if (isAxiosError(error)) {
         toast.error(error.response.data.message || "Something went wrong");
       } else if (error instanceof Error) {
@@ -156,7 +156,7 @@ export default function MyTasks() {
           },
         };
       });
-    } catch (error: unknown) {
+    } catch (error) {
       if (isAxiosError(error)) {
         toast.error(error.response.data.message || "Can't get assigned tasks");
       } else if (error instanceof Error) {

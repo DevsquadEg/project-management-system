@@ -19,6 +19,7 @@ import {
   FaUsers,
   FaUserSlash,
 } from "react-icons/fa";
+import { isAxiosError } from "axios";
 
 export default function Dashboard() {
   const { darkMode } = useMode();
@@ -89,8 +90,8 @@ export default function Dashboard() {
       const data = response.data.data;
       setAllProjects(data);
       // console.log(data);
-    } catch (error: any) {
-      if (error) {
+    } catch (error) {
+      if (isAxiosError(error)) {
         toast.error(error?.response?.data.message || "Something went wrong!");
       }
     }

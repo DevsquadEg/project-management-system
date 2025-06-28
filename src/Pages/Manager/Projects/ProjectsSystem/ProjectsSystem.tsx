@@ -75,7 +75,7 @@ export default function ProjectsSystem() {
       toast.success("Project Deleted Successfully");
       onSuccess();
       await getProjectsSystem();
-    } catch (error: unknown) {
+    } catch (error) {
       if (isAxiosError(error)) {
         toast.error(
           error.response?.data?.message || "Failed to delete project."
