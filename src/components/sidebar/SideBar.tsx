@@ -1,3 +1,4 @@
+import type { AuthContextType } from "@/interfaces/interfaces";
 import { useAuth } from "@/store/AuthContext/AuthContext";
 import { useEffect, useState } from "react";
 import { FaProjectDiagram } from "react-icons/fa";
@@ -14,7 +15,7 @@ import { Link, useLocation } from "react-router-dom";
 export default function SideBar() {
   const location = useLocation();
   const [isCollapse, setIsCollapse] = useState(false);
-  const { loginData }: any = useAuth();
+  const { loginData }: AuthContextType = useAuth();
 
   const handleCollapse = () => {
     setIsCollapse(!isCollapse);

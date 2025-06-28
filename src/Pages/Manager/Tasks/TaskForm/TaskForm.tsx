@@ -9,7 +9,7 @@ import type {
   TaskFormInputs,
 } from "@/interfaces/interfaces";
 import { axiosInstance } from "@/service/urls";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
 
@@ -73,13 +73,13 @@ export default function TaskForm() {
     }
   };
 
-  const loadInitialProjects = async () => {
+  const loadInitialProjects = useCallback(async () => {
     setLoading(true);
     const { newProjects } = await fetchProjects(1, pageSize);
     setProjectsList(newProjects);
     // setProjectHasMore(moreAvailable);
     setLoading(false);
-  };
+  }, []);
 
   // const loadMoreProjects = async () => {
   //   if (!projectHasMore) return;
@@ -122,13 +122,13 @@ export default function TaskForm() {
     }
   };
 
-  const loadInitialUsers = async () => {
+  const loadInitialUsers = useCallback(async () => {
     setLoading(true);
     const { newRecords } = await fetchUsers(1, pageSize);
     setUsersList(newRecords);
     // setUsersHasMore(moreAvailable);
     setLoading(false);
-  };
+  }, []);
 
   // const loadMoreUsers = async () => {
   //   if (!usersHasMore) return;
@@ -142,7 +142,7 @@ export default function TaskForm() {
   // };
 
   // =========== fetch task data if id exists ==========
-  const fetchTask = async () => {
+  const fetchTask = useCallback(async () => {
     setLoading(true);
     try {
       const response = await axiosInstance.get(TASK_URLS.GET_TASK(Number(id)));
@@ -162,7 +162,7 @@ export default function TaskForm() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, reset]);
 
   // =========== submit task form ==========
   const onSubmitTask = async (data: TaskFormInputs) => {
@@ -202,8 +202,7 @@ export default function TaskForm() {
       }
       // setLoading(false);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [id, reset] // Run effect when id changes or on initial render
+    [fetchTask, id, loadInitialProjects, loadInitialUsers, reset] // Run effect when id changes or on initial render
   );
 
   // =========== Render form ==========

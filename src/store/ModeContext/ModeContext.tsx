@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import {
   createContext,
   useContext,
@@ -9,7 +10,7 @@ import type { ModeContextType } from "@/interfaces/interfaces";
 
 const ModeContext = createContext<ModeContextType | undefined>(undefined);
 
-const ModeProvider = ({ children }: { children: ReactNode }) => {
+export default function ModeProvider({ children }: { children: ReactNode }) {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
     const savedMode = localStorage.getItem("darkMode");
     return savedMode
@@ -35,10 +36,9 @@ const ModeProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </ModeContext.Provider>
   );
-};
+}
 
-export default ModeProvider;
-export const useMode = () => {
+export const useMode = (): ModeContextType => {
   const context = useContext(ModeContext);
   if (context === undefined) {
     throw new Error("useMode must be used within a ModeProvider");

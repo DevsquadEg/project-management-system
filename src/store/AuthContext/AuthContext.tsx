@@ -32,7 +32,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         setLoginData(decoded);
       }
     } catch (err) {
-       console.error("Invalid token", err);
+      console.error("Invalid token", err);
       localStorage.removeItem("token");
     } finally {
       setIsLoading(false); // stop loading whether success or fail

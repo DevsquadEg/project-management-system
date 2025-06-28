@@ -1,7 +1,7 @@
 import { TASK_URLS } from "@/service/api";
 import type { TaskType } from "@/interfaces/interfaces";
 import { axiosInstance } from "@/service/urls";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
@@ -24,7 +24,7 @@ export default function TaskDetails() {
     minute: "2-digit",
   };
 
-  const fetchTask = async () => {
+  const fetchTask = useCallback(async () => {
     setLoading(true);
     try {
       const response = await axiosInstance.get(TASK_URLS.GET_TASK(Number(id)));
@@ -42,11 +42,11 @@ export default function TaskDetails() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     fetchTask();
-  }, []);
+  }, [fetchTask]);
 
   return (
     <div

@@ -5,28 +5,33 @@ import { axiosInstance } from "@/service/urls";
 import { USERS_URL } from "@/service/api";
 import toast from "react-hot-toast";
 import { countries } from "countries-list";
+import type { FullUserDataType, UserFormInputs } from "@/interfaces/interfaces";
+import { isAxiosError } from "axios";
 
 export default function EditUserModal({
   show,
   handleClose,
   userData,
   refreshProfile,
-}: any) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ defaultValues: userData });
+}: {
+  show: boolean;
+  handleClose: () => void;
+  userData: FullUserDataType;
+  refreshProfile: () => void;
+}) {
+  const { register, handleSubmit } = useForm<UserFormInputs>({
+    defaultValues: userData,
+  });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const countriesList = Object.values(countries)
-      .map((country) => ({
-        Countryname: country.name,
-        countryPhone: country.phone[0],
-      }))
-      .sort((a, b) => a.Countryname.localeCompare(b.Countryname));
-  const onSubmit = async (data: any) => {
+  const countriesList = Object.values(countries)
+    .map((country) => ({
+      Countryname: country.name,
+      countryPhone: country.phone[0],
+    }))
+    .sort((a, b) => a.Countryname.localeCompare(b.Countryname));
+  const onSubmit = async (data: UserFormInputs) => {
     try {
       setIsSubmitting(true);
 
@@ -36,7 +41,7 @@ export default function EditUserModal({
       formData.append("country", data.country);
       formData.append("phoneNumber", data.phoneNumber);
       formData.append("confirmPassword", data.confirmPassword);
-      if (data.profileImage[0]) {
+      if (data.profileImage && data.profileImage[0]) {
         formData.append("profileImage", data.profileImage[0]);
       }
 
@@ -44,8 +49,8 @@ export default function EditUserModal({
       toast.success("Profile updated successfully");
       refreshProfile();
       handleClose();
-    } catch (err) {
-      toast.error("Failed to update profile");
+    } catch (error) {
+      if (isAxiosError(error)) toast.error("Failed to update profile");
     } finally {
       setIsSubmitting(false);
     }
