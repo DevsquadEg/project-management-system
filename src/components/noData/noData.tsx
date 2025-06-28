@@ -1,9 +1,3 @@
-import React from 'react'
-
 export default function noData() {
-  return (
-    <div>
-      no dataaaaa
-    </div>
-  )
+  return <div>no dataaaaa</div>;
 }
