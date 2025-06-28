@@ -62,13 +62,14 @@ export default function ProjectsSystem() {
         setLoading(false);
       }
     },
-    []
+    [pageNumber, pageSize]
   );
   // --------------- delete project -------------
   const onDeleteProject = async (
     id: number | undefined,
     onSuccess: () => void
   ) => {
+    if (!id) return;
     try {
       setIsSubmitting(true);
       await axiosInstance.delete(PROJECT_URLS.DELETE_PROJECT(id));
@@ -101,7 +102,7 @@ export default function ProjectsSystem() {
     }, 500);
 
     return () => clearTimeout(delayDebounce);
-  }, [searchTitle, pageSize]);
+  }, [searchTitle, pageSize, loginData?.userGroup, navigate]);
 
   useEffect(() => {
     if (loginData?.userGroup != "Manager") {
@@ -110,7 +111,14 @@ export default function ProjectsSystem() {
     }
     getProjectsSystem(searchTitle, pageSize, pageNumber);
     // console.log(getProjectsSystem());
-  }, [pageNumber, searchTitle, pageSize]);
+  }, [
+    pageNumber,
+    searchTitle,
+    pageSize,
+    loginData?.userGroup,
+    getProjectsSystem,
+    navigate,
+  ]);
 
   return (
     <>

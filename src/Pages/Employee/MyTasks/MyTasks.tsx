@@ -178,7 +178,7 @@ export default function MyTasks() {
       return;
     }
     fetchAssignedTasks();
-  }, []);
+  }, [loginData?.userGroup, navigat]);
 
   return (
     <>

@@ -1,3 +1,5 @@
+import type { UseFormRegister } from "react-hook-form";
+
 const CustomInput = ({
   type,
   placeholder,
@@ -10,8 +12,8 @@ const CustomInput = ({
   type: string;
   placeholder: string;
   label: string;
-  validation: {} ;
-  register: any;
+  validation: { required: string; pattern: { value: RegExp; message: string } };
+  register: UseFormRegister<{ [registeredTitle: string]: string }>;
   registeredTitle: string;
   errorMessage: string;
 }) => {
@@ -27,7 +29,7 @@ const CustomInput = ({
             id={registeredTitle}
             type={type}
             placeholder={placeholder}
-            {...register({ registeredTitle }, validation)}
+            {...register(registeredTitle, validation)}
             className="form-control custom-input"
           />
         </div>

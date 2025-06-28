@@ -4,7 +4,7 @@ import Header from "../../components/Header/Header";
 import { Helmet } from "react-helmet-async";
 import { useAuth } from "@/store/AuthContext/AuthContext";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AgCharts } from "ag-charts-react";
 import { axiosInstance } from "@/service/urls";
 import { PROJECT_URLS, TASK_URLS, USERS_URL } from "@/service/api";
@@ -20,6 +20,7 @@ import {
   FaUserSlash,
 } from "react-icons/fa";
 import { isAxiosError } from "axios";
+import type { ProjectType, TaskType, UserType } from "@/interfaces/interfaces";
 
 export default function Dashboard() {
   const { darkMode } = useMode();
@@ -34,11 +35,13 @@ export default function Dashboard() {
   const [allProjects, setAllProjects] = useState([]);
   const [allTasks, setAllTasks] = useState([]);
 
-  const activeCount = userList.filter((u: any) => u.isActivated).length;
-  const notActiveCount = userList.filter((u: any) => !u.isActivated).length;
+  const activeCount = userList.filter((u: UserType) => u.isActivated).length;
+  const notActiveCount = userList.filter(
+    (u: UserType) => !u.isActivated
+  ).length;
 
   //=======  get all tasks ==============
-  const getAllTasks = async () => {
+  const getAllTasks = useCallback(async () => {
     const url = isManger
       ? TASK_URLS.GET_TASKS_BY_MANAGER
       : TASK_URLS.GET_ASSIGNED_TASKS;
@@ -52,15 +55,16 @@ export default function Dashboard() {
       setAllTasks(response.data.data);
       // console.log(response.data.data);
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something went wrong!");
+      if (isAxiosError(error))
+        toast.error(error?.response?.data?.message || "Something went wrong!");
     }
-  };
+  }, [isManger]);
 
   // ====== get users list =====
-  const getAllUsers = async () => {
+  const getAllUsers = useCallback(async () => {
     if (!isManger) return; // Only managers can access this data
     try {
-      let response: any = await axiosInstance.get(USERS_URL.GET_ALL_USERS, {
+      const response = await axiosInstance.get(USERS_URL.GET_ALL_USERS, {
         params: {
           pageSize: 1000, // Set to a high number to get all users
           pageNumber: 1, // Start from the first page
@@ -71,11 +75,13 @@ export default function Dashboard() {
       setUserList(response.data.data);
     } catch (error) {
       // console.log(error);
+      if (isAxiosError(error))
+        toast.error(error?.response?.data?.message || "Something went wrong!");
     }
-  };
+  }, [isManger]);
 
   //=======  get all projects ==============
-  const getAllProjects = async () => {
+  const getAllProjects = useCallback(async () => {
     const url = isManger
       ? PROJECT_URLS.GET_ALL_PROJECTS
       : PROJECT_URLS.GET_PROJECTS_BY_EMPLOYEE;
@@ -95,7 +101,7 @@ export default function Dashboard() {
         toast.error(error?.response?.data.message || "Something went wrong!");
       }
     }
-  };
+  }, [isManger]);
 
   // Fetch users when the component mounts
   const usersChartOptions = useMemo<AgChartOptions>(() => {
@@ -159,6 +165,7 @@ export default function Dashboard() {
         },
       },
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userList, darkMode]);
 
   // Projects trend chart options for manager
@@ -169,7 +176,7 @@ export default function Dashboard() {
     const monthlyStats: Record<string, { created: number; modified: number }> =
       {};
 
-    allProjects.forEach((project: any) => {
+    allProjects.forEach((project: ProjectType) => {
       const createdDate = project.creationDate
         ? new Date(project.creationDate)
         : null;
@@ -270,6 +277,7 @@ export default function Dashboard() {
         strokeWidth: 1,
       },
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allProjects, darkMode]);
 
   // Projects count for empolo chart options
@@ -315,15 +323,20 @@ export default function Dashboard() {
         enabled: false,
       },
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allProjects, darkMode]);
 
   // Tasks chart options
   const tasksChartOptions = useMemo<AgChartOptions>(() => {
-    const toDoTaks = allTasks.filter((t: any) => t.status === "ToDo").length;
-    const InProgress = allTasks.filter(
-      (t: any) => t.status === "InProgress"
+    const toDoTaks = allTasks.filter(
+      (t: TaskType) => t.status === "ToDo"
     ).length;
-    const doneTasks = allTasks.filter((t: any) => t.status === "Done").length;
+    const InProgress = allTasks.filter(
+      (t: TaskType) => t.status === "InProgress"
+    ).length;
+    const doneTasks = allTasks.filter(
+      (t: TaskType) => t.status === "Done"
+    ).length;
 
     const textColor = darkMode ? "#ffffff" : "#212529";
 
@@ -391,7 +404,7 @@ export default function Dashboard() {
     getAllUsers();
     getAllProjects();
     getAllTasks();
-  }, []);
+  }, [getAllProjects, getAllTasks, getAllUsers]);
 
   return (
     <>
@@ -440,7 +453,7 @@ export default function Dashboard() {
                   icon={<FaSpinner />}
                   label="In Progress"
                   value={
-                    allTasks.filter((t: any) => t.status === "InProgress")
+                    allTasks.filter((t: TaskType) => t.status === "InProgress")
                       .length
                   }
                   backgroundGradient={themeColors.statCard.orange}
@@ -452,7 +465,7 @@ export default function Dashboard() {
                   icon={<FaCheck />}
                   label="Completed"
                   value={
-                    allTasks.filter((t: any) => t.status === "Done").length
+                    allTasks.filter((t: TaskType) => t.status === "Done").length
                   }
                   backgroundGradient={themeColors.statCard.green}
                   iconColor={themeColors.icon}

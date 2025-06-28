@@ -3,7 +3,10 @@ import { useAuth } from "@/store/AuthContext/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import type { FormLoginProps } from "@/interfaces/interfaces.tsx";
+import type {
+  AuthContextType,
+  FormLoginProps,
+} from "@/interfaces/interfaces.tsx";
 import { isAxiosError } from "axios";
 // import {
 //   EMAIL_VALIDATION,
@@ -16,7 +19,8 @@ import SubmitBtn from "@/components/auth/SubmitBtn";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { saveLoginData, loginData, getCurrentUser }: any = useAuth();
+  const { saveLoginData, loginData, getCurrentUser }: AuthContextType =
+    useAuth();
   const [isPassVisible, setIsPassVisible] = useState(false); // eye flash old password
   const {
     register,
@@ -109,14 +113,10 @@ export default function Login() {
                   id="password"
                   type={isPassVisible ? "text" : "password"}
                   placeholder="Password"
-                  {...register("password", {
-                    required: "Password is required",
-                    pattern: {
-                      value: validation.PASSWORD_VALIDATION,
-                      message:
-                        "Minimum 8 chars, with upper/lowercase, number, and special character",
-                    },
-                  })}
+                  {...register(
+                    "password",
+                    validation.PASSWORD_VALIDATION("Password is Required")
+                  )}
                   className="form-control custom-input "
                 />
                 <button

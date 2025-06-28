@@ -26,7 +26,7 @@ export default function ChangePassword() {
   // =========== Change Password ========
   const onChangePass = async (data: ChangePassword) => {
     try {
-      let response = await axiosInstance.put(USERS_URL.CHANGE_PASSWORD, data);
+      const response = await axiosInstance.put(USERS_URL.CHANGE_PASSWORD, data);
       // console.log(response);
 
       navigate("/dashboard");

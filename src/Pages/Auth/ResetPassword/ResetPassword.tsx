@@ -6,6 +6,14 @@ import { useForm } from "react-hook-form";
 import { axiosInstance } from "@/service/urls";
 import { USERS_URL } from "@/service/api";
 import SubmitBtn from "@/components/auth/SubmitBtn";
+import { isAxiosError } from "axios";
+
+type ResetPassInputs = {
+  email: string;
+  seed: string;
+  password: string;
+  confirmPassword: string;
+};
 
 export default function ResetPassword() {
   const navigate = useNavigate();
@@ -19,38 +27,39 @@ export default function ResetPassword() {
     setValue,
     trigger,
     formState: { errors, isSubmitted },
-  } = useForm();
+  } = useForm<ResetPassInputs>();
 
   if (location.state?.email) {
     setValue("email", location.state?.email);
   }
 
   // =========== submit login ========
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: ResetPassInputs) => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.post(USERS_URL.RESET, data);
 
-            toast.success(response?.data?.message ||"Password has been reset successfully!");
-            navigate("/login", { state: { email: data.email } });
-        } catch (error) {
-            // console.log(error);
-            toast.error(
-                error?.response?.data?.message || "Something went wrong"
-            );
-        }
-        setIsLoading(false);
-    };
-    return (
-        <>
-            <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="d-flex flex-column gap-4"
-            >
-                <div className="d-flex flex-column gap-1 ">
-                    <small className="text-white">welcome to PMS</small>
-                    <h1 className="section-title">Reset Password</h1>
-                </div>
+      toast.success(
+        response?.data?.message || "Password has been reset successfully!"
+      );
+      navigate("/login", { state: { email: data.email } });
+    } catch (error) {
+      // console.log(error);
+      if (isAxiosError(error))
+        toast.error(error?.response?.data?.message || "Something went wrong");
+    }
+    setIsLoading(false);
+  };
+  return (
+    <>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="d-flex flex-column gap-4"
+      >
+        <div className="d-flex flex-column gap-1 ">
+          <small className="text-white">welcome to PMS</small>
+          <h1 className="section-title">Reset Password</h1>
+        </div>
 
         {/* E-mail */}
         <div className="mb-3">

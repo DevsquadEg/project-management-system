@@ -2,7 +2,7 @@ import { PROJECT_URLS } from "@/service/api";
 import { axiosInstance } from "@/service/urls";
 import { useMode } from "@/store/ModeContext/ModeContext";
 import { isAxiosError } from "axios";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 import { useForm } from "react-hook-form";
 
@@ -28,7 +28,7 @@ export default function ProjectForm() {
   } = useForm<ProjectFormInputs>({ mode: "onChange" });
 
   // =========== fetch project data if id exists ==========
-  const fetchProject = async () => {
+  const fetchProject = useCallback(async () => {
     try {
       const response = await axiosInstance.get(
         PROJECT_URLS.GET_PROJECT(Number(id))
@@ -43,7 +43,7 @@ export default function ProjectForm() {
         );
       //  console.error("Error fetching project data:", error);
     }
-  };
+  }, [id, reset]);
 
   // =========== submit project form ==========
   const onSubmitProject = async (data: ProjectFormInputs) => {
@@ -61,7 +61,9 @@ export default function ProjectForm() {
         navigate("/projects-manage");
       }
     } catch (error) {
-      toast.error("Something went wrong!");
+      if (isAxiosError(error)) {
+        toast.error("Something went wrong!");
+      }
     }
   };
 
@@ -73,7 +75,7 @@ export default function ProjectForm() {
         reset(); // Reset form for new project
       }
     },
-    [id, reset] // Run effect when id changes or on initial render
+    [fetchProject, id, reset] // Run effect when id changes or on initial render
   );
 
   // =========== Render form ==========

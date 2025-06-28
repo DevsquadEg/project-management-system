@@ -170,7 +170,13 @@ export interface AxiosErrorResponse {
   };
 }
 
-
 // =================
 
-export 
+export type UserFormInputs = {
+  userName: string;
+  email: string;
+  country: string;
+  phoneNumber: string;
+  confirmPassword: string;
+  profileImage: File[] | null;
+};

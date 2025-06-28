@@ -5,8 +5,8 @@ export default function Header({
   username,
   description,
 }: {
-  username: string;
-  description: string;
+  username?: string;
+  description?: string;
 }) {
   const { loginData } = useAuth();
   const welcome = useMemo(() => {

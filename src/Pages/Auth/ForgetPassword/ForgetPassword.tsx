@@ -7,6 +7,10 @@ import { USERS_URL } from "@/service/api";
 import SubmitBtn from "@/components/auth/SubmitBtn";
 import { isAxiosError } from "axios";
 
+type ForgetPassInput = {
+  email: string;
+};
+
 export default function ForgetPassword() {
   const navigate = useNavigate();
 
@@ -14,15 +18,12 @@ export default function ForgetPassword() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<ForgetPassInput>();
 
   // =========== submit login ========
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: ForgetPassInput) => {
     try {
-      const response: any = await axiosInstance.post(
-        USERS_URL.RESET_REQUEST,
-        data
-      );
+      const response = await axiosInstance.post(USERS_URL.RESET_REQUEST, data);
 
       toast.success(
         response?.data?.message ||

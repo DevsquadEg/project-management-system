@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { axiosInstance } from "../../../service/urls.js";
 import { USERS_URL } from "../../../service/api.js";
 import toast from "react-hot-toast";
@@ -46,39 +46,38 @@ export default function Users() {
   };
 
   // get users list
-  const getAllUsers = async (
-    userName: string,
-    pageSizeValue = pageSize,
-    page = pageNumber
-  ) => {
-    setLoading(true);
-    try {
-      const response = await axiosInstance.get(USERS_URL.GET_ALL_USERS, {
-        params: {
-          pageSize: pageSizeValue,
-          pageNumber: page,
-          ...(userName && { userName }),
-        },
-      });
+  const getAllUsers = useCallback(
+    async (userName: string, pageSizeValue = pageSize, page = pageNumber) => {
+      setLoading(true);
+      try {
+        const response = await axiosInstance.get(USERS_URL.GET_ALL_USERS, {
+          params: {
+            pageSize: pageSizeValue,
+            pageNumber: page,
+            ...(userName && { userName }),
+          },
+        });
 
-      // console.log(response.data.data);
-      // console.log(response.data.data);
-      setUserList(response.data.data);
-      setTotalPages(response.data.totalNumberOfPages);
-      setTotalNumberOfRecords(response.data.totalNumberOfRecords);
-    } catch (error) {
-      // console.log(error);
-      if (isAxiosError(error)) {
-        toast.error(error?.response?.data.message || "Something went wrong!");
-      } else if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error("An unknown error occurred");
+        // console.log(response.data.data);
+        // console.log(response.data.data);
+        setUserList(response.data.data);
+        setTotalPages(response.data.totalNumberOfPages);
+        setTotalNumberOfRecords(response.data.totalNumberOfRecords);
+      } catch (error) {
+        // console.log(error);
+        if (isAxiosError(error)) {
+          toast.error(error?.response?.data.message || "Something went wrong!");
+        } else if (error instanceof Error) {
+          toast.error(error.message);
+        } else {
+          toast.error("An unknown error occurred");
+        }
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    [pageNumber, pageSize]
+  );
 
   // block isActivated / not activate
 
@@ -121,11 +120,11 @@ export default function Users() {
       navigate("/dashboard");
     }
     setPageNumber(1);
-  }, [searchTitle, pageSize]);
+  }, [searchTitle, pageSize, loginData?.userGroup, navigate]);
 
   useEffect(() => {
     getAllUsers(searchTitle, pageSize, pageNumber);
-  }, [searchTitle, pageSize, pageNumber]);
+  }, [searchTitle, pageSize, pageNumber, getAllUsers]);
 
   return (
     <>
