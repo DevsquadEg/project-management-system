@@ -1,4 +1,4 @@
-import { imgBaseURL, TASK_URLS } from "@/service/api";
+import { TASK_URLS } from "@/service/api";
 import type { TaskType } from "@/interfaces/interfaces";
 import { axiosInstance } from "@/service/urls";
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useMode } from "@/store/ModeContext/ModeContext";
+import { isAxiosError } from "@/service/checkAxiosError";
 
 export default function TaskDetails() {
   const { id } = useParams();
@@ -15,7 +16,7 @@ export default function TaskDetails() {
   const [loading, setLoading] = useState(false);
   const [task, setTask] = useState<TaskType | undefined>(undefined);
 
-  const options = {
+  const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
     year: "numeric",
     month: "long",
@@ -34,8 +35,16 @@ export default function TaskDetails() {
       setTask(response.data);
       // const { title, description, employee, project } = response.data;
       // console.log("Fetched task data:", response.data);
-    } catch (error:any) {
-      toast.error(error?.response?.data?.message||"Failed to load task data");
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        toast.error(
+          error?.response?.data?.message || "Failed to load task data"
+        );
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unknown error occurred");
+      }
       // console.error("Error fetching task data:", error);
     } finally {
       setLoading(false);
@@ -54,7 +63,6 @@ export default function TaskDetails() {
         <div
           onClick={() => navigate(-1)}
           className="d-flex align-items-center  gap-3 mb-3 text-muted cursorEnhance "
-          
         >
           <i className="fa-solid fa-angle-left"></i>
           <small>View All Tasks</small>
@@ -85,7 +93,6 @@ export default function TaskDetails() {
               width={100}
               height={100}
               className="mx-auto mb-3 skeletonEnhance"
-              
             />
             <DetailRowSkeleton count={2} align="center" />
           </div>
@@ -172,10 +179,7 @@ export default function TaskDetails() {
               }}
             >
               <img
-                src={`${imgBaseURL}/${
-                  task.employee.imagePath ||
-                  "files/users/images/806profile.jpeg"
-                }`}
+                src={`/profile.jpeg`}
                 alt="User"
                 className="img-fluid object-fit-cover"
               />

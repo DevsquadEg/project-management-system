@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { closestCorners, DndContext, type DragEndEvent } from "@dnd-kit/core";
 import TaskColumn from "./TaskColumn";
 import type { Column, TasksState, TaskType } from "@/interfaces/interfaces";
@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { arrayMove } from "@dnd-kit/sortable";
 import { useAuth } from "@/store/AuthContext/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { isAxiosError } from "@/service/checkAxiosError";
 
 const initialData: TasksState = {
   data: { ToDo: [], InProgress: [], Done: [] },
@@ -118,7 +119,13 @@ export default function MyTasks() {
           toast.success("Status Changed Successfully");
         });
     } catch (error: unknown) {
-      toast.error(error?.response?.data?.message || "Something went wrong");
+      if (isAxiosError(error)) {
+        toast.error(error.response.data.message || "Something went wrong");
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Something went wrong");
+      }
       fetchAssignedTasks();
     }
   };
@@ -149,8 +156,14 @@ export default function MyTasks() {
           },
         };
       });
-    } catch (error) {
-      // console.error("Error fetching aligned tasks:", error);
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        toast.error(error.response.data.message || "Can't get assigned tasks");
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unknown error occurred");
+      }
     } finally {
       setLoading(false);
     }
@@ -181,7 +194,7 @@ export default function MyTasks() {
       )) ||
         (data.dataLength === 0 && (
           <div className="my-5 mx-auto w-100 d-flex justify-content-center">
-            <h3 className="text-muted">No Tasks Found</h3>
+            <h3 className="text-muted">Found No Tasks</h3>
           </div>
         )) || (
           <div className="container-fluid mt-4">

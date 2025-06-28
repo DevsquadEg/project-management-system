@@ -1,4 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
+import type { UseFormRegister, FieldErrors } from "react-hook-form";
 
 // login interface
 export interface FormLoginProps {
@@ -68,18 +69,19 @@ export interface FormInfoVerifyProps {
   code: string;
 }
 
-
-
 export type UserType = {
   country: string;
-  creationDate: string;
+  creationDate: string | number | Date;
   email: string;
   id: number;
   imagePath: string;
   isActivated: boolean;
-  modificationDate: string;
+  modificationDate: string | number | Date;
   phoneNumber: string;
   userName: string;
+  group: {
+    name: string;
+  };
 };
 
 export type ProjectType = {
@@ -88,6 +90,8 @@ export type ProjectType = {
   description: string;
   creationDate: string;
   modificationDate: string;
+  task: TaskType[];
+  manager: UserType;
 };
 
 export type TaskType = {
@@ -102,8 +106,8 @@ export type TaskType = {
 };
 
 export type ProjectSelectProps = {
-  register: any;
-  errors: any;
+  register: UseFormRegister<TaskFormInputs>;
+  errors: TaskErrorObject;
   task?: TaskType;
   projectsList: ProjectType[];
   projectsHasMore: boolean;
@@ -111,8 +115,8 @@ export type ProjectSelectProps = {
 };
 
 export type UsersSelectProps = {
-  register: any;
-  errors: any;
+  register: UseFormRegister<TaskFormInputs>;
+  errors: TaskErrorObject;
   task?: TaskType;
   usersList: UserType[];
   usersHasMore: boolean;
@@ -150,4 +154,14 @@ export interface TasksState {
   dataLength: number;
   columns: Column[];
   columnOrder: string[];
+}
+
+export type TaskErrorObject = FieldErrors<TaskFormInputs>;
+
+export interface AxiosErrorResponse {
+  response: {
+    data: {
+      message: string;
+    };
+  };
 }

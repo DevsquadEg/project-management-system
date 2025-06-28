@@ -4,18 +4,21 @@ import { USERS_URL } from "../../../service/api.js";
 import toast from "react-hot-toast";
 import { imgBaseURL } from "../../../service/api.js";
 import moment from "moment";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import { useMode } from "@/store/ModeContext/ModeContext.js";
 import { useAuth } from "@/store/AuthContext/AuthContext.js";
 import { Helmet } from "react-helmet-async";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import type { UserType } from "@/interfaces/interfaces.js";
+import { isAxiosError } from "axios";
+import Search from "@/components/shared/Search.js";
+import Pagination from "@/components/shared/Pagination.js";
 
 export default function Users() {
   //======= hooks ==============
   const { loginData } = useAuth();
   const navigate = useNavigate();
-  const params = useParams();
   const { darkMode } = useMode();
 
   //======= loading  ==============
@@ -26,10 +29,10 @@ export default function Users() {
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchTitle, setSearchTitle] = useState("");
-  const [totalNumberOfRecords, setTotalNumberOfRecords] = useState();
+  const [totalNumberOfRecords, setTotalNumberOfRecords] = useState(0);
 
-  const [userList, setUserList] = useState([]);
-  const [viewList, setViewList] = useState<any | null>(null);
+  const [userList, setUserList] = useState<UserType[]>([]);
+  const [viewList, setViewList] = useState<UserType | null>(null);
 
   // model bootstrap lists show
   const [showView, setShowView] = useState(false);
@@ -50,7 +53,7 @@ export default function Users() {
   ) => {
     setLoading(true);
     try {
-      let response: any = await axiosInstance.get(USERS_URL.GET_ALL_USERS, {
+      const response = await axiosInstance.get(USERS_URL.GET_ALL_USERS, {
         params: {
           pageSize: pageSizeValue,
           pageNumber: page,
@@ -63,9 +66,15 @@ export default function Users() {
       setUserList(response.data.data);
       setTotalPages(response.data.totalNumberOfPages);
       setTotalNumberOfRecords(response.data.totalNumberOfRecords);
-    } catch (error:any) {
+    } catch (error: unknown) {
       // console.log(error);
-      toast.error(error?.response?.data.message || "Something went wrong!");
+      if (isAxiosError(error)) {
+        toast.error(error?.response?.data.message || "Something went wrong!");
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unknown error occurred");
+      }
     } finally {
       setLoading(false);
     }
@@ -75,25 +84,35 @@ export default function Users() {
 
   const toggleActivated = async (id: number) => {
     try {
-      let response = await axiosInstance.put(USERS_URL.TOGGLE_USER(id));
+      await axiosInstance.put(USERS_URL.TOGGLE_USER(id));
       // console.log(response);
       await getAllUsers("");
       toast.success("Statue has been Changed!");
-    } catch (error:any) {
-       console.log(error);
-      toast.error(error?.response?.data?.message ||"Something Wrong!");
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        toast.error(error?.response?.data?.message || "Something Wrong!");
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unknown error occurred");
+      }
     }
   };
 
   // show modal function
-  const showUserList = async (id: any) => {
+  const showUserList = async (id: number) => {
     try {
-      let response: any = await axiosInstance.get(USERS_URL.GET_USER(id));
+      const response = await axiosInstance.get(USERS_URL.GET_USER(id));
       // console.log(response.data);
       setViewList(response.data);
-    } catch (error:any) {
-      // console.log(error);
-      toast.error(error?.response?.data?.message ||"Something Wrong!");
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        toast.error(error?.response?.data?.message || "Something Wrong!");
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unknown error occurred");
+      }
     }
   };
 
@@ -120,8 +139,7 @@ export default function Users() {
           name="keywords"
           content="Users, Project Management, Admin Panel, Team Members, User Accounts"
         />
-</Helmet>
-
+      </Helmet>
 
       <div
         className={`d-flex justify-content-between align-items-center px-5 py-4 mb-4 ${
@@ -137,60 +155,42 @@ export default function Users() {
         } rounded-4 shadow-sm`}
       >
         {/* =========== search =========== */}
-        <div className="d-flex justify-content-between align-items-center">
-          <div className="input-group m-4 w-25">
-            <span
-              className={`input-group-text border-end-0 ${
-                darkMode ? "bg-dark" : "bg-white"
-              } rounded-start-pill`}
-            >
-              <i className="fa-solid fa-magnifying-glass text-secondary"></i>
-            </span>
-            <input
-              type="text"
-              className="form-control border-start-0 rounded-end-pill"
-              placeholder="Search By Title"
-              aria-label="Search"
-              aria-describedby="basic-addon1"
-              value={searchTitle}
-              onChange={(e) => setSearchTitle(e.target.value)}
-            />
-          </div>
-        </div>
+        <Search
+          darkMode={darkMode}
+          searchTitle={searchTitle}
+          setSearchTitle={setSearchTitle}
+        />
 
         <>
           {/* ============== table ====================== */}
           <table className="table table-striped table-hover table-bordered align-middle text-center mb-0  ">
-            <thead
-              className=" table table-success table-custom tableEnhance "
-             
-            >
+            <thead className=" table table-success table-custom tableEnhance ">
               <tr>
-                <th className="thEnhance" >
+                <th className="thEnhance">
                   <span>User Name </span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
                 </th>
-                <th className="thEnhance" >
+                <th className="thEnhance">
                   <span> Status</span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
                 </th>
-                <th className="thEnhance" >
+                <th className="thEnhance">
                   <span>Image </span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
                 </th>
-                <th className="thEnhance" >
+                <th className="thEnhance">
                   <span>Phone Number </span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
                 </th>
-                <th className="thEnhance" >
+                <th className="thEnhance">
                   <span>Email </span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
                 </th>
-                <th className="thEnhance" >
+                <th className="thEnhance">
                   <span className="text-center">Date created </span>
                   <i className="bi bi-chevron-expand ms-1 "></i>
                 </th>
-                <th className="thEnhance" >
+                <th className="thEnhance">
                   <span>Actions </span>
                 </th>
               </tr>
@@ -198,7 +198,7 @@ export default function Users() {
 
             <tbody>
               <>
-                {userList.map((user: any) => (
+                {userList.map((user: UserType) => (
                   <tr key={user?.id}>
                     <td>{user.userName}</td>
                     <td>
@@ -216,7 +216,7 @@ export default function Users() {
                       {user?.imagePath === null ? (
                         <img
                           className="img-table"
-                          src={`${imgBaseURL}${`files/users/images/806profile.jpeg`}`}
+                          src={`/profile.jpeg`}
                           alt="image"
                         />
                       ) : (
@@ -282,57 +282,20 @@ export default function Users() {
           </table>
         </>
         {userList.length === 0 && !loading && (
-          <h5 className="text-muted text-center p-3 fs-2">Found No Users!</h5>
+          <h5 className="text-muted text-center p-3 fs-2">
+            Found no Users{searchTitle ? ` with Title "${searchTitle}"` : ""}
+          </h5>
         )}
         {/* ============== pagination ====================== */}
 
-        <div className="d-flex justify-content-end align-items-center p-3    gap-5">
-          <div className="d-flex align-items-center gap-2">
-            <span>Showing</span>
-            <select
-              className="form-select border rounded-pill px-3 py-1 selectEnhance"
-              
-              value={pageSize}
-              onChange={(e) => {
-                setPageSize(Number(e.target.value));
-                setPageNumber(1);
-              }}
-            >
-              <option disabled hidden value={pageSize}>
-                {pageSize}
-              </option>
-              <option value="2">2</option>
-              <option value="4">4</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
-            </select>
-            <span>of {totalNumberOfRecords} Results</span>
-          </div>
-
-          <div className="d-flex align-items-center gap-3">
-            <span>
-              Page {pageNumber} of {totalPages}
-            </span>
-            <div className="d-flex gap-3">
-              <button
-                className="btn btn-white border-0 p-1"
-                disabled={pageNumber === 1}
-                onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}
-              >
-                <i className="bi bi-chevron-left fs-5 text-secondary"></i>
-              </button>
-              <button
-                className="btn btn-white border-0 p-1"
-                disabled={pageNumber === totalPages}
-                onClick={() =>
-                  setPageNumber((prev) => Math.min(prev + 1, totalPages))
-                }
-              >
-                <i className="bi bi-chevron-right fs-5 text-secondary"></i>
-              </button>
-            </div>
-          </div>
-        </div>
+        <Pagination
+          pageNumber={pageNumber}
+          pageSize={pageSize}
+          setPageNumber={setPageNumber}
+          setPageSize={setPageSize}
+          totalNumberOfRecords={totalNumberOfRecords}
+          totalPages={totalPages}
+        />
       </div>
 
       <Modal show={showView} onHide={handleCloseView} centered>
@@ -349,11 +312,10 @@ export default function Users() {
                       {viewList?.imagePath === null ? (
                         <img
                           className="  rounded-circle shadow imgEnhanceUser "
-                          src={`https://upskilling-egypt.com:3003/files/users/images/806profile.jpeg`}
+                          src={`/profile.jpeg`}
                           alt="image"
                           width="130"
                           height="130"
-                          
                         />
                       ) : (
                         <img
@@ -362,7 +324,6 @@ export default function Users() {
                           alt="image"
                           width="130"
                           height="130"
-                          
                         />
                       )}
                     </div>
@@ -397,17 +358,19 @@ export default function Users() {
                       <li className="list-group-item d-flex justify-content-between">
                         <strong>Joined At</strong>{" "}
                         <span>
-                          {new Date(
-                            viewList?.creationDate
-                          ).toLocaleDateString()}
+                          {viewList &&
+                            new Date(
+                              viewList.creationDate
+                            ).toLocaleDateString()}
                         </span>
                       </li>
                       <li className="list-group-item d-flex justify-content-between">
                         <strong>Last Modified</strong>{" "}
                         <span>
-                          {new Date(
-                            viewList?.modificationDate
-                          ).toLocaleDateString()}
+                          {viewList &&
+                            new Date(
+                              viewList.modificationDate
+                            ).toLocaleDateString()}
                         </span>
                       </li>
                     </ul>

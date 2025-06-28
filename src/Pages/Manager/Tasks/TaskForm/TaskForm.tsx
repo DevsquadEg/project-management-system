@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMode } from "@/store/ModeContext/ModeContext";
+import { isAxiosError } from "@/service/checkAxiosError";
 
 export default function TaskForm() {
   const navigate = useNavigate();
@@ -32,11 +33,11 @@ export default function TaskForm() {
 
   // =========== states ==========
   const [usersList, setUsersList] = useState<UserType[]>([]);
-  const [usersPage, setUsersPage] = useState<number>(1);
-  const [usersHasMore, setUsersHasMore] = useState<boolean>(false);
+  // const [usersPage, setUsersPage] = useState<number>(1);
+  // const [usersHasMore, setUsersHasMore] = useState<boolean>(false);
   const [projectsList, setProjectsList] = useState<ProjectType[]>([]);
-  const [projectPage, setProjectPage] = useState<number>(1);
-  const [projectHasMore, setProjectHasMore] = useState<boolean>(false);
+  // const [projectPage, setProjectPage] = useState<number>(1);
+  // const [projectHasMore, setProjectHasMore] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const pageSize = 1000; // Define a constant for page size
   const [task, setTask] = useState<TaskType | undefined>(undefined);
@@ -74,39 +75,24 @@ export default function TaskForm() {
 
   const loadInitialProjects = async () => {
     setLoading(true);
-    const { newProjects, moreAvailable } = await fetchProjects(1, pageSize);
+    const { newProjects } = await fetchProjects(1, pageSize);
     setProjectsList(newProjects);
-    setProjectHasMore(moreAvailable);
+    // setProjectHasMore(moreAvailable);
     setLoading(false);
   };
 
-  const loadMoreProjects = async () => {
-    if (!projectHasMore) return;
+  // const loadMoreProjects = async () => {
+  //   if (!projectHasMore) return;
 
-    const nextPage = projectPage + 1;
-    const { newProjects, moreAvailable } = await fetchProjects(
-      nextPage,
-      pageSize
-    );
+  //   const nextPage = projectPage + 1;
+  //   const { newProjects, moreAvailable } = await fetchProjects(
+  //     nextPage,
+  //     pageSize
+  //   );
 
-    setProjectsList((prev) => [...prev, ...newProjects]);
-    setProjectHasMore(moreAvailable);
-    setProjectPage(nextPage);
-  };
-
-  // const fetchProjects = async () => {
-  //     try {
-  //         const response = await axiosInstance.get(
-  //             PROJECT_URLS.GET_PROJECTS_BY_MANAGER
-  //         );
-  //         // todo: delete this
-  //         toast.success("projects fetched successfully");
-  //         // console.log(response);
-  //         setProjectsList(response.data.data);
-  //     } catch (error) {
-  //         toast.error("Failed to load projects data");
-  //         console.error("Error fetching projects data:", error);
-  //     }
+  //   setProjectsList((prev) => [...prev, ...newProjects]);
+  //   setProjectHasMore(moreAvailable);
+  //   setProjectPage(nextPage);
   // };
 
   // =========== fetch users ==========
@@ -138,36 +124,21 @@ export default function TaskForm() {
 
   const loadInitialUsers = async () => {
     setLoading(true);
-    const { newRecords, moreAvailable } = await fetchUsers(1, pageSize);
+    const { newRecords } = await fetchUsers(1, pageSize);
     setUsersList(newRecords);
-    setUsersHasMore(moreAvailable);
+    // setUsersHasMore(moreAvailable);
     setLoading(false);
   };
 
-  const loadMoreUsers = async () => {
-    if (!usersHasMore) return;
+  // const loadMoreUsers = async () => {
+  //   if (!usersHasMore) return;
 
-    const nextPage = usersPage + 1;
-    const { newRecords, moreAvailable } = await fetchUsers(nextPage, pageSize);
+  //   const nextPage = usersPage + 1;
+  //   const { newRecords, moreAvailable } = await fetchUsers(nextPage, pageSize);
 
-    setUsersList((prev) => [...prev, ...newRecords]);
-    setUsersHasMore(moreAvailable);
-    setUsersPage(nextPage);
-  };
-
-  // const fetchUsers = async () => {
-  //     try {
-  //         const usersResponse = await axiosInstance.get(
-  //             USERS_URL.GET_ALL_USERS
-  //         );
-  //         // todo: delete this
-  //         toast.success("users fetched successfully");
-  //         // console.log(usersResponse);
-  //         setUsersList(usersResponse.data.data);
-  //     } catch (error) {
-  //         toast.error("Failed to load users data");
-  //         console.error("Error fetching users data:", error);
-  //     }
+  //   setUsersList((prev) => [...prev, ...newRecords]);
+  //   setUsersHasMore(moreAvailable);
+  //   setUsersPage(nextPage);
   // };
 
   // =========== fetch task data if id exists ==========
@@ -209,8 +180,14 @@ export default function TaskForm() {
         toast.success("Task created");
         navigate(-1);
       }
-    } catch (error:any) {
-      toast.error(error?.response?.data?.message ||"Something went wrong!");
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        toast.error(error.response?.data?.message || "Something went wrong!");
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unknown error occurred");
+      }
     }
   };
 
@@ -225,6 +202,7 @@ export default function TaskForm() {
       }
       // setLoading(false);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [id, reset] // Run effect when id changes or on initial render
   );
 
@@ -248,7 +226,6 @@ export default function TaskForm() {
         <div
           onClick={() => navigate(-1)}
           className="d-flex align-items-center  gap-3 mb-3 text-muted cursorEnhance"
-          
         >
           <i className="fa-solid fa-angle-left"></i>
           <small>View All Tasks</small>
@@ -335,7 +312,7 @@ export default function TaskForm() {
                     )}
                     {(task
                       ? usersList.filter(
-                          (user: UserType) => user.id !== task?.user?.id
+                          (user: UserType) => user.id !== task?.employee?.id
                         )
                       : usersList
                     )

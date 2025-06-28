@@ -9,9 +9,9 @@ export default function DeleteModal({
   isSubmitting,
 }: {
   show: boolean;
-  onClose: any;
-  itemName: string;
-  onConfirm: any;
+  onClose: () => void;
+  itemName: string | undefined;
+  onConfirm: () => void;
   title: string;
   isSubmitting: boolean;
 }) {

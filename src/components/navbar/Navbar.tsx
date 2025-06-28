@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/store/AuthContext/AuthContext";
-import { imgBaseURL } from "@/service/api";
 import { useEffect } from "react";
 import styles from "./DarkModeToggle.module.css";
 import { useMode } from "@/store/ModeContext/ModeContext";
@@ -10,11 +9,13 @@ import { MdOutlineWbSunny } from "react-icons/md";
 import { BsMoonStarsFill } from "react-icons/bs";
 import { FiLock, FiLogOut } from "react-icons/fi";
 import { HiBell, HiChevronDown } from "react-icons/hi";
+import type { AuthContextType } from "@/interfaces/interfaces";
+import { imgBaseURL } from "@/service/api";
 
 export default function Navbar() {
   const navigate = useNavigate();
 
-  const { loginData, fullUserData, logOutUser }: any = useAuth();
+  const { loginData, fullUserData, logOutUser }: AuthContextType = useAuth();
   const { darkMode, setDarkMode } = useMode();
 
   const handleDarkMode = () => {
@@ -68,11 +69,20 @@ export default function Navbar() {
           {/* Dark & light mode toggle icon */}
           <div className={styles.toggleContainer} onClick={handleDarkMode}>
             <div className={styles.toggleContainer} onClick={handleDarkMode}>
-              {darkMode ? (
-                <MdOutlineWbSunny size={24} color="#EF9B28" />
-              ) : (
-                <BsMoonStarsFill size={20} color="#EF9B28" />
-              )}
+              <MdOutlineWbSunny
+                className={`${styles.icon} ${styles.sun} ${
+                  darkMode ? styles.iconVisible : styles.iconHidden
+                }`}
+                size={24}
+                color="#EF9B28"
+              />
+              <BsMoonStarsFill
+                className={`${styles.icon} ${styles.moon} ${
+                  !darkMode ? styles.iconVisible : styles.iconHidden
+                }`}
+                size={20}
+                color="#EF9B28"
+              />
             </div>
           </div>
           {/* <!-- Divider --> */}
@@ -93,9 +103,11 @@ export default function Navbar() {
             onClick={() => navigate("/profile")}
           >
             <img
-              src={`${imgBaseURL}${
-                fullUserData?.imagePath || "files/users/images/806profile.jpeg"
-              }`}
+              src={
+                (fullUserData?.imagePath &&
+                  `${imgBaseURL}${fullUserData?.imagePath}`) ||
+                "/profile.jpeg"
+              }
               alt="user"
               className="rounded-circle"
               width="40"
@@ -142,7 +154,6 @@ export default function Navbar() {
                     darkMode ? "text-light" : "text-danger"
                   }`}
                   style={{
-                    backgroundColor: darkMode ? "#1c1c1c" : "#fff",
                     borderRadius: "6px",
                   }}
                   onClick={() =>
@@ -154,7 +165,7 @@ export default function Navbar() {
                       showCloseButton: true,
                       background: darkMode ? "#2c2c2c" : "#fff",
                       color: darkMode ? "#fff" : "#000",
-                    }).then((result: any) => {
+                    }).then((result: { isConfirmed: boolean }) => {
                       if (result.isConfirmed) {
                         logOut();
                       }

@@ -12,7 +12,16 @@ import { Helmet } from "react-helmet-async";
 import { FiEdit, FiEye } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
-const StatusInfo = ({ status, darkMode }: any) => {
+import type { TaskType } from "@/interfaces/interfaces";
+import Search from "@/components/shared/Search";
+import Pagination from "@/components/shared/Pagination";
+const StatusInfo = ({
+  status,
+  darkMode,
+}: {
+  status: "ToDo" | "InProgress" | "Done";
+  darkMode: boolean;
+}) => {
   const inProgressBgColor = "#EF9B28";
   const doneBgColor = "#009247";
   const todoBgColor = "#E4E1F5";
@@ -57,20 +66,15 @@ export default function AllTasks() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedTask, setSelectedTask] = useState<any>(null);
+  const [selectedTask, setSelectedTask] = useState<TaskType>();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [totalNumberOfRecords, setTotalNumberOfRecords] = useState();
+  const [totalNumberOfRecords, setTotalNumberOfRecords] = useState(0);
 
   const { darkMode } = useMode();
 
   //=======  get all projects ==============
   const getAllTasks = useCallback(
-    async (
-      title = ""
-      // status = undefined,
-      // pageSizeValue = pageSize,
-      // page = pageNumber
-    ) => {
+    async (title = "") => {
       setLoading(true);
       try {
         const response = await axiosInstance.get(
@@ -91,7 +95,9 @@ export default function AllTasks() {
         setTotalNumberOfRecords(response.data.totalNumberOfRecords);
       } catch (error) {
         if (isAxiosError(error)) {
-          toast.error(error?.response?.data?.message || "Something went wrong!");
+          toast.error(
+            error?.response?.data?.message || "Something went wrong!"
+          );
         }
       } finally {
         setLoading(false);
@@ -100,19 +106,27 @@ export default function AllTasks() {
     [pageNumber, pageSize]
   );
   // --------------- delete task -------------
-  const onDeleteTask = async (id: number, onSuccess: any) => {
-    try {
-      setIsSubmitting(true);
-      await axiosInstance.delete(TASK_URLS.DELETE_TASK(id));
-      toast.success("Task Deleted Successfully");
-      onSuccess();
-      getAllTasks();
-    } catch (error) {
-      if (isAxiosError(error)) {
-        toast.error(error.response?.data?.message || "Failed to delete Task.");
+  const onDeleteTask = async (
+    id: number | undefined,
+    onSuccess: () => void
+  ) => {
+    if (id) {
+      try {
+        setIsSubmitting(true);
+
+        await axiosInstance.delete(TASK_URLS.DELETE_TASK(id));
+        toast.success("Task Deleted Successfully");
+        onSuccess();
+        getAllTasks();
+      } catch (error) {
+        if (isAxiosError(error)) {
+          toast.error(
+            error.response?.data?.message || "Failed to delete Task."
+          );
+        }
+      } finally {
+        setIsSubmitting(false);
       }
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -125,7 +139,7 @@ export default function AllTasks() {
   }, [searchTitle, pageSize, loginData, navigate]);
 
   useEffect(() => {
-    getAllTasks(searchTitle, pageSize, pageNumber);
+    getAllTasks(searchTitle);
     // // console.log(totalNumberOfRecords);
   }, [searchTitle, pageSize, pageNumber, getAllTasks, totalNumberOfRecords]);
 
@@ -165,63 +179,45 @@ export default function AllTasks() {
         } rounded-4 shadow-sm`}
       >
         {/* =========== search =========== */}
-        <div className="d-flex justify-content-between align-items-center">
-          <div className="input-group m-4 w-25">
-            <span
-              className={`input-group-text border-end-0 ${
-                darkMode ? "bg-dark" : "bg-white"
-              } rounded-start-pill`}
-            >
-              <i className="fa-solid fa-magnifying-glass text-secondary"></i>
-            </span>
-            <input
-              type="text"
-              className="form-control border-start-0 rounded-end-pill"
-              placeholder="Search By Title"
-              aria-label="Search"
-              aria-describedby="basic-addon1"
-              value={searchTitle}
-              onChange={(e) => setSearchTitle(e.target.value)}
-            />
-          </div>
-        </div>
+        <Search
+          darkMode={darkMode}
+          searchTitle={searchTitle}
+          setSearchTitle={setSearchTitle}
+        />
 
         {/* ============== table ====================== */}
         <table className="table table-striped table-hover table-bordered align-middle text-center mb-0 ">
-          <thead
-            className="table table-success table-custom tableEnhance"
-            
-          >
+          <thead className="table table-success table-custom tableEnhance">
             <tr>
-              <th className="thPSEnhanceTask1" >
+              <th className="thPSEnhanceTask1">
                 <span>Title</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th  className="thPSEnhanceTask2">
+              <th className="thPSEnhanceTask2">
                 <span>Status</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
 
-              <th className="thPSEnhanceTask3" >
+              <th className="thPSEnhanceTask3">
                 <span>User</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th className="thPSEnhanceTask2" >
+              <th className="thPSEnhanceTask2">
                 <span>Project</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th  className="thPSEnhanceTask2">
+              <th className="thPSEnhanceTask2">
                 <span>Date Created</span>
                 <i className="bi bi-chevron-expand ms-1 "></i>
               </th>
-              <th  className="thPSEnhanceTask1">
+              <th className="thPSEnhanceTask1">
                 <span>Actions</span>
               </th>
             </tr>
           </thead>
 
           <tbody>
-            {allTasks.map((task: any) => (
+            {allTasks.map((task: TaskType) => (
               <tr key={task.id}>
                 <td>{task.title}</td>
                 <td>
@@ -264,7 +260,7 @@ export default function AllTasks() {
                       <li>
                         <button
                           onClick={() => {
-                            setSelectedTask(task.id);
+                            setSelectedTask(task);
                             // setModalType("delete");
                             setShowDeleteModal(true);
                           }}
@@ -292,61 +288,29 @@ export default function AllTasks() {
         </table>
 
         {allTasks.length === 0 && !loading && (
-          <h5 className="text-muted text-center py-5 fs-2">Found No Tasks!</h5>
+          <h5 className="text-muted text-center py-5 fs-2">
+            Found no Tasks
+            {searchTitle ? ` with Title "${searchTitle}"` : ""}
+          </h5>
         )}
         {/* ============== pagination ====================== */}
-        <div className="d-flex justify-content-end align-items-center p-3    gap-5">
-          <div className="d-flex align-items-center gap-2">
-            <span>Showing</span>
-            <select
-              className="form-select border rounded-pill px-3 py-1"
-              style={{ width: "80px" }}
-              value={pageSize}
-              onChange={(e) => setPageSize(Number(e.target.value))}
-            >
-              <option disabled hidden value={pageSize}>
-                {pageSize}
-              </option>
-              <option value="2">2</option>
-              <option value="4">4</option>
-              <option value="20">20</option>
-            </select>
-            <span>of {totalNumberOfRecords} Results</span>
-          </div>
-
-          <div className="d-flex align-items-center gap-3">
-            <span>
-              Page {pageNumber} of {totalPages}
-            </span>
-            <div className="d-flex gap-3">
-              <button
-                className="btn btn-white border-0 p-1"
-                disabled={pageNumber === 1}
-                onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}
-              >
-                <i className="bi bi-chevron-left fs-5 text-secondary"></i>
-              </button>
-              <button
-                className="btn btn-white border-0 p-1"
-                disabled={pageNumber === totalPages}
-                onClick={() =>
-                  setPageNumber((prev) => Math.min(prev + 1, totalPages))
-                }
-              >
-                <i className="bi bi-chevron-right fs-5 text-secondary"></i>
-              </button>
-            </div>
-          </div>
-        </div>
+        <Pagination
+          pageNumber={pageNumber}
+          pageSize={pageSize}
+          setPageNumber={setPageNumber}
+          setPageSize={setPageSize}
+          totalNumberOfRecords={totalNumberOfRecords}
+          totalPages={totalPages}
+        />
       </div>
       {/* Modal delete Logic */}
       <DeleteModal
         show={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onConfirm={() =>
-          onDeleteTask(selectedTask, () => setShowDeleteModal(false))
+          onDeleteTask(selectedTask?.id, () => setShowDeleteModal(false))
         }
-        itemName={allTasks.find((task: any) => task.id === selectedTask)?.title}
+        itemName={selectedTask?.title}
         title="Delete Task"
         isSubmitting={isSubmitting}
       />

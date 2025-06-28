@@ -8,24 +8,28 @@ import { useNavigate } from "react-router-dom";
 import { useMode } from "@/store/ModeContext/ModeContext";
 import { useAuth } from "@/store/AuthContext/AuthContext";
 import { Helmet } from "react-helmet-async";
-import { FiEdit, FiSearch } from "react-icons/fi";
+import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import Pagination from "@/components/shared/Pagination";
+import type { AuthContextType, ProjectType } from "@/interfaces/interfaces";
+import Search from "@/components/shared/Search";
 
 export default function AllProjects() {
   //=======  hooks ==============
   const navigate = useNavigate();
   const { darkMode } = useMode();
-  const { loginData }: any = useAuth();
+  const { loginData }: AuthContextType = useAuth();
   //=======  states ==============
   const [allProjects, setAllProjects] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
   const [pageSize, setPageSize] = useState(3);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [selectedProject, setSelectedProject] = useState<ProjectType>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [totalNumberOfRecords, setTotalNumberOfRecords] = useState();
 
@@ -39,6 +43,7 @@ export default function AllProjects() {
 
   const getAllProjects = useCallback(
     async (title = "", pageSizeValue = pageSize, page = pageNumber) => {
+      setLoading(true);
       try {
         const response = await axiosInstance.get(url, {
           params: {
@@ -56,21 +61,34 @@ export default function AllProjects() {
         if (isAxiosError(error)) {
           toast.error(error?.response?.data.message || "Something went wrong!");
         }
+      } finally {
+        setLoading(false);
       }
     },
-    []
+    [pageNumber, pageSize, url]
   );
   // --------------- delete project -------------
-  const onDeleteProject = async (id: number, onSuccess: any) => {
+  const onDeleteProject = async (
+    id: number | undefined,
+    onSuccess: () => void
+  ) => {
     try {
       setIsSubmitting(true);
       await axiosInstance.delete(PROJECT_URLS.DELETE_PROJECT(id));
-      
+
       toast.success("Project Deleted Successfully");
       onSuccess();
       getAllProjects();
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to delete project.");
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.message || "Failed to delete project."
+        );
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unknown error occurred");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -130,33 +148,16 @@ export default function AllProjects() {
         } rounded-4 shadow-sm`}
       >
         {/* =========== search =========== */}
-        <div className="d-flex justify-content-between align-items-center">
-          <div className="input-group m-4 w-25">
-            <span
-              className={`input-group-text border-end-0 ${
-                darkMode ? "bg-dark" : "bg-white"
-              } rounded-start-pill`}
-            >
-              <FiSearch size={18} className="text-secondary" />
-            </span>
-            <input
-              type="text"
-              className="form-control border-start-0 rounded-end-pill"
-              placeholder="Search By Title"
-              aria-label="Search"
-              aria-describedby="basic-addon1"
-              value={searchTitle}
-              onChange={(e) => setSearchTitle(e.target.value)}
-            />
-          </div>
-        </div>
+
+        <Search
+          darkMode={darkMode}
+          searchTitle={searchTitle}
+          setSearchTitle={setSearchTitle}
+        />
 
         {/* ============== table ====================== */}
         <table className="table table-striped table-hover table-bordered align-middle text-center mb-0 ">
-          <thead
-            className="table table-success table-custom  tableEnhance"
-            
-          >
+          <thead className="table table-success table-custom  tableEnhance">
             <tr>
               <th className="thPSEnhance1">
                 <span>Title</span>
@@ -184,7 +185,7 @@ export default function AllProjects() {
           </thead>
 
           <tbody>
-            {allProjects.length === 0 ? (
+            {loading ? (
               <tr>
                 <td colSpan={5} className="text-center text-muted py-4">
                   <div className="my-5">
@@ -192,8 +193,19 @@ export default function AllProjects() {
                   </div>
                 </td>
               </tr>
+            ) : allProjects.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="text-center text-muted py-4">
+                  <div className="my-5 mx-auto w-100 d-flex justify-content-center">
+                    <h3 className="text-muted">
+                      Found no
+                      {searchTitle ? ` with Title "${searchTitle}"` : ""}
+                    </h3>
+                  </div>
+                </td>
+              </tr>
             ) : (
-              allProjects.map((project: any) => (
+              allProjects.map((project: ProjectType) => (
                 <tr key={project.id}>
                   <td>{project.title}</td>
                   <td>{project.description}</td>
@@ -225,7 +237,7 @@ export default function AllProjects() {
                           <li>
                             <button
                               onClick={() => {
-                                setSelectedProject(project.id);
+                                setSelectedProject(project);
                                 // setModalType("delete");
                                 setShowDeleteModal(true);
                               }}
@@ -248,61 +260,23 @@ export default function AllProjects() {
           </tbody>
         </table>
         {/* ============== pagination ====================== */}
-        <div className="d-flex justify-content-end align-items-center p-3    gap-5">
-          <div className="d-flex align-items-center gap-2">
-            <span>Showing</span>
-            <select
-              className="form-select border rounded-pill px-3 py-1 selectEnhance"
-              
-              value={pageSize}
-              onChange={(e) => setPageSize(Number(e.target.value))}
-            >
-              <option disabled hidden value={pageSize}>
-                {pageSize}
-              </option>
-              <option value="2">2</option>
-              <option value="4">4</option>
-              <option value="20">20</option>
-            </select>
-            <span>of {totalNumberOfRecords} Results</span>
-          </div>
-
-          <div className="d-flex align-items-center gap-3">
-            <span>
-              Page {pageNumber} of {totalPages}
-            </span>
-            <div className="d-flex gap-3">
-              <button
-                className="btn btn-white border-0 p-1"
-                disabled={pageNumber === 1}
-                onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}
-              >
-                <i className="bi bi-chevron-left fs-5 text-secondary"></i>
-              </button>
-              <button
-                className="btn btn-white border-0 p-1"
-                disabled={pageNumber === totalPages}
-                onClick={() =>
-                  setPageNumber((prev) => Math.min(prev + 1, totalPages))
-                }
-              >
-                <i className="bi bi-chevron-right fs-5 text-secondary"></i>
-              </button>
-            </div>
-          </div>
-        </div>
+        <Pagination
+          pageNumber={pageNumber}
+          pageSize={pageSize}
+          setPageNumber={setPageNumber}
+          setPageSize={setPageSize}
+          totalNumberOfRecords={totalNumberOfRecords || 0}
+          totalPages={totalPages}
+        />
       </div>
       {/* Modal delete Logic */}
       <DeleteModal
         show={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onConfirm={() =>
-          onDeleteProject(selectedProject, () => setShowDeleteModal(false))
+          onDeleteProject(selectedProject?.id, () => setShowDeleteModal(false))
         }
-        itemName={
-          allProjects.find((project: any) => project.id === selectedProject)
-            ?.title
-        }
+        itemName={selectedProject?.title}
         title="Delete Project"
         isSubmitting={isSubmitting}
       />
