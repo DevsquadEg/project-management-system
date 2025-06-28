@@ -1,20 +1,19 @@
+import type { AuthContextType } from "@/interfaces/interfaces";
 import { useAuth } from "@/store/AuthContext/AuthContext";
+import type { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 
-export default function ProtectedRoute({ children }: any) {
-  const { loginData, isLoading }: any = useAuth();
+export default function ProtectedRoute({ children }: { children: ReactNode }) {
+  const { loginData, isLoading }: AuthContextType = useAuth();
 
   // If loading, show a loader or spinner
 
   if (isLoading)
-    <div className="flex items-center justify-center min-h-screen bg-white">
-      <div className="flex flex-col items-center gap-4">
-        <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-gray-600 text-lg font-medium tracking-wide">
-          Please wait, loading...
-        </p>
+    return (
+      <div className="w-100 text-center d-flex justify-content-center align-items-center vh-100">
+        <i className="fa fa-spinner fa-spin fa-5x"></i>
       </div>
-    </div>;
+    );
 
   if (loginData) {
     return children;
