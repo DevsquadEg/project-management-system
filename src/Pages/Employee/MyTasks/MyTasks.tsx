@@ -120,7 +120,7 @@ export default function MyTasks() {
         });
     } catch (error) {
       if (isAxiosError(error)) {
-        toast.error(error.response.data.message || "Something went wrong");
+        toast.error(error?.response?.data.message || "Something went wrong");
       } else if (error instanceof Error) {
         toast.error(error.message);
       } else {
@@ -158,7 +158,9 @@ export default function MyTasks() {
       });
     } catch (error) {
       if (isAxiosError(error)) {
-        toast.error(error.response.data.message || "Can't get assigned tasks");
+        toast.error(
+          error?.response?.data.message || "Can't get assigned tasks"
+        );
       } else if (error instanceof Error) {
         toast.error(error.message);
       } else {

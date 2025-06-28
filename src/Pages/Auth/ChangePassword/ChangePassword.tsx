@@ -24,7 +24,7 @@ export default function ChangePassword() {
   } = useForm<ChangePassword>({ mode: "onChange" }); // (mode) to make it real time match error (trigger) to trag between password and confirm password
 
   // =========== Change Password ========
-  const onChangePass = async (data: any) => {
+  const onChangePass = async (data: ChangePassword) => {
     try {
       let response = await axiosInstance.put(USERS_URL.CHANGE_PASSWORD, data);
       // console.log(response);

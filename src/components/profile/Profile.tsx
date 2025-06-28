@@ -3,11 +3,12 @@ import { useAuth } from "@/store/AuthContext/AuthContext";
 import EditUserModal from "../EditUserModal/EditUserModal";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
+import type { AuthContextType } from "@/interfaces/interfaces";
 
 export default function Profile() {
-  const { fullUserData, getCurrentUser } = useAuth();
+  const { fullUserData, getCurrentUser }: AuthContextType = useAuth();
   const [showModal, setShowModal] = useState(false);
-
+  console.log(fullUserData);
   const handleClose = () => setShowModal(false);
   const handleOpen = () => setShowModal(true);
 
@@ -47,7 +48,7 @@ export default function Profile() {
                   />
                 </div>
                 <h4 className="fw-bold text-primary mb-1">
-                  {fullUserData.username}
+                  {fullUserData.userName}
                 </h4>
                 <p className="text-muted mb-3">{fullUserData.email}</p>
 

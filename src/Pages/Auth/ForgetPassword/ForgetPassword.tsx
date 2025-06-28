@@ -64,8 +64,8 @@ export default function ForgetPassword() {
               />
             </div>
           </div>
-          {errors?.email && (
-            <span className="text-danger">{errors?.email?.message}</span>
+          {errors.email && (
+            <span className="text-danger">{errors.email.message}</span>
           )}
         </div>
         <div className="   ">

@@ -30,6 +30,10 @@ export type FullUserDataType = {
   isVerified: boolean;
   creationDate: string;
   modificationDate: string;
+  group: {
+    name: string;
+    id: number;
+  };
 };
 
 export interface AuthContextType {
@@ -165,3 +169,8 @@ export interface AxiosErrorResponse {
     };
   };
 }
+
+
+// =================
+
+export 
