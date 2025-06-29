@@ -1,21 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <link rel="icon" type="image/svg+xml" href="/fivIcon-pms.svg" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-            rel="stylesheet"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>PMS - ts</title>
-    </head>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/fivIcon-pms.svg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Open Graph Meta Tags (Facebook, WhatsApp, etc.) -->
+    <meta property="og:title" content="PMS - Project Management System" />
+    <meta
+      property="og:description"
+      content="Manage your projects and tasks with ease."
+    />
+    <meta
+      property="og:image"
+      content="https://project-management-system-y5bw.vercel.app/preview.png"
+    />
+    <meta
+      property="og:url"
+      content="https://project-management-system-y5bw.vercel.app/"
+    />
+    <meta property="og:type" content="website" />
 
-    <body>
-        <div id="root"></div>
-        <script type="module" src="/src/main.tsx"></script>
-        <script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="Cgh8TBepH7Xb8E5f_rBT_";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-</script>
-    </body>
+    <title>PMS</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main"></script>
+    <script>
+      (function () {
+        if (!window.chatbase || window.chatbase("getState") !== "initialized") {
+          window.chatbase = (...arguments) => {
+            if (!window.chatbase.q) {
+              window.chatbase.q = [];
+            }
+            window.chatbase.q.push(arguments);
+          };
+          window.chatbase = new Proxy(window.chatbase, {
+            get(target, prop) {
+              if (prop === "q") {
+                return target.q;
+              }
+              return (...args) => target(prop, ...args);
+            },
+          });
+        }
+        const onLoad = function () {
+          const script = document.createElement("script");
+          script.src = "https://www.chatbase.co/embed.min.js";
+          script.id = "Cgh8TBepH7Xb8E5f_rBT_";
+          script.domain = "www.chatbase.co";
+          document.body.appendChild(script);
+        };
+        if (document.readyState === "complete") {
+          onLoad();
+        } else {
+          window.addEventListener("load", onLoad);
+        }
+      })();
+    </script>
+  </body>
 </html>
