@@ -1,34 +1,38 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AuthLayout from "./layouts/AuthLayout/AuthLayout.tsx";
-import NotFound from "./Pages/NotFound/NotFound.tsx";
-import Login from "./Pages/Auth/Login/Login.tsx";
-import Register from "./Pages/Auth/Register/Register.tsx";
-import ResetPassword from "./Pages/Auth/ResetPassword/ResetPassword.tsx";
-import ForgetPassword from "./Pages/Auth/ForgetPassword/ForgetPassword.tsx";
-import ChangePassword from "./Pages/Auth/ChangePassword/ChangePassword.tsx";
-import VerifyEmail from "./Pages/Auth/VerifyEmail/VerifyEmail.tsx";
-import MasterLayout from "./layouts/MasterLayout/MasterLayout.tsx";
-import Dashboard from "./Pages/Dashbaord/Dashboard.tsx";
-import AllProjects from "./Pages/Manager/Projects/allProjects/AllProjects.tsx";
-import AllTasks from "./Pages/Manager/Tasks/AllTasks/AllTasks.tsx";
-import MyTasks from "./Pages/Employee/MyTasks/MyTasks.tsx";
-import Users from "./Pages/Manager/users/Users.tsx";
+import AuthLayout from "./layouts/AuthLayout/AuthLayout";
+import NotFound from "./Pages/NotFound/NotFound";
+import Login from "./Pages/Auth/Login/Login";
+import Register from "./Pages/Auth/Register/Register";
+import ResetPassword from "./Pages/Auth/ResetPassword/ResetPassword";
+import ForgetPassword from "./Pages/Auth/ForgetPassword/ForgetPassword";
+import ChangePassword from "./Pages/Auth/ChangePassword/ChangePassword";
+import VerifyEmail from "./Pages/Auth/VerifyEmail/VerifyEmail";
+import MasterLayout from "./layouts/MasterLayout/MasterLayout";
+import Dashboard from "./Pages/Dashbaord/Dashboard";
+import AllProjects from "./Pages/Manager/Projects/allProjects/AllProjects";
+import AllTasks from "./Pages/Manager/Tasks/AllTasks/AllTasks";
+import MyTasks from "./Pages/Employee/MyTasks/MyTasks";
+import Users from "./Pages/Manager/users/Users";
 import { Toaster } from "react-hot-toast";
-import ProtectedRoute from "./components/protectedRoute/ProtectedRoute.tsx";
-import ProjectForm from "./Pages/Manager/Projects/ProjectForm/ProjectForm.tsx";
-import ProjectsSystem from "./Pages/Manager/Projects/ProjectsSystem/ProjectsSystem.tsx";
-import Profile from "./components/profile/Profile.tsx";
-import TaskForm from "./Pages/Manager/Tasks/TaskForm/TaskForm.tsx";
-import TaskDetails from "./Pages/Manager/Tasks/TaskDetails/TaskDetails.tsx";
-import GustRoute from "./components/gustRoute/GustRoute.tsx";
-import { HelmetProvider } from 'react-helmet-async';
+import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
+import ProjectForm from "./Pages/Manager/Projects/ProjectForm/ProjectForm";
+import ProjectsSystem from "./Pages/Manager/Projects/ProjectsSystem/ProjectsSystem";
+import Profile from "./components/profile/Profile";
+import TaskForm from "./Pages/Manager/Tasks/TaskForm/TaskForm";
+import TaskDetails from "./Pages/Manager/Tasks/TaskDetails/TaskDetails";
+import GustRoute from "./components/gustRoute/GustRoute";
+import { HelmetProvider } from "react-helmet-async";
 const helmetContext = {};
 
 function App() {
   const routes = createBrowserRouter([
     {
       path: "/",
-      element:  <GustRoute><AuthLayout /></GustRoute>,
+      element: (
+        <GustRoute>
+          <AuthLayout />
+        </GustRoute>
+      ),
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Login /> },
@@ -74,8 +78,8 @@ function App() {
 
   return (
     <>
-    <HelmetProvider context={helmetContext}>
-      <RouterProvider router={routes}></RouterProvider>
+      <HelmetProvider context={helmetContext}>
+        <RouterProvider router={routes}></RouterProvider>
       </HelmetProvider>
       <Toaster />
     </>

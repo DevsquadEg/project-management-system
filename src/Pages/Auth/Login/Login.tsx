@@ -3,18 +3,15 @@ import { useAuth } from "@/store/AuthContext/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import type {
-  AuthContextType,
-  FormLoginProps,
-} from "@/interfaces/interfaces.tsx";
+import type { AuthContextType, FormLoginProps } from "@/interfaces/interfaces";
 import { isAxiosError } from "axios";
 // import {
 //   EMAIL_VALIDATION,
 //   PASSWORD_VALIDATION,
-// } from "@/service/validators.tsx";
-import { axiosInstance } from "@/service/urls.ts";
-import { USERS_URL } from "@/service/api.ts";
-import validation from "@/service/validation.ts";
+// } from "@/service/validators";
+import { axiosInstance } from "@/service/urls";
+import { USERS_URL } from "@/service/api";
+import validation from "@/service/validation";
 import SubmitBtn from "@/components/auth/SubmitBtn";
 
 export default function Login() {
