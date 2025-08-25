@@ -208,7 +208,8 @@ export default function AllProjects() {
                   <td>{project.description}</td>
                   <td>{project.task.length}</td>
                   <td>{new Date(project.creationDate).toLocaleDateString()}</td>
-                  {loginData?.userGroup != "Employee" && (
+                  {loginData?.userGroup != "Employee" && 
+                  (
                     <td>
                       <div className="dropdown">
                         <button

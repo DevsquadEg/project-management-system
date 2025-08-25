@@ -184,7 +184,7 @@ export default function ResetPassword() {
 
         {/* Submit */}
         <div className="d-grid">
-          <SubmitBtn isSubmitting={isLoading} title="Reset Password" />
+        <SubmitBtn isSubmitting={isLoading} title="Reset Password" />
         </div>
       </form>
     </>
